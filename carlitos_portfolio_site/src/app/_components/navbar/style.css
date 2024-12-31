@@ -1,0 +1,131 @@
+.nav-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: #F7FAFC; /* Light Grayish White */
+
+}
+
+.nav-container {
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    background-color: #F7FAFC; /* Light Grayish White */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+}
+
+.nav-brand-container {
+    display: flex;
+    align-items: center;
+}
+
+.brand-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.brand {
+    font-size: 48px;
+    font-weight: bold;
+    color: #2D3748; /* Charcoal Gray */
+    margin: 0;
+    font-family: 'BrotherlandsignatureBold', sans-serif;
+}
+
+.nav-buttons-container {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    font-family: 'LowballNeue-SemiBold';
+    font-size: 32px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #3182CE; /* Sky Blue */;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #2B6CB0; /* Deep Cerulean Blue */
+    color: #FFFFFF; /* White */
+}
+
+.contact-button {
+    background-color: #2B6CB0; /* Deep Cerulean Blue */
+    color: #FFFFFF; /* White */
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+
+.contact-button:hover {
+    background-color: #3182CE; /* Sky Blue */
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-buttons-container {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: flex-end;
+        /* background-color: #F7FAFC; Light Grayish White */
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .brand {
+        font-size: 32px;
+    }
+
+    .nav-buttons-container.show {
+        display: flex;
+        height: 100vh;
+    }
+    
+    .nav-buttons-container.show .nav-container {
+        background-color: red;
+    }
+
+    .nav-button {
+        width: 100%;
+        align-items: flex-end;
+        text-align: center;
+        font-size: 48px;
+    }
+
+    .contact-button {
+        align-self: flex-end;
+    }
+
+    .menu-toggle {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #2D3748; /* Charcoal Gray */
+        cursor: pointer;
+        align-self: flex-end;
+        position: absolute;
+        padding: 20px;
+    }
+}

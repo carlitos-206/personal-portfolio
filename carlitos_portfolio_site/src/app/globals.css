@@ -1,0 +1,114 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+i {
+  font-style: normal; /* overrides the default italic style */
+}
+
+/* not in use */
+@font-face {
+  font-family: 'Superme';
+  src: url("/fonts/Superme.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* not in use */
+@font-face {
+  font-family: 'Marigold';
+  src: url("/fonts/Marigold.otf") format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: 'Motterdam';
+  src: url("/fonts/Motterdam.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: 'LowballNeue-SemiBold';
+  src: url('/fonts/LowballNeue-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: 'Bavex';
+  src: url('/fonts/Bavex.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: "BrotherlandsignatureBold";
+  src: url('/fonts/BrotherlandsignatureBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: 'WsParadoseRegular';
+  src: url('/fonts/WsParadoseRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */
+@font-face {
+  font-family: 'PlayfairDisplayMedium';
+  src: url('/fonts/PlayfairDisplay-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* in use */ 
+@font-face {
+  font-family: 'Quicksand-SemiBold';
+  src: url('/fonts/Quicksand-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1e293b;
+    --foreground: #ededed;
+  }
+}
+
+
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}

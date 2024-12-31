@@ -1,0 +1,92 @@
+/* Trust & Confidence Palette
+Primary: #2B6CB0 (Deep Cerulean Blue)
+Secondary: #3182CE (Sky Blue)
+Accent: #81E6D9 (Aquamarine)
+Background: #F7FAFC (Light Grayish White)
+Text: #2D3748 (Charcoal Gray) */
+
+
+
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #1D4ED8; /* Updated for a vibrant primary hover */
+  --button-secondary-hover: #E5E7EB; /* Updated for a confident light secondary hover */
+
+  background-color: #F9FAFB; /* Light background for trust */
+  color: #1E293B; /* Neutral dark text color */
+}
+
+.main{
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #3B82F6; /* Brighter blue for dark mode */
+    --button-secondary-hover: #1E293B; /* Strong neutral dark hover */
+    background-color: #1E293B; /* Dark background for trust */
+    color: #F9FAFB; /* Light text for contrast */
+  }
+}
+
+
+
+a.primary {
+  background: #2563EB; /* Confident blue primary */
+  color: #F9FAFB; /* White text for contrast */
+}
+
+a.secondary {
+  border-color: var(--gray-alpha-200);
+}
+
+
+.footer img {
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding-bottom: 80px;
+  }
+
+
+  a.secondary {
+    min-width: auto;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+}

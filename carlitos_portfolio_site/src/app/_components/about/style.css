@@ -1,0 +1,100 @@
+.about-section {
+    margin: 100px 0;
+    font-family: 'LowballNeue-SemiBold';
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    color: #F7FAFC;
+}
+
+.about-title-container {
+    font-size: 32px;
+    margin-bottom: 25px;
+    max-width: 1440px;
+    text-align: center;
+}
+
+.about-content-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1440px;
+    justify-content: space-evenly;
+}
+
+.about-content-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    line-height: 42px;
+}
+
+.about-content-right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image {
+    border-radius: 15px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive Styles: Start at 1200px */
+@media (max-width: 1200px) {
+    .about-content-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-content-left, 
+    .about-content-right {
+        width: 100%;
+        text-align: center;
+        font-size: 22px; /* Slightly reduce font size for mid-sized screens */
+    }
+
+    .about-image {
+        width: 50%; /* Adjust image size */
+    }
+}
+
+/* Responsive Styles: Continue at 768px */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 0 20px;
+    }
+
+    .about-content-left, 
+    .about-content-right {
+        font-size: 18px; /* Further reduce font size for mobile */
+    }
+
+    .about-image {
+        width: 50%;
+    }
+}
+
+/* Responsive Styles: Continue at 480px (small mobile) */
+@media (max-width: 480px) {
+    .about-title-container {
+        font-size: 24px; /* Adjust title font size */
+    }
+
+    .about-content-left, 
+    .about-content-right {
+        font-size: 16px; /* Small font for compact screens */
+    }
+
+    .about-image {
+        width: 100%; /* Maximize image size */
+    }
+}

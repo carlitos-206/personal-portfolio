@@ -1,0 +1,101 @@
+.hero-landing {
+    padding: 10px;
+    font-family: 'LowballNeue-SemiBold';
+    position: relative;
+    margin: 220px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #F7FAFC ;
+}
+
+.hero-container-top {
+    width: 100%;
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    max-width: 1440px;
+}
+
+.hero-container-title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-button {
+    font-size: 28px;
+    padding: 20px 40px;
+    border-radius: 8px;
+    background-color: #2B6CB0; /* Deep Cerulean Blue */
+    color: #F7FAFC; /* White */
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-top: 50px;
+}
+
+.hero-button:hover {
+    background-color: #3182CE; /* Sky Blue */
+    color: #F7FAFC; /* Light Grayish White */
+}
+
+.hero-container-bottom {
+    width: 100%;
+    font-size: 36px;
+    display: flex;
+    flex-direction: column;
+    max-width: 1040px;
+    text-align: center;
+    margin-top: 50px;
+    font-style: italic;
+    font-family: "BrotherlandsignatureBold";
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    /* Optional: Uncomment to make the image circular */
+    /* border-radius: 50%; */
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+
+    .hero-container-top {
+        flex-direction: column;
+        align-items: center;
+        font-size: 32px; /* Adjusted font size */
+    }
+
+    .hero-container-title {
+        padding: 0 20px;
+    }
+
+    .hero-button {
+        font-size: 22px;
+        padding: 15px 30px;
+    }
+
+    .hero-landing {
+        margin: 80px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-container-top {
+        font-size: 24px;
+    }
+
+    .hero-button {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+}
