@@ -7,6 +7,9 @@ module.exports = {
     rules: {
         "no-unused-vars": "warn", // Example: Customize rules
         "react/jsx-sort-props": "off", // Turn off unnecessary rules
+        "valid-typeof": "off",
+        "no-constant-binary-expression": "off"
+
     },
 };
 

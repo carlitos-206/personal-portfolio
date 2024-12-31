@@ -20,7 +20,7 @@ function NavBar() {
         // Initial check
         handleResize();
         
-        if (typeof window != undefined){
+        if (typeof window !== undefined){
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
         }
