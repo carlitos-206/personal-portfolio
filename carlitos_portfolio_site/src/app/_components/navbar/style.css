@@ -62,8 +62,7 @@
 }
 
 .nav-button:hover {
-    background-color: #2B6CB0; /* Deep Cerulean Blue */
-    color: #FFFFFF; /* White */
+    text-decoration: underline #2B6CB0;
 }
 
 .contact-button {
@@ -75,10 +74,12 @@
 
 .contact-button:hover {
     background-color: #3182CE; /* Sky Blue */
+    text-decoration: none;
 }
 
 /* Responsive Styles */
 @media (max-width: 1200px) {
+    
     .nav-container {
         flex-direction: column;
         align-items: center;
@@ -93,6 +94,9 @@
         /* background-color: #F7FAFC; Light Grayish White */
         padding: 10px;
         border-radius: 8px;
+    }
+    .nav-button:hover {
+        text-decoration: none;
     }
     .brand {
         font-size: 32px;

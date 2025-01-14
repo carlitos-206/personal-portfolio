@@ -29,7 +29,9 @@ i, .social-item{
 
   .card {
     position: relative;
-    width: 1000px;
+    width: 80%;
+    max-width: 1000px;
+    min-width: 380px;
     height: 400px;
     background-color: #fff;
     overflow: hidden;
