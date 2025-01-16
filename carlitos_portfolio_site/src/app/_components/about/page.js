@@ -2,7 +2,7 @@ import Image from 'next/image';
 import './style.css';
 export default function About() {
     return (
-        <section className="about-section">
+        <section id="about" className="about-section">
             <div className='about-title-container'>
                 <h1>Hello World !</h1>
             </div>

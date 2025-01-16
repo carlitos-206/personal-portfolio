@@ -2,7 +2,7 @@ import "./style.css";
 import Image from "next/image";
 export default function HeroLanding() {
     return (
-        <section className="hero-landing">
+        <section id="home" className="hero-landing">
             <div className="hero-container-top">
             <Image
                     src="/images/hero_outline.png"
