@@ -1,9 +1,9 @@
 .planet{
     position:absolute;
-        width: 100%;
-        margin: auto; /* Center the div if needed */
-        height: 80vh; /* Example height - adjust as necessary */
-    top: -140px;
+    width: 100%;
+    margin: auto; /* Center the div if needed */
+    height: 120vh; /* Example height - adjust as necessary */
+    top: -350px;
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;

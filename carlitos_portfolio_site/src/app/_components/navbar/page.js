@@ -85,7 +85,7 @@ function NavBar() {
                     >
                         Projects
                     </button>
-                    <button className="nav-button">Resume</button>
+                    <button className="nav-button">Experience</button>
                     <button className="nav-button">Demos</button>
                     <button className="nav-button contact-button">Contact</button>        
                 </div>
