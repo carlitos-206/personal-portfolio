@@ -1,6 +1,8 @@
 :root {
   --background: #1E293B;
   --foreground: #171717;
+  --tab-button-order: 1;
+  --tab-content-order: 10;
 }
 
 i {

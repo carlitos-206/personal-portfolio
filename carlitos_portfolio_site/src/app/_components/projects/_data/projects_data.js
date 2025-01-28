@@ -56,7 +56,7 @@ export const hackathon_projects = [
 export const side_projects = [
     {
         title: "3D Planets with moons and stars",
-        description: "Math self challange",
+        description: "Built infinite stars patterns",
         image: "/images/hacksea-hero.JPG",
         socials: [""],
         buttonText: "",

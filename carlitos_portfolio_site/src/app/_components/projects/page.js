@@ -13,11 +13,11 @@ export default function Projects() {
             <MiniCardBuilder cards={hackathon_projects} />
             <h1 className='projects-title'>Side Projects</h1>
             <MiniCardBuilder cards={side_projects} />
-
-            <div className="experience-section bg-gray-100 py-12">
+            
+            {/* <div className="experience-section bg-gray-100 py-12">
   <h2 className="text-3xl font-bold text-teal-600 mb-6">Professional Experience</h2>
   <div className="timeline relative border-l-2 border-teal-500">
-    {/* EasySpeak Role */}
+    EasySpeak Role
     <div className="experience-item mb-8 ml-6">
       <div className="absolute w-4 h-4 bg-teal-500 rounded-full -left-2"></div>
       <h3 className="text-xl font-semibold">Lead Software Engineer</h3>
@@ -32,7 +32,7 @@ export default function Projects() {
       </ul>
     </div>
 
-    {/* Compass Group - Lead Kitchen Cook */}
+    Compass Group - Lead Kitchen Cook
     <div className="experience-item mb-8 ml-6">
       <div className="absolute w-4 h-4 bg-teal-500 rounded-full -left-2"></div>
       <h3 className="text-xl font-semibold">Lead Kitchen Cook</h3>
@@ -45,7 +45,7 @@ export default function Projects() {
       </ul>
     </div>
 
-    {/* Compass Group - Warehouse Attendant */}
+    Compass Group - Warehouse Attendant
     <div className="experience-item mb-8 ml-6">
       <div className="absolute w-4 h-4 bg-teal-500 rounded-full -left-2"></div>
       <h3 className="text-xl font-semibold">Warehouse Attendant</h3>
@@ -57,7 +57,7 @@ export default function Projects() {
       </ul>
     </div>
   </div>
-</div>
+</div> */}
 
         </section>
     );

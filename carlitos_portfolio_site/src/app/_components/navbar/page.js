@@ -8,6 +8,7 @@ function NavBar() {
     const [homeElement, setHomeElement] = useState(null);
     const [aboutElement, setAboutElement] = useState(null);
     const [projectsElement, setProjectsElement] = useState(null);
+    const [experienceElement, setExperienceElement] = useState(null)
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -17,7 +18,7 @@ function NavBar() {
         setHomeElement(document.querySelector("#home"));
         setAboutElement(document.querySelector("#about"));
         setProjectsElement(document.querySelector("#projects"));
-
+        setExperienceElement(document.querySelector("#experience"))
         const handleResize = () => {
             const width = window.innerWidth;
             setIsMobile(width <= 1200);
@@ -85,7 +86,12 @@ function NavBar() {
                     >
                         Projects
                     </button>
-                    <button className="nav-button">Experience</button>
+                    <button 
+                        className="nav-button"
+                        onClick={(e)=>{ scrollToElement(e, experienceElement)}}
+                    >
+                        Experience
+                    </button>
                     <button className="nav-button">Demos</button>
                     <button className="nav-button contact-button">Contact</button>        
                 </div>
