@@ -1,3 +1,7 @@
+/*
+    This file contains all projects data
+*/
+
 export const personal_projects= [
     {
         title: "User Data Collection for Python and Node.js",

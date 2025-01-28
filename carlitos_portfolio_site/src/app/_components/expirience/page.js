@@ -1,22 +1,31 @@
+/* 
+    This file is the Experience section builder
+*/
 import { useState, useEffect } from "react";
 import { Experience_Data } from "./data";
 import Image from "next/image";
 import "./layout.css";
 
 export default function Experience() {
-    const [selectedOption, setSelectedOption] = useState(1);
-    const [lastSelectOption, setLastSelectedOption] = useState(1)
+    // Option state holders
+    const [selectedOption, setSelectedOption] = useState(1); // 1 - General option
+    const [lastSelectOption, setLastSelectedOption] = useState(1) // 1 - General option
+    
+    // holds the state of data
     const [data, setData] = useState(null);
 
-  // Whenever `selectedOption` changes, find the corresponding data
+    // Whenever `selectedOption` changes, find the corresponding data
     useEffect(() => {
         
+        // data query
         const foundData = Experience_Data.find(item => item.id === selectedOption);
         setData(foundData);
 
+        // sets the element to active -> changes background with css
         let element = document.querySelector(`#tab-button-${selectedOption}`)
         element.classList.add("tab-button-active")
 
+        // this ensures the last option goes to 'inactive'
         if(selectedOption !== lastSelectOption){
             let last_element = document.querySelector(`#tab-button-${lastSelectOption}`)
             last_element.classList.remove("tab-button-active")
@@ -68,32 +77,37 @@ export default function Experience() {
 
             <div className="tab-content">
                 <div className="tab-bullets">
-                    {data ? (
-                        <>
+                    {
+                        // checks if data exist
+                        data ? (
+                            <>
 
-                            <h1>{data.title}</h1>
-                            {   
-                                data.job_title 
-                                && data.job_site 
-                                && data.job_dates ? (                            
-                                    <h6>{data.job_title} | {data.job_site} | {data.job_dates}</h6>)
-                                :(
-                                    <>
-                                    </>
-                                ) 
-                            }
-                            <ul>
-                                {data.points.map((item, index)=>(
-                                    <li key={index}>{item}</li>
-                                ))}
-                            </ul>
-                        </>
-                    ) : (
-                        <h1>No data found</h1>
-                    )}
+                                <h1>{data.title}</h1>
+                                {   
+                                    // all must be true to render
+                                    data.job_title 
+                                    && data.job_site 
+                                    && data.job_dates ? (                            
+                                        <h6>{data.job_title} | {data.job_site} | {data.job_dates}</h6>)
+                                    :(
+                                        <>
+                                        </>
+                                    ) 
+                                }
+                                <ul>
+                                    {
+                                        // maps bullet points
+                                        data.points.map((item, index)=>(
+                                        <li key={index}>{item}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (<></>) // if !data it returns an empty element
+                    }
                 </div>
                 <div>
                     {
+                        // checks if data exist
                         data ? (
                             <>
                                 <Image 
@@ -103,11 +117,7 @@ export default function Experience() {
                                     className="image"
                                 />
                             </>
-                        ) : (
-                            <>
-                                <h1>No Image Found</h1>
-                            </>
-                        )
+                        ) : (<></>) // if !data it returns an empty element
                     }
                 </div>
             </div>

@@ -1,11 +1,16 @@
-'use client';
+/* 
+  This file is the builder for the cards in Projects section
+*/
 
-import "./style.scss";
+'use client'; // this allows access to document.windows()
+import Tilt from 'react-parallax-tilt'; // Tilt functionality 
+import Planet3D from "../_three_js_planet/page"; // 3D planet prebuilt
+import Stars from "../_three_js_planet/stars/page"; // Star pattern prebuilt
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
-import Tilt from 'react-parallax-tilt';
-import Planet3D from "../_three_js_planet/page";
-import Stars from "../_three_js_planet/stars/page";
-const MiniCardBuilder = ({ cards }) => {
+import "./style.scss";
+
+const MiniCardBuilder = ({ cards }) => { // The function takes cards which is an array
+ 
   // If there's exactly one card, add "single-child" to the container
   const containerClass = cards.length === 1 
     ? "mini-container single-child" 
@@ -13,7 +18,11 @@ const MiniCardBuilder = ({ cards }) => {
 
   return (
     <section className={containerClass}>
-      {cards.map((card, index) =>{
+      {
+      
+        cards.map((card, index) =>{
+      
+        // this is an exception to build the project that contains the 3js component
         if(card.internal === "side-3js"){
             return(
                 <Tilt
@@ -38,7 +47,7 @@ const MiniCardBuilder = ({ cards }) => {
                   </button>
                 </Tilt>
             )
-        }else{
+        }else{ // this is the universal card build
             return(
                 <Tilt
                   key={index}
@@ -61,7 +70,8 @@ const MiniCardBuilder = ({ cards }) => {
                 </Tilt>
             )
         }
-    })}
+      })
+    }
     </section>
   );
 };

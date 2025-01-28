@@ -1,10 +1,17 @@
-'use client'
-import styles from "./page.module.css";
+/*
+  This file contains the ROOT component for the app
+*/
+'use client' // this allows access to document.windows()
+
+// Custom built components
 import NavBar from "./_components/navbar/page";
 import HeroLanding from "./_components/hero_landing/page";
 import About from "./_components/about/page";
 import Projects from "./_components/projects/page";
 import Experience from "./_components/expirience/page";
+
+import styles from "./page.module.css";
+
 export default function Home() {
   return (
     <div className={styles.page}>

@@ -1,3 +1,6 @@
+/*
+    This file contains the data for experience component builder
+*/
 export const Experience_Data = [
     {
         id: 1,
@@ -35,12 +38,12 @@ export const Experience_Data = [
     },
     {
         id: 3,
-        title: "Mentorship",
+        title: "",
         job_site:"",
         job_title:"",
         job_dates:"",
         points: [
-            "Led group and one-on-one sessions",
+            "While at school I led group and one-on-one sessions",
             "Mentored others in support of their study journeys",
             "Created beginner-friendly lessons for self-taught learners",
         ],

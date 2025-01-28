@@ -1,5 +1,9 @@
-import "./style.css";
+/*
+    Landing section component
+*/
 import Image from "next/image";
+import "./style.css";
+
 export default function HeroLanding() {
     return (
         <section id="home" className="hero-landing">
@@ -14,7 +18,6 @@ export default function HeroLanding() {
                 />
                 <div className="hero-container-title">
                 <h1 className="hero-title">Full-Stack Software Engineer</h1>
-                {/* <h1 className="hero-title">Software Engineer</h1> */}
                 <br />
                 <h1 className="hero-subtitle">JavaScript + Python</h1>
                 <br />

@@ -1,40 +1,50 @@
-'use client';
+/* 
+    Navbar section component
+*/
+'use client';  // This allows to use the document.windows()
 import { useState, useEffect } from "react";
-import "./style.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from 'next/link'
+import "./style.css";
 
 function NavBar() {
-    const [homeElement, setHomeElement] = useState(null);
-    const [aboutElement, setAboutElement] = useState(null);
-    const [projectsElement, setProjectsElement] = useState(null);
-    const [experienceElement, setExperienceElement] = useState(null)
+    // UseState Components
+        
+        // queryselectors for nav navigation
+        const [aboutElement, setAboutElement] = useState(null);
+        const [projectsElement, setProjectsElement] = useState(null);
+        const [experienceElement, setExperienceElement] = useState(null)
 
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
+        // mobile options for menu display
+        const [menuOpen, setMenuOpen] = useState(false);
+        const [isMobile, setIsMobile] = useState(false);
+        const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+    // initial state handler + window resize 
     useEffect(() => {
-        setHomeElement(document.querySelector("#home"));
+        // query for elements
         setAboutElement(document.querySelector("#about"));
         setProjectsElement(document.querySelector("#projects"));
         setExperienceElement(document.querySelector("#experience"))
+        
+        // resize handler
         const handleResize = () => {
             const width = window.innerWidth;
             setIsMobile(width <= 1200);
             setIsSmallScreen(width <= 518);
         };
-
         handleResize();
-
         window.addEventListener("resize", handleResize);
+        
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    // handles mobile menu open/close
     const toggleMenu = () => {
         setMenuOpen((prevState) => !prevState);
     };
 
+    // handles nav scroll to element
     const scrollToElement = (e, element) => {
         e.preventDefault();
         console.log(element)

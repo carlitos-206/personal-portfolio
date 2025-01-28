@@ -1,24 +1,35 @@
+/*  
+  This file contains the build for the 3D planet using the "earth" texture
+*/
 import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
+import * as THREE from 'three'; 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import './style.css';
 
 const Planet3D = () => {
+  
+  // Creates a reference to the DOM element where the 3D renderer is mount
   const mountRef = useRef(null);
 
+  // This makes it so it builds on render with no dependencies
   useEffect(() => {
+
+    // --- SCENE DIMENSIONS BUILDER ---
     const scene = new THREE.Scene();
     const width = mountRef.current.clientWidth;
     const height = mountRef.current.clientHeight;
 
+    // --- CAMERA BUILDER ---
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     camera.position.z = 5;
 
+    // --- RENDER OPTIONS ---
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
+    // --- CONTROL BUILDER --- 
     const controls = new OrbitControls(camera, renderer.domElement);
 
     // --- LOAD TEXTURES ---
@@ -30,14 +41,13 @@ const Planet3D = () => {
     // Overlay texture (e.g., clouds)
     const overlayTexture = textureLoader.load('/images/8k_earth_clouds_texture.jpg');
 
-    // --- CREATE THE PLANET ---
+    // --- PLANET BUILDER ---
     const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
     const planetMaterial = new THREE.MeshPhongMaterial({ map: planetTexture });
     const planet = new THREE.Mesh(planetGeometry, planetMaterial);
     scene.add(planet);
 
-    // --- CREATE THE OVERLAY (CLOUDS) SPHERE ---
-    // Make it slightly larger than the base sphere
+    // --- CLOUD BUILDER AS OVERLAY TO PLANET TEXTURE ---
     const cloudsGeometry = new THREE.SphereGeometry(1.01, 32, 32);
     const cloudsMaterial = new THREE.MeshPhongMaterial({
       map: overlayTexture,
@@ -47,7 +57,7 @@ const Planet3D = () => {
     const clouds = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
     scene.add(clouds);
 
-    // --- LIGHTING ---
+    // --- LIGHTING BUILDER ---
     const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
     scene.add(ambientLight);
 
@@ -55,7 +65,7 @@ const Planet3D = () => {
     directionalLight.position.set(5, 3, 5);
     scene.add(directionalLight);
 
-    // --- ANIMATE ---
+    // --- ANIMATE FUNCTION ---
     const animate = () => {
       requestAnimationFrame(animate);
 

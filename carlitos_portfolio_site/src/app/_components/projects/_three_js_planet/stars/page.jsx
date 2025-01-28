@@ -1,3 +1,6 @@
+/*
+  Star builder component with infinate patterns
+*/
 import React from "react";
 
 // This function holds the stars background of the site and adjusts for various screen sizes.
