@@ -7,7 +7,7 @@
     height: 70vh;
     margin: 125px 0px 0px 0px;
     font-family: 'LowballNeue-SemiBold';
-
+    
 }
 .tab-background{
     display: flex;
@@ -16,7 +16,6 @@
     background-color: #f7fafc;
     width: 100%;
     max-width: 1300px;
-    padding: 25px 25px;
     height: 100%;
     border-radius: 25px;
     color: #2D3748;
@@ -78,4 +77,9 @@
     bottom: 10px;
     border: none;
     border-radius: 50px;
+}
+.tab-button-footer:hover{
+    cursor: pointer;
+    background-color: #2b6cb0 ;
+
 }

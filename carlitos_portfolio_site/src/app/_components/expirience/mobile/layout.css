@@ -1,0 +1,141 @@
+/* layout.css */
+
+/* Container for the entire component */
+.mobile-tab-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px 0;
+  }
+  
+  /* Background container */
+  .mobile-tab-background {
+    background-color: #f7fafc;
+    width: 500px;
+    min-height: 800px; /* changed from fixed height for more flexibility */
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #2d3748;
+    margin: 0px 0px 10px 0px;
+  }
+  
+  /* Card styling */
+  .mobile-tab-card {
+    font-family: 'LowballNeue-SemiBold', sans-serif;
+    font-size: 24px;
+    width: 450px;
+    z-index: 2;
+    /* Removed the contradictory heights (min-content vs. 900px).
+       Use min-height if you need a minimum but want flexibility:
+       min-height: 900px; 
+    */
+  }
+  
+
+  
+  /* Text container that overlays the image */
+  .mobile-tab-text-container {
+    /* Instead of bottom/left + relative positioning, 
+       we use a negative margin to “pull” the text upward */
+    margin-top: -300px; 
+    width: 450px;
+    color: #f7fafc;
+    z-index: 2;
+  }
+  
+  .mobile-tab-text-container ul {
+    list-style: none !important;
+  }
+
+  #mobile-data-list-id-1-whole,  #mobile-data-list-id-1-text {
+    position: relative;
+    top: 17px;
+  }
+  #mobile-data-list-id-2-text{
+    position: relative;
+    top: 8px;
+  }
+  #mobile-data-list-id-3-whole{
+    position: relative;
+    top: 130px;
+  }
+  #mobile-data-list-id-3-shadow{
+    margin: 1px 0px;
+  }
+
+  #mobile-data-list-id-4-whole, #mobile-data-list-id-5-whole{
+    position: relative;
+    top: 50px;
+  }
+  #mobile-data-list-id-4-text, #mobile-data-list-id-5-text {
+    position: relative;
+    top: 15px;
+  }
+  /* Adds a subtle background behind text for better readability */
+  .mobile-text-shadow {
+    display: inline-block;
+    background-color: #2d3748;
+    color: #f7fafc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0px 0px;
+
+  }
+  
+  #mobile-tab-button-footer{
+    width: 25%;
+  }
+  /* Controller container */
+  .mobile-tab-controler-container {
+    /* Use negative margin to pull this section up 
+       instead of using position: relative; bottom: ... */
+    margin-top: -90px; 
+    width: 450px;
+    z-index: 3;
+  }
+  
+  /* Buttons container */
+  .mobile-tab-controler-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Next/Prev buttons */
+  .mobile-tab-controler-buttons {
+    width: 145px;
+    height: 45px;
+    margin: 0 3%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'LowballNeue-SemiBold';
+    font-size: 20px;
+    background-color: #2d3748;
+    border: none;
+    border-radius: 50px;
+  }
+  .mobile-tab-controler-buttons:hover{
+    cursor: pointer;
+    background-color: #2b6cb0 ;
+  }
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 550px) {
+    .mobile-tab-background,
+    .mobile-tab-card,
+    .mobile-tab-text-container,
+    .mobile-tab-controler-container {
+      width: 100%;
+      max-width: 100%;
+    }
+  
+    /* Adjust negative margin for text overlay on smaller screens */
+    .mobile-tab-text-container {
+      margin-top: -40vw; /* or another relative value */
+    }
+  }
+  

@@ -18,6 +18,7 @@ export const Experience_Data = [
             "Mentorship and community contributions"
         ],
         image: "/images/exp-general-hero.jpg",
+        type: "General"
     },
     {
         id: 2,
@@ -35,6 +36,7 @@ export const Experience_Data = [
             "Pioneered AI accent detection app"
         ],
         image: "/images/npm-project-hero.png",
+        type: "Tech"
     },
     {
         id: 3,
@@ -48,6 +50,7 @@ export const Experience_Data = [
             "Created beginner-friendly lessons for self-taught learners",
         ],
         image: "/images/exp-mentor-hero.jpg",
+        type: "Mentorship"
     },
     {
         id: 4,
@@ -63,6 +66,7 @@ export const Experience_Data = [
             "Led four-person team successfully",
         ],
         image: "/images/exp-cook-hero.JPG",
+        type: "Culinary"
     },
     {
         id: 5,
@@ -78,5 +82,6 @@ export const Experience_Data = [
             "Handle 10–15k pounds of daily shipments"
         ],
         image: "/images/npm-project-hero.png",
+        type: "Warehouse"
     }
 ]

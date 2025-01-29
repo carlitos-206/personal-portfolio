@@ -1,18 +1,43 @@
 /* 
     This file is the Experience section builder
 */
+
+'use client' // This allows access to document.windows()
 import { useState, useEffect } from "react";
 import { Experience_Data } from "./data";
+import Mobile_Expirience from "./mobile/page";
 import Image from "next/image";
 import "./layout.css";
 
 export default function Experience() {
     // Option state holders
     const [selectedOption, setSelectedOption] = useState(1); // 1 - General option
-    const [lastSelectOption, setLastSelectedOption] = useState(1) // 1 - General option
+    const [lastSelectOption, setLastSelectedOption] = useState(1); // 1 - General option
     
+    // Screen Size state holders
+    const [isMobile, setIsMobile] = useState(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(null); 
+
     // holds the state of data
     const [data, setData] = useState(null);
+
+
+    // initial state handler + window resize 
+    useEffect(() => {
+        // query for elements
+        
+        // resize handler
+        const handleResize = () => {
+            const width = window.innerWidth;
+            setIsMobile(width <= 1350);
+            setIsSmallScreen(width <= 518);
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
 
     // Whenever `selectedOption` changes, find the corresponding data
     useEffect(() => {
@@ -33,98 +58,109 @@ export default function Experience() {
         }
     }, [selectedOption]);
 
-    return (
-        <section id="experience" className="tab-container full-height">
-            <div className="tab-background">
-                <h1 className="tabs-main-title">Résumé</h1>
-            <div className="tabs-button-container">
-                <button
-                    id="tab-button-1"
-                    className="tab-button"
-                    onClick={() => setSelectedOption(1)}
-                >
-                    General
-                </button>
-                <button
-                    id="tab-button-2"
-                    className="tab-button"
-                    onClick={() => setSelectedOption(2)}
-                >
-                    Software Engineer
-                </button>
-                <button
-                    id="tab-button-3"
-                    className="tab-button"
-                    onClick={() => setSelectedOption(3)}
-                >
-                    Mentorship
-                </button>
-                <button
-                    id="tab-button-4"
-                    className="tab-button"
-                    onClick={() => setSelectedOption(4)}
-                >
-                    Culinary
-                </button>
-                <button
-                    id="tab-button-5"
-                    className="tab-button"
-                    onClick={() => setSelectedOption(5)}
-                >
-                    Warehouse (current)
-                </button>
-            </div>
+    
+    if(isMobile){
+        return(
+            <section id="experience">
+                <Mobile_Expirience  exp_data={Experience_Data}/>
+            </section>
+        )
+    }
+    else if(isSmallScreen){}
+    else{
+        return (
+            <section id="experience" className="tab-container full-height">
+                <div className="tab-background">
+                    <h1 className="tabs-main-title">Résumé</h1>
+                    <div className="tabs-button-container">
+                        <button
+                            id="tab-button-1"
+                            className="tab-button"
+                            onClick={() => setSelectedOption(1)}
+                        >
+                            General
+                        </button>
+                        <button
+                            id="tab-button-2"
+                            className="tab-button"
+                            onClick={() => setSelectedOption(2)}
+                        >
+                            Software Engineer
+                        </button>
+                        <button
+                            id="tab-button-3"
+                            className="tab-button"
+                            onClick={() => setSelectedOption(3)}
+                        >
+                            Mentorship
+                        </button>
+                        <button
+                            id="tab-button-4"
+                            className="tab-button"
+                            onClick={() => setSelectedOption(4)}
+                        >
+                            Culinary
+                        </button>
+                        <button
+                            id="tab-button-5"
+                            className="tab-button"
+                            onClick={() => setSelectedOption(5)}
+                        >
+                            Warehouse (current)
+                        </button>
+                    </div>
 
-            <div className="tab-content">
-                <div className="tab-bullets">
-                    {
-                        // checks if data exist
-                        data ? (
-                            <>
+                    <div className="tab-content">
+                        <div className="tab-bullets">
+                            {
+                                // checks if data exist
+                                data ? (
+                                    <>
 
-                                <h1>{data.title}</h1>
-                                {   
-                                    // all must be true to render
-                                    data.job_title 
-                                    && data.job_site 
-                                    && data.job_dates ? (                            
-                                        <h6>{data.job_title} | {data.job_site} | {data.job_dates}</h6>)
-                                    :(
-                                        <>
-                                        </>
-                                    ) 
-                                }
-                                <ul>
-                                    {
-                                        // maps bullet points
-                                        data.points.map((item, index)=>(
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
-                            </>
-                        ) : (<></>) // if !data it returns an empty element
-                    }
+                                        <h1>{data.title}</h1>
+                                        {   
+                                            // all must be true to render
+                                            data.job_title 
+                                            && data.job_site 
+                                            && data.job_dates ? (                            
+                                                <h6>{data.job_title} | {data.job_site} | {data.job_dates}</h6>)
+                                            :(
+                                                <>
+                                                </>
+                                            ) 
+                                        }
+                                        <ul>
+                                            {
+                                                // maps bullet points
+                                                data.points.map((item, index)=>(
+                                                <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </>
+                                ) : (<></>) // if !data it returns an empty element
+                            }
+                        </div>
+                        <div>
+                            {
+                                // checks if data exist
+                                data ? (
+                                    <>
+                                        <Image 
+                                            src={data.image} 
+                                            width={350}
+                                            height={450}
+                                            className="image"
+                                        />
+                                    </>
+                                ) : (<></>) // if !data it returns an empty element
+                            }
+                        </div>
+                    </div>
+                    <div className="tab-content-footer">
+                        <button className="tab-button-footer"><a href="/files/Resume.pdf" download="Carlos_Caceres_Resume" >Download Full Resume</a></button>
+                    </div>
                 </div>
-                <div>
-                    {
-                        // checks if data exist
-                        data ? (
-                            <>
-                                <Image 
-                                    src={data.image} 
-                                    width={350}
-                                    height={450}
-                                    className="image"
-                                />
-                            </>
-                        ) : (<></>) // if !data it returns an empty element
-                    }
-                </div>
-            </div>
-            <div className="tab-content-footer">
-                <button className="tab-button-footer"><a href="/files/Resume.pdf" download="Carlos_Caceres_Resume" >Download Full Resume</a></button>
-            </div>
-        </div>
-    </section>
-  );
+            </section>
+        );
+    }
 }
