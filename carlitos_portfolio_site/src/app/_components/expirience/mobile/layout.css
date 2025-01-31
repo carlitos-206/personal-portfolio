@@ -1,6 +1,3 @@
-/* layout.css */
-
-/* Container for the entire component */
 .mobile-tab-container {
     width: 100%;
     display: flex;
@@ -9,11 +6,10 @@
     margin: 50px 0;
   }
   
-  /* Background container */
   .mobile-tab-background {
     background-color: #f7fafc;
     width: 500px;
-    min-height: 800px; /* changed from fixed height for more flexibility */
+    min-height: 800px; 
     padding: 25px;
     display: flex;
     flex-direction: column;
@@ -22,24 +18,17 @@
     margin: 0px 0px 10px 0px;
   }
   
-  /* Card styling */
   .mobile-tab-card {
     font-family: 'LowballNeue-SemiBold', sans-serif;
-    font-size: 24px;
+    font-size: 24px !important; 
     width: 450px;
     z-index: 2;
-    /* Removed the contradictory heights (min-content vs. 900px).
-       Use min-height if you need a minimum but want flexibility:
-       min-height: 900px; 
-    */
+
   }
   
 
   
-  /* Text container that overlays the image */
   .mobile-tab-text-container {
-    /* Instead of bottom/left + relative positioning, 
-       we use a negative margin to “pull” the text upward */
     margin-top: -300px; 
     width: 450px;
     color: #f7fafc;
@@ -74,7 +63,6 @@
     position: relative;
     top: 15px;
   }
-  /* Adds a subtle background behind text for better readability */
   .mobile-text-shadow {
     display: inline-block;
     background-color: #2d3748;
@@ -88,23 +76,18 @@
   #mobile-tab-button-footer{
     width: 25%;
   }
-  /* Controller container */
   .mobile-tab-controler-container {
-    /* Use negative margin to pull this section up 
-       instead of using position: relative; bottom: ... */
     margin-top: -90px; 
     width: 450px;
     z-index: 3;
   }
   
-  /* Buttons container */
   .mobile-tab-controler-box {
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
-  /* Next/Prev buttons */
   .mobile-tab-controler-buttons {
     width: 145px;
     height: 45px;
@@ -123,19 +106,18 @@
     cursor: pointer;
     background-color: #2b6cb0 ;
   }
-  /* Responsive adjustments for smaller screens */
-  @media (max-width: 550px) {
-    .mobile-tab-background,
-    .mobile-tab-card,
-    .mobile-tab-text-container,
-    .mobile-tab-controler-container {
-      width: 100%;
-      max-width: 100%;
-    }
-  
-    /* Adjust negative margin for text overlay on smaller screens */
-    .mobile-tab-text-container {
-      margin-top: -40vw; /* or another relative value */
-    }
+@media screen and (max-width: 600px) {
+  .mobile-tab-container{
+    scale: .95;
   }
-  
+}
+@media screen and (max-width: 500px) {
+  .mobile-tab-container{
+    scale: .70;
+  }
+}
+@media screen and (max-width: 375px) {
+  .mobile-tab-container{
+    scale: .60;
+  }
+}
