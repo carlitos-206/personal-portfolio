@@ -1,10 +1,31 @@
 /*
     Landing section component
 */
+'use client'
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import "./style.css";
 
 export default function HeroLanding() {
+    const [contactElement, setContactElement] = useState(null)
+
+    useEffect(()=>{
+        const contactID = document.querySelector('#contact')
+        setContactElement(contactID)
+    },[])
+
+    const scrollToElement = (e, element) => {
+        e.preventDefault();
+        console.log(element)
+        if (!element) return;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - 100;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+        setMenuOpen(false)
+    };
     return (
         <section id="home" className="hero-landing">
             <div className="hero-container-top">
@@ -22,7 +43,12 @@ export default function HeroLanding() {
                 <h1 className="hero-subtitle">JavaScript + Python</h1>
                 <br />
                 <p className="hero-description">Connect with me to build tailored web and mobile applications!</p>
-                <button className="hero-button">Contact Me</button>
+                <button 
+                    className="hero-button"
+                    onClick={(e)=>{scrollToElement(e, contactElement)}}
+                >
+                    Contact Me
+                </button>
                 </div>
             </div>
         </section>

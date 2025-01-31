@@ -2,7 +2,7 @@
     Navbar section component
 */
 'use client';  // This allows to use the document.windows()
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from 'next/link'
 import "./style.css";
@@ -14,6 +14,7 @@ function NavBar() {
         const [aboutElement, setAboutElement] = useState(null);
         const [projectsElement, setProjectsElement] = useState(null);
         const [experienceElement, setExperienceElement] = useState(null)
+        const [contactElement, setContactElement] = useState(null)
 
         // mobile options for menu display
         const [menuOpen, setMenuOpen] = useState(false);
@@ -26,6 +27,8 @@ function NavBar() {
         setAboutElement(document.querySelector("#about"));
         setProjectsElement(document.querySelector("#projects"));
         setExperienceElement(document.querySelector("#experience"))
+        setContactElement(document.querySelector("#contact"))
+
         
         // resize handler
         const handleResize = () => {
@@ -103,7 +106,10 @@ function NavBar() {
                         Experience
                     </button>
                     <button className="nav-button">Demos</button>
-                    <button className="nav-button contact-button">Contact</button>        
+                    <button 
+                        className="nav-button contact-button"
+                        onClick={(e)=>{ scrollToElement(e, contactElement)}}
+                    >Contact</button>        
                 </div>
             </div>
         </nav>

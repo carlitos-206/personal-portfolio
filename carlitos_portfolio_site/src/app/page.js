@@ -9,7 +9,7 @@ import HeroLanding from "./_components/hero_landing/page";
 import About from "./_components/about/page";
 import Projects from "./_components/projects/page";
 import Experience from "./_components/expirience/page";
-
+import Contact from "./_components/contact/page";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -21,6 +21,7 @@ export default function Home() {
         <About />
         <Projects />
         <Experience />
+        <Contact />
       </main>
       {/* <footer className={styles.footer}> */}
       {/* </footer> */}
