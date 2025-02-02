@@ -50,6 +50,9 @@ export default function Footer(){
        // Handle smaller screens
         if (smallScreen) {
             switch (route) {
+                case 'linkedin':
+                    window.location.href = "https://www.linkedin.com/in/carlitos206/";
+                    break;
                 case 'contact-me':
                     scrollToElement(e, contactElement);
                     break;
@@ -71,6 +74,13 @@ export default function Footer(){
         } else {
          // Handle larger screens
             switch (route) {
+                case 'linkedin':
+                    window.open(
+                        "https://www.linkedin.com/in/carlitos206/", 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                    break;
                 case 'contact-me':
                     scrollToElement(e, contactElement);
                     break;

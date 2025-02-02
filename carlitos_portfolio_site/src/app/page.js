@@ -27,8 +27,6 @@ export default function Home() {
         <Contact />
         <Footer />
       </main>
-      {/* <footer className={styles.footer}> */}
-      {/* </footer> */}
     </div>
   );
 }
