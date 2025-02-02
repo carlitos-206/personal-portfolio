@@ -175,6 +175,7 @@ export default function Footer(){
                             <h4>Automation & Scripting</h4>
                             <h4>UI/UX Design & Prototyping</h4>
                             <h4>Tech Mentorship & Training</h4>
+                            <h4>and much more!</h4>
 
                         </div>
                     </div>
