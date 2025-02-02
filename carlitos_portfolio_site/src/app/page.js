@@ -10,6 +10,7 @@ import About from "./_components/about/page";
 import Projects from "./_components/projects/page";
 import Experience from "./_components/expirience/page";
 import Contact from "./_components/contact/page";
+import Footer from "./_components/footer/page";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
         <Projects />
         <Experience />
         <Contact />
+        <Footer />
       </main>
       {/* <footer className={styles.footer}> */}
       {/* </footer> */}

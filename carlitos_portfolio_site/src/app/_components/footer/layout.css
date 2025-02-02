@@ -1,0 +1,64 @@
+.footer-section-container{
+    width: 100%;
+}
+.footer-cross-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+.footer-content-container{
+    width: 100%;
+}
+.footer-content-header-container{
+    width: 100%;
+    background-color: #2d3748;
+    height: 7px;
+}
+
+
+
+.footer-content-body-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 75px 0px 15px 0px;
+    color:#2d3748;
+    background-color: #f7fafc;
+
+}
+
+.footer-content-items{
+    margin: 0px 50px;
+    font-family: "LowballNeue-SemiBold";
+    font-size: 20px;
+}
+
+.footer-content-items-text{
+    margin: 25px 0px 0px 0px ;
+    line-height: 50px;
+}
+.footer-content-useful-links-items:hover{
+    cursor: pointer;
+    text-decoration: underline #2d3748 ;
+}
+@media screen and (max-width: 1200px) {
+    .footer-content-body-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .footer-content-items{
+        margin: 25px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width:100%;
+    }
+    .footer-content-useful-links-items{
+        text-decoration: underline #2d3748;
+    }
+}
