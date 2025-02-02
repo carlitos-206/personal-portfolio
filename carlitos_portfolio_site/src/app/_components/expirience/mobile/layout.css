@@ -16,6 +16,7 @@
     align-items: center;
     color: #2d3748;
     margin: 0px 0px 10px 0px;
+    border-radius: 25px;
   }
   
   .mobile-tab-card {
@@ -74,7 +75,8 @@
   }
   
   #mobile-tab-button-footer{
-    width: 25%;
+    width: 50%;
+    color: #f7fafc;
   }
   .mobile-tab-controler-container {
     margin-top: -90px; 
@@ -101,6 +103,7 @@
     background-color: #2d3748;
     border: none;
     border-radius: 50px;
+    color: #f7fafc;
   }
   .mobile-tab-controler-buttons:hover{
     cursor: pointer;
