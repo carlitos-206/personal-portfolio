@@ -39,7 +39,7 @@ export default function Contact() {
     }, [textValues.length, textValuesForBox.length]);
 
     const contactButtonSubtmit = async (e, smallScreen, route ) =>{
-        e.preventDeafoult()
+        e.preventDefault()
         if(smallScreen){
             switch (route) {
                 case 'email':
@@ -68,18 +68,21 @@ export default function Contact() {
                         "myPopup", 
                         "top=25,left=50,width=900,height=900",
                     )
+                    break;
                 case 'github':
                     window.open(
                         "https://github.com/carlitos-206", 
                         "myPopup", 
                         "top=25,left=50,width=900,height=900",
                     )
+                    break;
                 case 'youtube':
                     window.open(
                         "https://www.youtube.com/@carloscaceres2608", 
                         "myPopup", 
                         "top=25,left=50,width=900,height=900",
                     )
+                    break;
                 default:
                     break;
             }
@@ -124,7 +127,7 @@ export default function Contact() {
                             label={`Tell me more about ${textValuesForBox[indexTextBox]}`}
                             variant="standard"
                             multiline
-                            rows={4}
+                            maxRows={7}
                             sx={{width: "280px"}}
                             required
                         />
