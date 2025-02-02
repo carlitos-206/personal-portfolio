@@ -164,12 +164,17 @@ export default function Footer(){
                         </div>
                     </div>
                     <div className='footer-content-items footer-content-services-container'>
-                        <h3>Services</h3>
+                        <h3>Services I provide</h3>
                         <div className='footer-content-items-text footer-content-sevices-body-container'>
                             <h4>Front-End Developement</h4>
                             <h4>Backend Developement</h4>
                             <h4>Database Management</h4>
                             <h4>Project Management</h4>
+                            <h4>DevOps & Cloud Deployment</h4>
+                            <h4>Machine Learning Integration</h4>
+                            <h4>Automation & Scripting</h4>
+                            <h4>UI/UX Design & Prototyping</h4>
+                            <h4>Tech Mentorship & Training</h4>
 
                         </div>
                     </div>
