@@ -1,141 +1,134 @@
-"use client";
 import React, { useEffect, useState } from 'react';
 import './layout.css';
-import { isServerOnline } from '../../GLOBAL/checkServer';
-// import { UserData } from './data_retriver/index.js';
+import { UserData } from './data_retriver/index.js';
 
+// import {db} from '../../../database/firebaseConnection';
+// import { collection, addDoc } from 'firebase/firestore';
 const DataCollectionProject = () => {
     const [agree, setAgree] = useState(false);
     const [data, setData] = useState(null);
     const [shareData, setShareData] = useState(false);
 
-    // Effect to handle UI changes after data is retrieved or reverted
     useEffect(() => {
         if (data === null) return;
-            const projectDataElement = document.querySelector('.data-project-main');
-            // const byo_gpt = document.querySelector('.byo-gpt-main');
-            const agreeCheckbox = document.getElementById('agree-checkbox-data-project');
-            const shareDataCheckbox = document.getElementById('sharedata-checkbox-data-project');
 
+        let projectDataElement = document.querySelector('.data-project-main');
+        // let byo_gpt = document.querySelector('.byo-gpt-main');
+        let agreeCheckbox = document.getElementById('agree-checkbox-data-project');
+        let shareDataCheckbox = document.getElementById('sharedata-checkbox-data-project');
         if (data === false) {
-            // "Reverted" data - restore minimal UI
             projectDataElement.style.display = 'flex';
             projectDataElement.style.height = '325px';
-            // if (byo_gpt) byo_gpt.style.display = 'flex';
+            // byo_gpt.style.display = 'flex';
             agreeCheckbox.checked = true;
             shareDataCheckbox.checked = true;
         } else {
-            // Data is now some object
             projectDataElement.style.height = '680px';
-            // if (byo_gpt) byo_gpt.style.display = 'none';
+            // byo_gpt.style.display = 'none';
         }
+
+        console.log('data', data);
     }, [data]);
 
-    // Check user agreement and server status; retrieve data if possible
     const demoValidation = async () => {
-        if (!agree || !shareData) {
+        if (agree && shareData) {
+            const requestData = await UserData();
+            // if(data === null) {
+            //     const docRef = await addDoc(collection(db, 'data_project'), {
+            //         browser: {
+            //             name: requestData.browser.name,
+            //             version: requestData.browser.version,
+            //             engine: {
+            //                 name: requestData.browser.engine.name,
+            //                 version: requestData.browser.engine.version
+            //             },
+            //             screenWidth: requestData.browser.screenWidth,
+            //             screenHeight: requestData.browser.screenHeight
+            //         },
+            //         device: {
+            //             type: requestData.device.type,
+            //             cpu_architecture: requestData.device.cpu_architecture,
+            //             model: requestData.device.model,
+            //             vendor: requestData.device.vendor,
+            //             os: {
+            //                 name: requestData.device.os.name,
+            //                 version: requestData.device.os.version
+            //             },
+            //             screenWidth: requestData.device.screenWidth,
+            //             screenHeight: requestData.device.screenHeight
+            //         },
+            //         date: new Date().toLocaleString()
+            //     });
+            // }
+            setData(requestData);
+        } else {
             alert('Please read the agreement and check the box to share your data');
-            return;
-        }
-
-    // Check if the server is active
-    const isServerActive = await isServerOnline();
-    console.log(`isServerActive: ${isServerActive}`)
-        if (!isServerActive) {
-            alert('Server is offline, contact me for support');
-            return;
-        }
-
-        // If we’ve never retrieved data yet, do so
-        if (data === null) {
-            try {
-                // const requestData = await UserData(); // External function to fetch user data
-                // setData(requestDat    a);
-                
-                // Temporary placeholder
-                const placeholderData = {
-                    message: 'Server is active! Your data can be collected.'
-                };
-                setData(placeholderData);
-            } catch (err) {
-                console.error('Error retrieving data:', err);
-                alert('An error occurred while collecting your data.');
-            }
         }
     };
-    
-    // Revert the UI back to "null" state
     const revertDemo = (e) => {
         e.preventDefault();
         setData(false);
-    };
 
+    };
     return (
         <div className='data-project-main live-demo-card'>
             {data ? (
-                <div className='data-render-container'>
+                <>
                     <h1 className='data-project-title'>Data</h1>
                     <div className='data-project-form'>
                         <div className='data-project-data-container'>
-                            {/* 
-                                Display data in any format you want. 
-                                Adjust below if you have a more complex object. 
-                            */}
-                            <p className='data-project-result-text'>
-                                {JSON.stringify(data, null, 2)}
-                            </p>
+                            <p className='data-project-result-text'>Browser: {' {'}</p>
+                            <p className='data-project-result-text indent-data'>Name: {data.browser.name},</p>
+                            <p className='data-project-result-text indent-data'>Version: {data.browser.version},</p>
+                            <p className='data-project-result-text indent-data'>Engine: {' {'}</p>
+                            <p className='data-project-result-text indent-data-2'>Name: {data.browser.engine.name},</p>
+                            <p className='data-project-result-text indent-data-2'>Version: {data.browser.engine.version},</p>
+                            <p className='data-project-result-text indent-data-2'>{'},'}</p>
+                            <p className='data-project-result-text indent-data'>Window: {'{'}</p>
+                            <p className='data-project-result-text indent-data-2'>Width: {data.browser.screenWidth},</p>
+                            <p className='data-project-result-text indent-data-2'>Height: {data.browser.screenHeight},</p>
+                            <p className='data-project-result-text indent-data-2'>{'},'}</p>
+                            <p className='data-project-result-text'>{'};'}</p>
+                            <p className='data-project-result-text'>Device: {'{'}</p>
+                            <p className='data-project-result-text indent-data'>Type: {data.device.type},</p>
+                            {data.device.cpu_architecture !== ' - ' && <p className='data-project-result-text indent-data'>CPU-Architecture: {data.device.cpu_architecture},</p>}
+                            {data.device.model !== ' - ' && <p className='data-project-result-text indent-data'>Model: {data.device.model},</p>}
+                            {data.device.vendor !== ' - ' && <p className='data-project-result-text indent-data'>Vendor: {data.device.vendor},</p>}
+                            <p className='data-project-result-text indent-data'>OS: {' {'}</p>
+                            <p className='data-project-result-text indent-data-2'>Name: {data.device.os.name},</p>
+                            <p className='data-project-result-text indent-data-2'>Version: {data.device.os.version},</p>
+                            <p className='data-project-result-text indent-data-2'>{'},'}</p>
+                            <p className='data-project-result-text indent-data'>Screen: {' {'}</p>
+                            <p className='data-project-result-text indent-data-2'>Width: {data.device.screenWidth},</p>
+                            <p className='data-project-result-text indent-data-2'>Height: {data.device.screenHeight},</p>
+                            <p className='data-project-result-text indent-data-2'>{'}'}</p>
+
+                            <p className='data-project-result-text'>{'}'}</p>
                         </div>
-                        <button
-                            className='project-data-buttons demo-buttons'
-                            onClick={revertDemo}
-                        >
-                            Return
-                        </button>
+                        <button className='project-data-buttons demo-buttons' onClick={(e) =>{ revertDemo(e) }}>Return</button>
                     </div>
-                </div>
+                </>
             ) : (
-            <section className='data-project-container'>
-                <h1 className='data-project-title'>User Data Collection Demo</h1>
-                <div className='data-project-form'>
-                    <p>
-                        I'm crafted a Flask demo to reveal your user agent info with a button click! 
-                        No personal or location data is collected only the device user agent.
-                    </p>
-                    <p>Read Agreement</p>
-                    <div className='data-project-checkboxes-container'>
-                        <div className='data-project-checkbox-container'>
-                            <input
-                                className="data-project-checkbox"
-                                type="checkbox"
-                                id='agree-checkbox-data-project'
-                                onChange={() => setAgree(!agree)}
-                            />
-                            <label htmlFor="agree-checkbox-data-project">
-                                I have read the agreement
-                            </label>
+                <>
+                    <h1 className='data-project-title'>Browser Data Collection</h1>
+                    <div className='data-project-form'>
+                        <p>Summary: This is a live demo for <span>Browser Data Collection</span>, this project allows the collection of data (requests device user-agent and device location) from incoming request in Python and JavaScript</p>
+                        <p>Read Agreement</p>
+                        <div className='data-project-checkboxes-container'>
+                            <div className='data-project-checkbox-container'>
+                                <input type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
+                                <label htmlFor="agree-checkbox-data-project">I have read the agreement</label>
+                            </div>
+                            <div className='data-project-checkbox-container'>
+                                <input type="checkbox" id='sharedata-checkbox-data-project' onChange={() => setShareData(!shareData)} />
+                                <label htmlFor="sharedata-checkbox-data-project">I agree to share my data</label>
+                            </div>
                         </div>
-                        <div className='data-project-checkbox-container'>
-                            <input
-                                className="data-project-checkbox"
-                                type="checkbox"
-                                id='sharedata-checkbox-data-project'
-                                onChange={() => setShareData(!shareData)}
-                            />
-                            <label htmlFor="sharedata-checkbox-data-project">
-                                I agree to share my data
-                            </label>
-                        </div>
+                        <button className='project-data-buttons demo-buttons' onClick={demoValidation}>View Data</button>
                     </div>
-                    <button
-                        className='project-data-buttons demo-buttons'
-                        onClick={demoValidation}
-                    >
-                        View Data
-                    </button>
-                </div>
-            </section>
-        )}
-      </div>
+                </>
+            )}
+        </div>
     );
 };
 

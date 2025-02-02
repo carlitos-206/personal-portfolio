@@ -53,6 +53,12 @@
     font-family: 'Courier New', Courier, monospace;
     color: white;
     font-weight: bold;
+    line-height: 10px;
+    height: 500px;
+}
+.data-project-result-text{
+    line-height: 20px;
+    width: 10px;
 }
 
 .data-project-result-text {
