@@ -103,8 +103,8 @@ const BYO_GPT_INTERFACE = () => {
         chat ? <BYO_CHAT task={userTask} /> :
             <div className="byo-gpt-interface-container">
                 <div className="byo-gpt-interface-title">
-                    <h1>Welcome {user?.firstName}</h1>
-                    <p>Watch how to video</p>
+                    <h1>Hi, {user?.firstName}!</h1>
+                    <p>Watch Tutorial Video</p>
                 </div>
                 <div className="byo-gpt-contianer-pre-demo-container">
                     <p>Prebuilt Demo: </p>
@@ -114,7 +114,6 @@ const BYO_GPT_INTERFACE = () => {
                     </div>
                 </div>
                 <div className="byo-gpt-contianer-demo-custom">
-                    <h1>Build </h1>
                     <div className="byo-gpt-contianer-demo-custom-builder">
                         {/* <div className="byo-gpt-contianer-demo-custom-services">
                             <p>Select Services: </p>
@@ -143,54 +142,38 @@ const BYO_GPT_INTERFACE = () => {
                             </div>
                         </div> */}
                         <div className="byo-gpt-contianer-demo-custom-fields">
-                            <p className='byo-gpt-custom-build-labels'>Main Task</p>
+                            <p className='byo-gpt-custom-build-labels'>Custom Main Task</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="Write the main task you want to accomplish"
+                                label="The task you want GPT to accomplish"
                                 multiline
                                 rows={3}
-                                cols={10}
                                 variant="outlined"
                                 onChange={(e) => setMainTask(e.target.value)}
                             />
                             <p className='byo-gpt-custom-build-labels'>Supporting Information (optional)</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="Add supporting information, context, and/or data"
+                                label="Any supporting information"
                                 multiline
                                 rows={3}
-                                cols={10}
                                 variant="outlined"
                                 onChange={(e) => setSupportingInfo(e.target.value)}
                             />
                             <p className='byo-gpt-custom-build-labels'>Guardrails (optional)</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="Add guardrails, limitations, and/or constraints"
+                                label="Any limitations, and/or constraints"
                                 multiline
                                 rows={3}
-                                cols={10}
                                 variant="outlined"
                                 onChange={(e) => setGuardrails(e.target.value)}
                             />
-                            <p className='byo-gpt-custom-build-labels'>Supporting Files (optional)</p>
-                            <div>
-                                <label htmlFor="audio_files">Upload Audio: </label>
-                                <input type="file" name="audio_files" id="audio_files"
-                                    onChange={(e) => setAudio(e.target.files)}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="image_files">Upload Image: </label>
-                                <input type="file" name="image_files" id="image_files" 
-                                    onChange={(e) => setImage(e.target.files)}
-                                />
-                            </div>
-                            <div>
-                                <p>Demo limitations: Does not support video input or output</p>
-                            </div>
                         </div>
-                        <button className="gpt-submit-build-button" onClick={(e)=>{handleCustomBuild(e)}}>Build</button>
+                        <div className='gpt-interface-demo-buttons-container'>
+                            <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{alert('missing')}}>Return</button>
+                            <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e)}}>Build</button>
+                        </div>
                     </div>
                 </div>
             </div>
