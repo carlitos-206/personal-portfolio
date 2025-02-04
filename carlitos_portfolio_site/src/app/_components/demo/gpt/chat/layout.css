@@ -1,0 +1,129 @@
+.byo-chat-main {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-family: sans-serif;
+    background-color: rgb(43,43,43);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    color: #ffffff;
+    border-radius: 32px;
+    padding: 1rem;
+    height: 675px;
+    width: calc(100% - 2rem);
+}
+
+.byo-chat-title{
+    color: #000;
+    font-size: 2rem;
+    font-family: sans-serif;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+}
+#byo-arrow-icon{
+    margin-right: 20rem;
+    cursor: pointer;
+}
+
+.byo-chat-screen {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 8px);
+    background-color: whitesmoke;
+    border-radius: 16px;
+    align-items: center;
+    position: relative;
+    padding: 4px;
+}
+
+
+.byo-init-screen{
+    position: absolute;
+    bottom: 10rem;
+    z-index: 2;
+    width: 100%;
+    left: -0.5rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.byo-chat-messages {
+    flex: 1;
+    width: calc(100% - 16px);
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding: 0 8px;
+    align-items: center;
+}
+
+.byo-chat-message {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 4px 0;
+    width: fit-content;
+    max-width: 97%;
+    word-wrap: break-word;
+}
+
+.byo-chat-message.left {
+    align-self: flex-start;
+    width: 100%;
+    background-color: #454545;
+    color: white;
+}
+
+.byo-chat-message.right {
+    align-self: flex-end;
+    width: 100%;
+    background-color: #8f8f8f;
+    color: white;
+}
+
+.byo-chat-message.typing {
+    background-color: transparent;
+    color: #2ad669;
+    font-style: italic;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.byo-chat-input-container {
+    width: calc(100% - 16px);
+    display: flex;
+    position: sticky;
+    bottom: 0;
+    padding: 8px;
+    background-color: whitesmoke;
+    border-top: 1px solid #ddd;
+    align-items: flex-end;
+}
+
+.byo-chat-input {
+    flex: 1;
+}
+
+.byo-chat-send-button {
+    align-self: flex-end;
+    margin: 0px 5px;
+}
+.byo-gpt-custom-build-labels{
+    margin: 10px 0px 0px 0px;
+}
