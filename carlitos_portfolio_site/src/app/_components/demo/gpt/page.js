@@ -1,3 +1,4 @@
+'use client'
 import React, {useState} from "react";
 import "./layout.css";
 import BYO_GPT_INTERFACE from "./interface/page";
@@ -27,7 +28,7 @@ const BYO_GPT = () => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-
+    const [agree, setAgree] = useState(false)
     const [h_email, setH_email] = useState('');
     const [h_fName, setH_fName] = useState('');
     const [h_lName, setH_lName] = useState('');
@@ -40,17 +41,20 @@ const BYO_GPT = () => {
         const byo_gpt = document.querySelector('.byo-gpt-main');
         if(firstName.length < 2){
             byo_gpt.style.margin = '-.5rem 0';
-            setH_fName('Must be at least 2 characters');
+            setH_fName('Enter a valid first name');
         }
         if(lastName.length < 2){
             byo_gpt.style.margin = '-.5rem 0';
-            setH_lName('Must be at least 2 characters');
+            setH_lName('Enter a valid last name');
         }
         if (!validEmail.test(email)){
             byo_gpt.style.margin = '-.5rem 0';
-            setH_email('Invalid Email');
+            setH_email('Enter a valid Email');
         }
-        if(validEmail.test(email) && firstName.length >= 2 && lastName.length >= 2){    
+        if(!agree){
+            alert("In order to use this demo please adhere to Openai terms of use by checking the box")
+        }
+        if(validEmail.test(email) && firstName.length >= 2 && lastName.length >= 2 && agree){    
             // const docRef = await addDoc(collection(db, 'byo_gpt'), {
             //     email: email,
             //     firstName: firstName,
@@ -78,13 +82,40 @@ const BYO_GPT = () => {
 
 
     }
+
+    const openLinks = async (e, link) =>{
+        e.preventDefault()
+        let screenWidth = window.innerWidth
+        if(screenWidth < 1300){
+            switch (link) {
+                case 'openai-tos':
+                    window.location.href = "https://openai.com/policies/row-terms-of-use/";
+                    break;
+            
+                default:
+                    break;
+            }
+        }else{
+            switch(link) {
+                case 'openai-tos':
+                    window.open(
+                        "https://openai.com/policies/row-terms-of-use/", 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     return (
         <div className="byo-gpt-main">
             {
                 !build ? (
                 <div className="byo-gpt-container">
-                <h1>Build your own custom Chat-GPT</h1>
-                <p>Summary: This is a live demo of GPT Context Training, except here you can custom build your own Chat GPT </p>
+                <h1 className="gpt-title-text">Build your own custom Chat-GPT</h1>
+                <p className="gpt-summary-text">Summary: This is a live demo of GPT Context Training, except here you can custom build your own Chat GPT </p>
                 <form className="byo-gpt-form" action=""  autoComplete="off">
                     <div className="byo-gpt-input-container">
                         <InputField 
@@ -119,6 +150,10 @@ const BYO_GPT = () => {
                             />
                     </div>
                 </form>
+                <div className='gpt-tos-container'>
+                    <input className="gpt-tos-checkboxes" type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
+                    <label htmlFor="gpt-tos-agree-checkbox-label">I will adhere to OpenAI <span className="tos-openai-link" onClick={(e)=>{openLinks(e, 'openai-tos')}}>Terms of Use</span></label>
+                </div>
                 <button className="demo-buttons" onClick={(e)=>{handleClick(e)}}>Start Build</button>
             </div>)
             : (

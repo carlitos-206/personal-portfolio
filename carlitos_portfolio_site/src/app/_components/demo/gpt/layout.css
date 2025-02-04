@@ -24,6 +24,18 @@
     grid-template-columns: 1fr 1fr 1fr; 
     gap: 10px;
 }
+.gpt-title-text{
+    font-family: "LowballNeue-SemiBold";
+    font-size: 32px;
+    margin: 0px 0px 20px 0px 
+}
+
+.gpt-summary-text{
+    font-family: "LowballNeue-SemiBold";
+    font-size: 24px;
+    margin: 0px 0px 20px 0px 
+
+}
 
 .byo-gpt-form{
     display: flex;
@@ -39,7 +51,30 @@
     font-size: 18px;
     background-color: rgb(42, 42, 42);
 }
+.gpt-tos-container{
+    font-family: "LowballNeue-SemiBold";
+    font-size: 24px;
+    width: 100%;
+    margin: 10px 0px 30px 0px;
+    display: flex;
+    align-items: center;
+}
+.gpt-tos-checkboxes{
+    margin: 0px 10px 0px 0px ;
+}
+.gpt-tos-checkboxes:hover{
+    cursor: pointer;
 
+}
+.tos-openai-link{
+    text-decoration: underline #2b6cb0;
+}
+.tos-openai-link:hover{
+    text-decoration: none;
+    color: #2b6cb0;
+    cursor: pointer;
+
+}
 .byo-gpt-checkbox-containers{
     display: flex;
     justify-content: center;
@@ -60,3 +95,15 @@
     gap: 10px 100px;
 }
 
+@media screen and (max-width: 500px) {
+    .byo-gpt-input-container{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+    }
+}
+@media screen and (max-width: 400px) {
+    .byo-gpt-input-container{
+        width: 100%;
+    }
+}
