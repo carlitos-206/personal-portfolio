@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './layout.css';
 import { UserData } from './data_retriver/index.js';
 
-// import {db} from '../../../database/firebaseConnection';
-// import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../GLOBAL/database/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 const DataCollectionProject = () => {
     const [agree, setAgree] = useState(false);
     const [data, setData] = useState(null);
@@ -17,13 +17,10 @@ const DataCollectionProject = () => {
         let agreeCheckbox = document.getElementById('agree-checkbox-data-project');
         let shareDataCheckbox = document.getElementById('sharedata-checkbox-data-project');
         if (data === false) {
-            projectDataElement.style.display = 'flex';
-            projectDataElement.style.height = '325px';
-            // byo_gpt.style.display = 'flex';
             agreeCheckbox.checked = true;
             shareDataCheckbox.checked = true;
         } else {
-            projectDataElement.style.height = '680px';
+            // projectDataElement.style.height = '680px';
             // byo_gpt.style.display = 'none';
         }
 
@@ -33,33 +30,33 @@ const DataCollectionProject = () => {
     const demoValidation = async () => {
         if (agree && shareData) {
             const requestData = await UserData();
-            // if(data === null) {
-            //     const docRef = await addDoc(collection(db, 'data_project'), {
-            //         browser: {
-            //             name: requestData.browser.name,
-            //             version: requestData.browser.version,
-            //             engine: {
-            //                 name: requestData.browser.engine.name,
-            //                 version: requestData.browser.engine.version
-            //             },
-            //             screenWidth: requestData.browser.screenWidth,
-            //             screenHeight: requestData.browser.screenHeight
-            //         },
-            //         device: {
-            //             type: requestData.device.type,
-            //             cpu_architecture: requestData.device.cpu_architecture,
-            //             model: requestData.device.model,
-            //             vendor: requestData.device.vendor,
-            //             os: {
-            //                 name: requestData.device.os.name,
-            //                 version: requestData.device.os.version
-            //             },
-            //             screenWidth: requestData.device.screenWidth,
-            //             screenHeight: requestData.device.screenHeight
-            //         },
-            //         date: new Date().toLocaleString()
-            //     });
-            // }
+            if(data === null) {
+                const docRef = await addDoc(collection(db, 'data_project'), {
+                    browser: {
+                        name: requestData.browser.name,
+                        version: requestData.browser.version,
+                        engine: {
+                            name: requestData.browser.engine.name,
+                            version: requestData.browser.engine.version
+                        },
+                        browserWindowWidth: requestData.browser.screenWidth,
+                        browserWindowHeight: requestData.browser.screenHeight
+                    },
+                    device: {
+                        type: requestData.device.type,
+                        cpu_architecture: requestData.device.cpu_architecture,
+                        model: requestData.device.model,
+                        vendor: requestData.device.vendor,
+                        os: {
+                            name: requestData.device.os.name,
+                            version: requestData.device.os.version
+                        },
+                        deviceScreenWidth: requestData.device.screenWidth,
+                        deviceScreenHeight: requestData.device.screenHeight
+                    },
+                    date: new Date().toLocaleString("en-US", {  timeZone: "America/Los_Angeles"})
+                });
+            }
             setData(requestData);
         } else {
             alert('Please read the agreement and check the box to share your data');
@@ -110,17 +107,17 @@ const DataCollectionProject = () => {
                 </>
             ) : (
                 <>
-                    <h1 className='data-project-title'>Browser Data Collection</h1>
+                    <h1 className='data-project-title'>User Device Data Demo</h1>
                     <div className='data-project-form'>
-                        <p>Summary: This is a live demo for <span>Browser Data Collection</span>, this project allows the collection of data (requests device user-agent and device location) from incoming request in Python and JavaScript</p>
-                        <p>Read Agreement</p>
+                        <p className='data-project-summary'>Summary: This is a live demo for <span>Browser Data Collection</span>, this project allows the collection of data (requests device user-agent and device location) from incoming request in Python and JavaScript</p>
+                        <p className='data-project-agreement'>Read Agreement</p>
                         <div className='data-project-checkboxes-container'>
                             <div className='data-project-checkbox-container'>
-                                <input type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
+                                <input className="data-project-checkboxes" type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
                                 <label htmlFor="agree-checkbox-data-project">I have read the agreement</label>
                             </div>
                             <div className='data-project-checkbox-container'>
-                                <input type="checkbox" id='sharedata-checkbox-data-project' onChange={() => setShareData(!shareData)} />
+                                <input className="data-project-checkboxes" type="checkbox" id='sharedata-checkbox-data-project' onChange={() => setShareData(!shareData)} />
                                 <label htmlFor="sharedata-checkbox-data-project">I agree to share my data</label>
                             </div>
                         </div>

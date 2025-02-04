@@ -10,11 +10,11 @@ export default function Demos(){
         <section id="demos" className="demo-section-container">
             <h1 className="demo-title">Live Demos</h1>
             <div className="demo-content-contianer">
-                <div className="section-7-left">
+                <div className="demo-content-left">
                     <DataCollectionProject />
                     {/* <BYO_GPT /> */}
                 </div>
-                <div className="section-7-right">
+                <div className="demo-content-right">
                     {/* <ES_PROJECT /> */}
                 </div>
             </div>
