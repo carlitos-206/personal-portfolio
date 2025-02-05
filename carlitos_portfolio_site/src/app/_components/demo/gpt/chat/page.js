@@ -7,7 +7,7 @@ import BYO_GPT_INTERFACE from "../interface/page";
 import { ArrowCircleLeft } from "@phosphor-icons/react/dist/ssr/ArrowCircleLeft";
 import {PaperPlaneTilt } from "@phosphor-icons/react/dist/ssr/PaperPlaneTilt";
 import { cover_letter_writer } from "../backend";
-const BYO_CHAT = ({ task }) => {
+const BYO_CHAT = ({ task, onReturnToMain }) => {
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
@@ -60,6 +60,10 @@ const BYO_CHAT = ({ task }) => {
         fetchData();
         setIsTyping(false);
     };
+    // const handleArrowClick = () => {
+    //     // Just bubble up
+    //     onReturnToMain();
+    //   };
     const CoverLetterTitle = () => {
         return(
             <div className="byo-chat-title" >
@@ -78,7 +82,7 @@ const BYO_CHAT = ({ task }) => {
     }
     return (
         
-         !seeChat ? <BYO_GPT_INTERFACE /> : (
+         !seeChat ? <BYO_GPT_INTERFACE onReturnToMain={onReturnToMain}/> : (
 
         <div className="byo-chat-main">
         <div className="byo-chat-screen">

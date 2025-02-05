@@ -105,7 +105,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
         onReturnToMain();
     }
     return (
-        chat ? <BYO_CHAT task={userTask} /> :
+        chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
             <div className="byo-gpt-interface-container">
                 <div className="byo-gpt-interface-title">
                     <h1>Hi, {user?.firstName}!</h1>
@@ -150,7 +150,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                             />
                         </div>
                         <div className='gpt-interface-demo-buttons-container'>
-                            <button className="demo-buttons byo-interface-mobile" onClick={handleReturnClick}>Return</button>
+                            <button className="demo-buttons byo-interface-mobile" onClick={onReturnToMain}>Return</button>
                             <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e)}}>Build</button>
                         </div>
                     </div>
