@@ -10,6 +10,7 @@ import { cover_letter_writer } from "../backend";
 const BYO_CHAT = ({ task, onReturnToMain }) => {
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
+    const [data, setData] = useState(null)
     const [isTyping, setIsTyping] = useState(false);
     const [initiated, setInitiated] = useState(false);
     const [send, setSend] = useState(false);
@@ -19,8 +20,9 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     const chatContainerRef = useRef(null);
 
     const fetchData = async () => {
-        const response = await cover_letter_writer(messages, user);
-        setMessages([response]);
+        const response = await cover_letter_writer(messages, user, null);
+        setData(response)
+        setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
 
     useEffect(() => {

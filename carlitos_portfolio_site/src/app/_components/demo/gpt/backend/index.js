@@ -9,8 +9,20 @@ const openai = new OpenAI({
 let today_date_string = new Date().toLocaleDateString();
 
 
-export const cover_letter_writer = async (transcript, user) =>{
-    if(transcript.length === 0 ){
+export const cover_letter_writer = async (transcript, user, data) =>{
+    // data = {
+    //     "message": ...<STRING>...,
+    //     "returned_transcript":...[ '<STRINGS_ONLY>' ]...,
+    //     "sent_transcript": ...[ '<STRINGS_ONLY>' ]...,
+    //     "sent_user": {
+    //         "email": ...<STRING>...,
+    //         "firstName": ...<STRING>...,
+    //         "lastName": ...<STRING>...
+    //     },
+    //     "status": 200 
+    // }
+    
+    if(transcript.length === 0 && data === null){
         try {
             const init_response = await fetch(
                 `${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/cover-letter`, 
@@ -32,10 +44,12 @@ export const cover_letter_writer = async (transcript, user) =>{
             
             const data = await init_response.json();
             console.log("Received from backend:", data);
-            
+            return data
         } catch (e) {
             console.error("Error while calling /cover-letter:", e);
         }
+    }else{
+        console.log('data: ', data, 'transcript', transcript)
     }
 }
 

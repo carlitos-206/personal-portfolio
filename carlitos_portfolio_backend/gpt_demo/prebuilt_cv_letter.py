@@ -1,12 +1,11 @@
 import os
 from openai import OpenAI
 
-client =  OpenAI( 
+client = OpenAI( 
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 def gpt_cover_letter_writer(transcript, user):
-    
     init_prompt = f'''
             Your task is to write a cover letter for a job application. 
             Prompt the user to add their resume and a job description, 
@@ -27,4 +26,5 @@ def gpt_cover_letter_writer(transcript, user):
                 }
             ]
         )
+        print(f'\n CHAT_INIT_RESPONSE: {response.choices[0].message.content} \n')
         return [response.choices[0].message.content]
