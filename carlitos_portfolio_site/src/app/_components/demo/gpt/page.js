@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./layout.css";
 import BYO_GPT_INTERFACE from "./interface/page";
 import { db } from "../../GLOBAL/database/firebase";
@@ -34,13 +34,24 @@ const BYO_GPT = () => {
     const [h_lName, setH_lName] = useState('');
 
     const [build , setBuild] = useState(false);
+
+
+    useEffect(()=>{
+        if(!build){
+            let dataProject = document.querySelector('.data-project-main');
+            dataProject.style.display = 'block';
+        }
+
+    })
     const handleClick = async (e) => {
         e.preventDefault();
         // validations
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
         const byo_gpt = document.querySelector('.byo-gpt-main');
+
         if(firstName.length < 2){
             byo_gpt.style.margin = '-.5rem 0';
+            byo_gpt.style.color = 'D74748'
             setH_fName('Enter a valid first name');
         }
         if(lastName.length < 2){
@@ -75,8 +86,11 @@ const BYO_GPT = () => {
             setH_email('');
             let dataProject = document.querySelector('.data-project-main');
             dataProject.style.display = 'none';
-            // byo_gpt.style.position = 'absolute';
             byo_gpt.style.top = '0rem';
+            setFirstName("")
+            setLastName("")
+            setEmail("")
+            setAgree(false)
             setBuild(true);
         }
 
@@ -157,7 +171,9 @@ const BYO_GPT = () => {
                 <button className="demo-buttons" onClick={(e)=>{handleClick(e)}}>Start Build</button>
             </div>)
             : (
-                <BYO_GPT_INTERFACE />
+                <BYO_GPT_INTERFACE 
+                    onReturnToMain={() => setBuild(false)}
+                />
             )
     }
         </div>

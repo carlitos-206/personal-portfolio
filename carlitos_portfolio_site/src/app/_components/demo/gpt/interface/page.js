@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './layout.css';
 import BYO_CHAT from '../chat/page';
 import TextField from '@mui/material/TextField';
+import BYO_GPT from '../page';
+import DataCollectionProject from '../../userAgent/page';
 import { styled } from '@mui/material/styles';
 
 import { django_test } from '../backend';
@@ -21,7 +23,7 @@ const InputField = styled(TextField)({
     },
 });
 
-const BYO_GPT_INTERFACE = () => {
+const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
     const [coverLetter, setCoverLetter] = useState(false);
     const [chat, setChat] = useState(false);
     const [userTask, setUserTask] = useState('');
@@ -37,6 +39,8 @@ const BYO_GPT_INTERFACE = () => {
     const [image, setImage] = useState('');
     const [customBuild, setCustomBuild] = useState(false);
 
+
+    const [returnToMain, setReturnToMain] = useState(false)
     useEffect(() => {
         if (coverLetter) {
             setChat(true);
@@ -98,7 +102,10 @@ const BYO_GPT_INTERFACE = () => {
         let response = await django_test()
     };
 
-
+    const handleReturnClick = () => {
+        // Here we just call the callback passed from the parent
+        onReturnToMain();
+     }
     return (
         chat ? <BYO_CHAT task={userTask} /> :
             <div className="byo-gpt-interface-container">
@@ -115,32 +122,6 @@ const BYO_GPT_INTERFACE = () => {
                 </div>
                 <div className="byo-gpt-contianer-demo-custom">
                     <div className="byo-gpt-contianer-demo-custom-builder">
-                        {/* <div className="byo-gpt-contianer-demo-custom-services">
-                            <p>Select Services: </p>
-                            <div className="byo-gpt-contianer-demo-custom-options">
-                                <input type="checkbox" style={{cursor:'pointer'}} 
-                                    onChange={(e)=>{setServiceGpt(!service_gpt)}} />
-                                <p>Chat-GPT 4</p>
-                            </div>
-                            <div className="byo-gpt-contianer-demo-custom-options">
-                                <input type="checkbox" style={{cursor:'pointer'}}
-                                    onChange={(e)=>{setServiceWhisper(!service_whisper)}}
-                                />
-                                <p>Whisper Ai</p>
-                            </div>
-                            <div className="byo-gpt-contianer-demo-custom-options">
-                                <input type="checkbox" style={{cursor:'pointer'}}
-                                    onChange={(e)=>{setServiceDalle(!service_dalle)}}
-                                />
-                                <p>Dall-E</p>
-                            </div>
-                            <div className="byo-gpt-contianer-demo-custom-options">
-                                <input type="checkbox" style={{cursor:'pointer'}}
-                                    onChange={(e)=>{setServiceVision(!service_vision)}}
-                                />
-                                <p>Vision</p>
-                            </div>
-                        </div> */}
                         <div className="byo-gpt-contianer-demo-custom-fields">
                             <p className='byo-gpt-custom-build-labels'>Custom Main Task</p>
                             <InputField
@@ -171,7 +152,7 @@ const BYO_GPT_INTERFACE = () => {
                             />
                         </div>
                         <div className='gpt-interface-demo-buttons-container'>
-                            <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{alert('missing')}}>Return</button>
+                            <button className="demo-buttons byo-interface-mobile" onClick={handleReturnClick}>Return</button>
                             <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e)}}>Build</button>
                         </div>
                     </div>

@@ -5,7 +5,8 @@
     flex-direction:column;
     margin: 1rem 0;
 }
-    
+
+
 .byo-gpt-container{
     display: flex;
     flex-direction: column;
@@ -51,6 +52,19 @@
     font-size: 18px;
     background-color: rgb(42, 42, 42);
 }
+
+#byo-f-name-helper-text{
+    color: #D74748;
+}
+
+#byo-l-name-helper-text{
+    color: #D74748;
+}
+
+#byo-email-helper-text{
+    color: #D74748;
+}
+
 .gpt-tos-container{
     font-family: "LowballNeue-SemiBold";
     font-size: 24px;
