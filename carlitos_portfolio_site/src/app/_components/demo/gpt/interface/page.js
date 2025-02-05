@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './layout.css';
 import BYO_CHAT from '../chat/page';
 import TextField from '@mui/material/TextField';
-import BYO_GPT from '../page';
-import DataCollectionProject from '../../userAgent/page';
 import { styled } from '@mui/material/styles';
 
 import { django_test } from '../backend';
@@ -105,7 +103,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
     const handleReturnClick = () => {
         // Here we just call the callback passed from the parent
         onReturnToMain();
-     }
+    }
     return (
         chat ? <BYO_CHAT task={userTask} /> :
             <div className="byo-gpt-interface-container">
