@@ -28,3 +28,37 @@ def gpt_cover_letter_writer(transcript, user):
         )
         print(f'\n CHAT_INIT_RESPONSE: {response.choices[0].message.content} \n')
         return [response.choices[0].message.content]
+    else:
+        print("\n",'transcript-inside', transcript, "\n")
+        script = [
+            {
+                    "role": "developer", 
+                    "content": init_prompt
+            }
+        ]
+        
+        for i in range(len(transcript)):
+            if i % 2 == 0:    
+                script.append({
+                    "role": "user",
+                    "content": transcript[i]
+                })
+            else:
+                script.append({
+                    "role": "assistant",
+                    "content": transcript[i]
+                })
+                
+        print(f'''
+                \n Send of messages script: {script} \n
+            ''')
+        response = client.chat.completions.create(
+            model = "gpt-4o",
+            messages = script
+        )
+        
+        print(response)
+        
+        script.append(response.choices[0].message.content)
+        
+        return script

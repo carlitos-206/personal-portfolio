@@ -22,6 +22,9 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     const fetchData = async () => {
         const response = await cover_letter_writer(messages, user, null);
         setData(response)
+        console.log(`
+            multi response: ${response}
+            `)
         setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
 
@@ -29,8 +32,12 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         const sendMessage = async () => {
             if (messages.length > 0) {
                 setIsTyping(false);
-                const response = await cover_letter_writer(messages, user);
-                setMessages((prevMessages) => [...prevMessages, response]);
+                const response = await cover_letter_writer(messages, user, data);
+                setData(response)
+                console.log(`
+                    multi response: ${JSON.stringify(response)}
+                    `)
+                setMessages((prevMessages) => [...prevMessages, response.returned_transcript[response.returned_transcript.length -1]]);
             }
         };
         if (send) {
@@ -62,10 +69,8 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         fetchData();
         setIsTyping(false);
     };
-    // const handleArrowClick = () => {
-    //     // Just bubble up
-    //     onReturnToMain();
-    //   };
+
+
     const CoverLetterTitle = () => {
         return(
             <div className="byo-chat-title" >

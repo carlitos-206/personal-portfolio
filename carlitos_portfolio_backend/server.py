@@ -38,7 +38,7 @@ def cover_letter_route():
     new_transcript = gpt_cover_letter_writer(transcript, user)
     response = {
         "status": 200,
-        "message": "Successful connection to backend",
+        "message": "GPT Cover Letter Writer Function",
         "sent_transcript": transcript,
         "sent_user": user,
         "returned_transcript": new_transcript
