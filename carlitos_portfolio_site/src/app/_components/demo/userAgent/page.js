@@ -8,20 +8,19 @@ const DataCollectionProject = () => {
     const [agree, setAgree] = useState(false);
     const [data, setData] = useState(null);
     const [shareData, setShareData] = useState(false);
-
     useEffect(() => {
         if (data === null) return;
 
         let projectDataElement = document.querySelector('.data-project-main');
-        // let byo_gpt = document.querySelector('.byo-gpt-main');
+        let byo_gpt = document.querySelector('.byo-gpt-main');
         let agreeCheckbox = document.getElementById('agree-checkbox-data-project');
         let shareDataCheckbox = document.getElementById('sharedata-checkbox-data-project');
         if (data === false) {
             agreeCheckbox.checked = true;
             shareDataCheckbox.checked = true;
         } else {
-            // projectDataElement.style.height = '680px';
-            // byo_gpt.style.display = 'none';
+            projectDataElement.style.height = '680px';
+            byo_gpt.style.display = 'none';
         }
 
         console.log('data', data);
@@ -59,14 +58,45 @@ const DataCollectionProject = () => {
             }
             setData(requestData);
         } else {
-            alert('Please read the agreement and check the box to share your data');
+            alert('You need to agree with the conditions in order to proceed');
         }
     };
     const revertDemo = (e) => {
         e.preventDefault();
+        let projectDataElement = document.querySelector('.data-project-main');
+        projectDataElement.style.height = '325px';
+        let byo_gpt = document.querySelector('.byo-gpt-main');
+        byo_gpt.style.display = 'block';
+
         setData(false);
 
     };
+    const openLinks = async (e, link) =>{
+        e.preventDefault()
+        let screenWidth = window.innerWidth
+        if(screenWidth < 1300){
+            switch (link) {
+                case 'ua-link':
+                    window.location.href = "https://developer.mozilla.org/en-US/docs/Glossary/User_agent";
+                    break;
+            
+                default:
+                    break;
+            }
+        }else{
+            switch(link) {
+                case 'ua-link':
+                    window.open(
+                        "https://developer.mozilla.org/en-US/docs/Glossary/User_agent", 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     return (
         <div className='data-project-main live-demo-card'>
             {data ? (
@@ -109,12 +139,11 @@ const DataCollectionProject = () => {
                 <>
                     <h1 className='data-project-title'>User Device Data Demo</h1>
                     <div className='data-project-form'>
-                        <p className='data-project-summary'>Summary: This is a live demo for <span>Browser Data Collection</span>, this project allows the collection of data (requests device user-agent and device location) from incoming request in Python and JavaScript</p>
-                        <p className='data-project-agreement'>Read Agreement</p>
+                        <p className='data-project-summary'>In this demo you will be able to see your device User Agent. This information pertains to your device hardware as well as the browser in which you are visting my site from, I have excluded from this demo any location information.</p>
                         <div className='data-project-checkboxes-container'>
                             <div className='data-project-checkbox-container'>
                                 <input className="data-project-checkboxes" type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
-                                <label htmlFor="agree-checkbox-data-project">I have read the agreement</label>
+                                <label htmlFor="agree-checkbox-data-project">I understand that ONLY the <span className='ua-link' onClick={(e)=>{openLinks(e, 'ua-link')}}>User Agent</span> is being used</label>
                             </div>
                             <div className='data-project-checkbox-container'>
                                 <input className="data-project-checkboxes" type="checkbox" id='sharedata-checkbox-data-project' onChange={() => setShareData(!shareData)} />
