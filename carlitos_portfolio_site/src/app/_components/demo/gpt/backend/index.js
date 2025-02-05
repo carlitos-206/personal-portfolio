@@ -9,8 +9,37 @@ const openai = new OpenAI({
 let today_date_string = new Date().toLocaleDateString();
 
 
+export const cover_letter_writer = async (transcript, user) =>{
+    if(transcript.length === 0 ){
+        try {
+            const init_response = await fetch(
+                `${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/cover-letter`, 
+                {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        transcript: transcript,
+                        user: {
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email
+                        }
+                    })
+                }
+            );
+            
+            const data = await init_response.json();
+            console.log("Received from backend:", data);
+            
+        } catch (e) {
+            console.error("Error while calling /cover-letter:", e);
+        }
+    }
+}
 
-export const cover_letter_writer = async(transcript, user) => {
+export const cover_letter_writer_2 = async(transcript, user) => {
     if(transcript.length === 0){
         const initial_chat = await openai.chat.completions.create({
             messages: [
@@ -23,7 +52,8 @@ export const cover_letter_writer = async(transcript, user) => {
                     The user name is ${user.firstName}.
                     finally, only accept the job if the user is qualified.
                     and avoid asking the user to upload a file only paste the content.
-                    Todays date is ${today_date_string}
+                    Start by greeting the user, and say you are ready to help them with the task, 
+                    your tone is of a friendly career coach. 
                     `,
                 },
             ],

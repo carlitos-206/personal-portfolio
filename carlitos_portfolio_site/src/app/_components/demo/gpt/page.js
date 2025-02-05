@@ -7,6 +7,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+import { Diversity1 } from "@mui/icons-material";
 
 const InputField = styled(TextField)({
     '& label': {
@@ -29,6 +30,7 @@ const BYO_GPT = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [agree, setAgree] = useState(false)
+    const [shareData, setShareData] = useState(false)
     const [h_email, setH_email] = useState('');
     const [h_fName, setH_fName] = useState('');
     const [h_lName, setH_lName] = useState('');
@@ -65,7 +67,11 @@ const BYO_GPT = () => {
         if(!agree){
             alert("In order to use this demo please adhere to Openai terms of use by checking the box")
         }
-        if(validEmail.test(email) && firstName.length >= 2 && lastName.length >= 2 && agree){    
+        if(!shareData){
+            alert("In order to use this demo please agree to share your data")
+
+        }
+        if(validEmail.test(email) && firstName.length >= 2 && lastName.length >= 2 && agree && shareData){    
             // const docRef = await addDoc(collection(db, 'byo_gpt'), {
             //     email: email,
             //     firstName: firstName,
@@ -91,6 +97,7 @@ const BYO_GPT = () => {
             setLastName("")
             setEmail("")
             setAgree(false)
+            setShareData(false)
             setBuild(true);
         }
 
@@ -165,9 +172,16 @@ const BYO_GPT = () => {
                     </div>
                 </form>
                 <div className='gpt-tos-container'>
-                    <input className="gpt-tos-checkboxes" type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
-                    <label htmlFor="gpt-tos-agree-checkbox-label">I will adhere to OpenAI <span className="tos-openai-link" onClick={(e)=>{openLinks(e, 'openai-tos')}}>Terms of Use</span></label>
+                    <div>
+                        <input className="gpt-tos-checkboxes" type="checkbox" id='agree-checkbox-data-project' onChange={() => setAgree(!agree)} />
+                        <label htmlFor="gpt-tos-agree-checkbox-label">I will adhere to OpenAI <span className="tos-openai-link" onClick={(e)=>{openLinks(e, 'openai-tos')}}>Terms of Use</span></label>
+                    </div>
+                    <div>
+                        <input className="data-project-checkboxes" type="checkbox" id='sharedata-checkbox-data-project' onChange={() => setShareData(!shareData)} />
+                        <label htmlFor="sharedata-checkbox-data-project">I agree to share my data</label>
+                    </div>
                 </div>
+                
                 <button className="demo-buttons" onClick={(e)=>{handleClick(e)}}>Start Build</button>
             </div>)
             : (

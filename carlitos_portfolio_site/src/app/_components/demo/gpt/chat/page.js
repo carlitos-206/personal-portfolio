@@ -126,25 +126,26 @@ const BYO_CHAT = ({ task }) => {
                     </div>
                 ) : (
                     <div className="byo-init-screen">
+                        <h1>Instructions</h1>
                         <ol>
                             <li>
                                 <p>
-                                    Purpose: This Service is exclusively for writing cover letters.
+                                    Wait for the GPT to wake up.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    Authorized Use: Use the Service only for its intended purpose or within the bounds of the law.
+                                    Paste the text from your resume.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    Prohibited Use: Do not use the Service for unlawful activities or to create harmful content.
+                                    Paste the job you want GPT to write you a cover letter for.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    Compliance: All activities outside the creation of cover letters must comply with applicable laws.
+                                You are limited to 3 letters
                                 </p>
                             </li>
                         </ol>
@@ -161,7 +162,7 @@ const BYO_CHAT = ({ task }) => {
                                 padding: 10,
                             }}
                             >
-                            Agree&nbsp;&nbsp; <PaperPlaneTilt size={32} />
+                            Start&nbsp;&nbsp; <PaperPlaneTilt size={32} />
                         </Button>
                     </div>
                 )}

@@ -1,0 +1,12 @@
+location of portfolio with articles: ~/OneDrive/Desktop/justSoup/portfolio/portfolio 
+location of portfolio with universe: ~/OneDrive/Desktop/justSoup/ModernPortfolio/modern-app 
+
+
+
+Hi,
+There is a way in which you can update the tags and retain the previous tags. 
+When sending the payload, ensure that the "tags" request field has an array that contains
+all of the previous tags and the new "updated" tag as well. 
+
+Here is some more in depth documentation:
+1. https://developer.helpscout.com/mailbox-api/endpoints/conversations/tags/update/ 
