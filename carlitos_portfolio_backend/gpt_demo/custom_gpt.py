@@ -45,11 +45,11 @@ def customGPT(user_prompts, user, transcript, ):
     else:
         print("\n",'transcript-inside', transcript, "\n")
         script = [
-            {
+                {
                     "role": "developer", 
                     "content": main_prompt
-            }
-        ]
+                }
+            ]
         
         for i in range(len(transcript)):
             if i % 2 == 0:    
@@ -73,6 +73,9 @@ def customGPT(user_prompts, user, transcript, ):
         
         print(response)
         
-        script.append(response.choices[0].message.content)
-        
+        script.append({
+                    "role": "assistant",
+                    "content": response.choices[0].message.content
+                })
+        script.pop(0)
         return script

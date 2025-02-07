@@ -24,7 +24,7 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         const response = await cover_letter_writer(messages, user, data);
         setData(response)
         console.log(`
-            multi response: ${response}
+                            multi response: ${JSON.stringify(response)}
             `)
         setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
@@ -32,7 +32,7 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         const response = await custom_gpt(messages, user, data, prompts);
         setData(response)
         console.log(`
-            multi response: ${response}
+                            multi response: ${JSON.stringify(response)}
             `)
         setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
@@ -51,19 +51,20 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
                         response = await cover_letter_writer(messages, user, data);
                         setData(response)
                         console.log(`
-                            multi response: ${response}
+                            multi response: ${JSON.stringify(response)}
                             `)
-                        setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
+                            setMessages(response.returned_transcript.map((item) => item.content));
                         
                         break;
                     case 'custom':
-                        response = await custom_gpt(messages, user, data);
+                        console.log('prompts at js', prompts)
+                        response = await custom_gpt(messages, user, data, prompts);
                         setData(response)
                         console.log(`
-                            multi response: ${response}
+                            multi response: ${JSON.stringify(response)}
                             `)
-                        setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
-                        break
+                            setMessages(response.returned_transcript.map((item) => item.content));
+                            break
                     default:
                         break;
                 }
@@ -76,11 +77,11 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     }, [send, messages, user]);
 
     useEffect(() => {
-        if (lastMessageRef.current && chatContainerRef.current) {
-            const lastMessageOffset = lastMessageRef.current.offsetTop - 100;
-            console.log(lastMessageOffset);
-            chatContainerRef.current.scrollTop = lastMessageOffset;
-        }
+        // if (lastMessageRef.current && chatContainerRef.current) {
+        //     const lastMessageOffset = lastMessageRef.current.offsetTop - 100;
+        //     console.log(lastMessageOffset);
+        //     chatContainerRef.current.scrollTop = lastMessageOffset;
+        // }
     }, [messages]);
 
     const handleSendMessage = async () => {
@@ -93,12 +94,20 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     };
 
     const cover_leter_init = () => {
+        if (inputValue.trim()) {
+            setIsTyping(true);
+            setMessages((prevMessages) => [...prevMessages, inputValue]);
+        }
         setInitiated(true);
         setIsTyping(true);
         fetchData_cover_letter();
         setIsTyping(false);
     };
     const customGPTBuild = () => {
+        if (inputValue.trim()) {
+            setIsTyping(true);
+            setMessages((prevMessages) => [...prevMessages, inputValue]);
+        }
         setInitiated(true);
         setIsTyping(true);
         fetchData_custom_gpt();
@@ -117,7 +126,11 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
                     <p>Cover Letter Writer</p>
                 </div>
                 <div className="byo-chat-messages" ref={chatContainerRef}>
-        {messages.map((message, index) => (
+        {messages.map((message, index) => 
+        
+        {
+
+           return (
                         <div
                         key={index}
                         ref={index === messages.length - 1 ? lastMessageRef : null}
@@ -126,7 +139,10 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
                         >
                             {message}
                         </div>
-                    ))}
+                    )
+                    
+                    
+                    })}
                     {isTyping && <div className="byo-chat-message typing">...</div>}
                     </div>
                     {initiated ? (
@@ -206,9 +222,9 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         {messages.map((message, index) => (
                         <div
                         key={index}
-                        ref={index === messages.length - 1 ? lastMessageRef : null}
+                        // ref={index === messages.length - 1 ? lastMessageRef : null}
                         className={`byo-chat-message ${index % 2 === 0 ? 'left' : 'right'}`}
-                        style={{ whiteSpace: 'pre-wrap' }}
+                        // style={{ whiteSpace: 'pre-wrap' }}
                         >
                             {message}
                         </div>

@@ -38,7 +38,7 @@ def cover_letter_route():
         user = {user}
         
     ''')
-    new_transcript = gpt_cover_letter_writer(transcript, user, prompts)
+    new_transcript = gpt_cover_letter_writer(transcript, user)
     response = {
         "status": 200,
         "message": "GPT Cover Letter Writer Function",

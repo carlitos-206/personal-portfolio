@@ -62,6 +62,9 @@ def gpt_cover_letter_writer(transcript, user):
         
         print(response)
         
-        script.append(response.choices[0].message.content)
-        
+        script.append({
+                    "role": "assistant",
+                    "content": response.choices[0].message.content
+                })
+        script.pop(0)
         return script

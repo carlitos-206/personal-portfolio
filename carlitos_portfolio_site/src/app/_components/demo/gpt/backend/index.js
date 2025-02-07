@@ -68,7 +68,12 @@ export const cover_letter_writer = async (transcript, user, data) =>{
 
 
 export const custom_gpt= async ( transcript, user, data, prompts) =>{
-    console.log(prompts)
+    console.log(`
+        \nCUSTOM GPT:
+            main: ${prompts.main_task}
+            support: ${prompts.support_task}
+            guardrail:${prompts.guardrails_task }
+        `)
     if(transcript.length === 0 ){
         try {
             const init_response = await fetch(
@@ -109,10 +114,10 @@ export const custom_gpt= async ( transcript, user, data, prompts) =>{
                     },
                     body: JSON.stringify({
                         transcript: transcript,
-                        prompts:{
+                        user_prompts:{
                             main: prompts.main_task,
                             support: prompts.support_task,
-                            guardrail:guardrails_task,
+                            guardrail:prompts.guardrails_task                            ,
                         },
                         user: {
                             firstName: user.firstName,
