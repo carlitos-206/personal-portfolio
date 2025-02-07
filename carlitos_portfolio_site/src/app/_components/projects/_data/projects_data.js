@@ -16,7 +16,7 @@ export const personal_projects= [
         ],
         languages: ["Python", "JavaScript"],
         frameworks: ["Django", "Node.js", "Next.js"],
-        presentation:{},
+        presentation:[],
         demo: true
     },
     {
@@ -32,7 +32,7 @@ export const personal_projects= [
         ],
         languages:["Python"],
         frameworks:["Django", "Flask", "Serverless"],
-        presentation:{},
+        presentation:[],
         demo:false
     },
     {
@@ -48,7 +48,7 @@ export const personal_projects= [
         ],
         languages:[],
         frameworks:[],
-        presentation:{},
+        presentation:[],
         demo:false
     },
 ]
@@ -67,7 +67,7 @@ export const hackathon_projects = [
         ],
         languages:[],
         frameworks:[],
-        presentation:{},
+        presentation:[],
         demo:false
     },
     {
@@ -83,7 +83,7 @@ export const hackathon_projects = [
         ],
         languages:[],
         frameworks:[],
-        presentation:{},
+        presentation:[],
         demo:false
     },
     {
@@ -99,7 +99,7 @@ export const hackathon_projects = [
         ],
         languages:[],
         frameworks:[],
-        presentation:{},
+        presentation:[],
         demo:false
     },
 ]  
@@ -117,7 +117,7 @@ export const side_projects = [
         ],
         languages:["JavaScript"],
         frameworks:["React", "Three.js", "Node.js"],
-        presentation:{},
+        presentation:[],
         demo: true
     },
     {
@@ -133,7 +133,7 @@ export const side_projects = [
         ],
         languages:["Python"],
         frameworks:[],
-        presentation:{},
+        presentation:[],
         demo:false
     } 
 ]
