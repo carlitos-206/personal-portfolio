@@ -4,7 +4,7 @@ import BYO_CHAT from '../chat/page';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 
-import { django_test } from '../backend';
+import { custom_gpt } from '../backend';
 
 const InputField = styled(TextField)({
     '& label': {
@@ -26,19 +26,21 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
     const [chat, setChat] = useState(false);
     const [userTask, setUserTask] = useState('');
 
-    const [service_gpt, setServiceGpt] = useState(false);
-    const [service_whisper, setServiceWhisper] = useState(false);
-    const [service_dalle, setServiceDalle] = useState(false);
-    const [service_vision, setServiceVision] = useState(false);
-    const [mainTask, setMainTask] = useState('');
-    const [supportingInfo, setSupportingInfo] = useState('');
-    const [guardrails, setGuardrails] = useState('');
-    const [audio, setAudio] = useState('');
-    const [image, setImage] = useState('');
-    const [customBuild, setCustomBuild] = useState(false);
+
+    const [mainTask, setMainTask] = useState("")
+    const [error_mainTask, setError_mainTask] = useState(false)
+    const [error_mainTask_text, setError_mainTask_text] = useState(false)
+    
+    const [supportTask, setSupportTask] = useState("")
+    const [error_supportTask, setError_supportTask] = useState(false)
+    const [error_supportTask_text, setError_supportTask_text] = useState(false)
+
+    const [guardrailsTask, setGuardrailsTask] = useState("")
+    const [error_guardrailsTask_text, setError_guardrailsTask_text] = useState(false)
+    const [error_guardrailsTask, setError_guardrailsTask] = useState(false)
 
 
-    const [returnToMain, setReturnToMain] = useState(false)
+
     useEffect(() => {
         if (coverLetter) {
             setChat(true);
@@ -48,12 +50,6 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
         }
     }, [coverLetter]);
 
-    useEffect(() => {
-        const gpt_main = document.querySelector('.byo-gpt-main');
-        if (gpt_main) {
-            gpt_main.style.alignItems = 'flex-start';
-        }
-    }, []);
 
     const userInfo = localStorage.getItem('gpt-builder');
     const user = JSON.parse(userInfo);
@@ -61,49 +57,66 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
     const handleCoverLetterChange = () => {
         setCoverLetter(!coverLetter);
     };
-
-    useEffect(() => {
-        if(customBuild){
-            let gpt_builder = {
-                gpt:service_gpt, 
-                whisper: service_whisper, 
-                dalle:service_dalle, 
-                vision:service_vision, 
-                main:mainTask, 
-                support_info:supportingInfo, 
-                guardrails:guardrails, 
-                audio: audio, 
-                image: image, 
-            };
-            localStorage.setItem('gpt-builder-info', JSON.stringify(gpt_builder));
-
+    
+    const handleCustomBuild = async (e, main, support, guardrails) => {
+        e.preventDefault();
+        let hasError = false
+        if(!guardrails){
+            setError_guardrailsTask(false)
+            setError_guardrailsTask_text('')
+        }
+        if(guardrails && guardrails.length > 0 && guardrails.length < 15){
+            setError_guardrailsTask(true)
+            setError_guardrailsTask_text('Please provide a longer guardrail for better context')
+            hasError = true
+        }
+        if(!support){
+            setError_supportTask(false)
+            setError_supportTask_text("")
+        }
+        if(support && 0 < support.length && support.length < 15){
+            setError_supportTask(true)
+            setError_supportTask_text("Please provide more information to best assist you")
+            hasError = true 
+        }
+        if (!main || main.trim().length === 0) {
+            // main is empty
+            setError_mainTask(true);
+            setError_mainTask_text("Please provide details for the main task");
+            hasError = true;
+          } 
+          if (main.trim().length < 115) {
+            // main is present but too short
+            setError_mainTask(true);
+            setError_mainTask_text("Please write more details about the task");
+            hasError = true;
+          }
+        if(!hasError){
+            let data = {
+                main_task : main,
+                support_task: support,
+                guardrails_task: guardrails
+            }
+            
+            localStorage.setItem('prompts', JSON.stringify(data))
+            setError_supportTask(false)
+            setError_supportTask_text("")
+            setError_guardrailsTask(false)
+            setError_guardrailsTask_text('')
+            setError_mainTask(false);
+            setError_mainTask_text("");
+            setMainTask("")
+            setSupportTask("")
+            setGuardrailsTask("")
+            
             setChat(true);
             setUserTask('custom');
+
         }
 
 
-    }, [service_gpt, 
-        service_whisper, 
-        service_dalle, 
-        service_vision, 
-        mainTask, 
-        supportingInfo, 
-        guardrails, 
-        audio, image, 
-        customBuild]);
-
-    
-    const handleCustomBuild = async (e) => {
-        e.preventDefault();
-        setCustomBuild(!customBuild);
-
-        let response = await django_test()
     };
 
-    const handleReturnClick = () => {
-        // Here we just call the callback passed from the parent
-        onReturnToMain();
-    }
     return (
         chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
             <div className="byo-gpt-interface-container">
@@ -124,34 +137,43 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                             <p className='byo-gpt-custom-build-labels'>Custom Main Task</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="The task you want GPT to accomplish"
+                                label="Write task you want GPT to accomplish"
                                 multiline
+                                value={mainTask}
                                 rows={3}
                                 variant="outlined"
+                                error={error_mainTask}
+                                helperText={error_mainTask_text}
                                 onChange={(e) => setMainTask(e.target.value)}
                             />
                             <p className='byo-gpt-custom-build-labels'>Supporting Information (optional)</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="Any supporting information"
+                                label="Write any supporting information"
                                 multiline
+                                value={supportTask}
                                 rows={3}
                                 variant="outlined"
-                                onChange={(e) => setSupportingInfo(e.target.value)}
+                                error={error_supportTask}
+                                helperText={error_supportTask_text}
+                                onChange={(e) => setSupportTask(e.target.value)}
                             />
                             <p className='byo-gpt-custom-build-labels'>Guardrails (optional)</p>
                             <InputField
                                 className="byo-gpt-contianer-demo-custom-fields-input"
-                                label="Any limitations, and/or constraints"
+                                label="Write any limitations, and/or constraints"
                                 multiline
+                                value={guardrailsTask}
                                 rows={3}
                                 variant="outlined"
-                                onChange={(e) => setGuardrails(e.target.value)}
+                                error={error_guardrailsTask}
+                                helperText={error_guardrailsTask_text}
+                                onChange={(e) => setGuardrailsTask(e.target.value)}
                             />
                         </div>
                         <div className='gpt-interface-demo-buttons-container'>
                             <button className="demo-buttons byo-interface-mobile" onClick={onReturnToMain}>Return</button>
-                            <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e)}}>Build</button>
+                            <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e, mainTask, supportTask, guardrailsTask)}}>Build</button>
                         </div>
                     </div>
                 </div>

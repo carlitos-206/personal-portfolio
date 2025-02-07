@@ -41,13 +41,13 @@
     gap: 5px;
 }
 .byo-gpt-contianer-demo-custom{
+    overflow-y: auto;
     align-items: center;
     display: flex;
     flex-direction: column;
     border-radius: 16px;
     height: 100%;
     padding: 5px;
-    overflow: hidden;
     border-radius: 16px;
     margin: 5px 0px;
 }
