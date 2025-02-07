@@ -2,8 +2,8 @@ import React from "react";
 import "./layout.css";
 
 import DataCollectionProject from "./userAgent/page"; 
-// import ES_PROJECT from "./es_project";
 import BYO_GPT from "./gpt/page";
+// import ES_PROJECT from "./voice/page";
 export default function Demos(){
     return (
         <section id="demos" className="demo-section-container">

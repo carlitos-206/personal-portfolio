@@ -73,7 +73,7 @@ export const Experience_Data = [
         title: "Bon Appetit @ Google",
         job_site:"On-Site (Seattle, Wa)",
         job_title:"Warehouse Attendant",
-        job_dates:"Oct. 2024 - Current",
+        job_dates:"Oct. 2024 - Present",
         points: [
             "Ensure safety & client standards",
             "Track inventory, safety & finances",
@@ -81,7 +81,7 @@ export const Experience_Data = [
             "Member of the safety comittee",
             "Handle 10–15k pounds of daily shipments"
         ],
-        image: "/images/npm-project-hero.png",
+        image: "/images/exp-warehouse-hero.JPG",
         type: "Warehouse"
     }
 ]
