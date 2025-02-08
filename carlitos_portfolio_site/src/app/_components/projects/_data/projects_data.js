@@ -4,52 +4,52 @@
 
 export const personal_projects= [
     {
-        title: "User Data Collection for Python and Node.js",
+        title: "Data Collection in Python and JS",
         description: "Visitor insights tracker",
         image: "/images/ua-project-hero.webp",
         socials: ["Code","Demo"],
         buttonText: "",
         internal:"personal",
         content: [
-            "With this program I can automatically track and record visitor location information and device details to provide meaningful analytics. When someone lands on the site, their IP address is retrieved and passed to a geolocation service, which returns details like city, region, and precise coordinates. This data is then stored in a database for analysis, allowing me to understand where visitors are coming from and how their geographic distribution evolves over time. By capturing location details at each visit, I can display region-specific content, as well as gather insights to refine future design and deployment decisions.",
-            "In addition to location tracking, the site also parses user agent data to identify browser, operating system, and device type. This process enables me to determine whether a visitor is on a mobile phone, tablet, or desktop computer, and to increment counters that reflect the number of visits from each device category. These analytics help me better tailor the user experience and ensure that my site is accessible and visually optimized across platforms. By combining location services with robust device detection, I demonstrate an understanding of full-stack considerations—from data collection and storage to front-end adaptability."
+            "This program automatically tracks visitor location data—city, region, and precise coordinates—by retrieving their IP address and passing it to a geolocation service, then storing the results in a database for ongoing analysis. It also parses user agent information to identify browser, operating system, and device type, enabling me to count visits by device category. By combining geolocation with robust device detection, the system supports region-specific content, provides insights for refining design and deployment strategies, and ensures an optimal user experience across platforms."
         ],
         languages: ["Python", "JavaScript"],
         frameworks: ["Django", "Node.js", "Next.js"],
         presentation:[],
-        demo: true
+        demo: true,
+        global_position: 1
     },
     {
-        title: "Open Ai Chat-GPT + Robinhood API Interface",
+        title: "Chat-GPT + Robinhood API",
         description: "Stock prediction assistant",    
         image: "/images/rh-project-hero.webp",
         socials: ["Code"],
         buttonText: "",
         internal:"personal",
         content:[
-            "This is an ongoing project that is intend to connect ChatGPT’s advanced language and reasoning capabilities to a suite of automated trading functions for both stocks and cryptocurrencies. ChatGPT provides real-time analysis on market conditions or price predictions and, through function calling, programmatically triggers buy, sell, or limit order functions defined in the code. These functions handle everything from checking current market hours to verifying symbol validity, enabling seamless integration of AI-driven decision-making into actual trading workflows. The script also includes logic for generating CSV exports of historical trades, giving clear visibility into past transactions and making it easier to perform post-trade analysis or compliance checks.",
-            "Under the hood, a robust structure of Python functions interacts with a trading API to retrieve live asset data, check market hours, and place various types of orders (market, fractional, or limit). Through ChatGPT's function-calling interface, the AI can dynamically choose the best function—e.g., “buyFractionalIfOpen” or “sellShareAtMarketOpen”—based on its real-time market evaluation or strategy. By combining natural language insights from ChatGPT with scripted market actions, this project showcases how AI can move beyond passive analysis into direct execution, creating a closed feedback loop between market intelligence and automated trades."
+            "This ongoing project integrates ChatGPT's advanced language and reasoning capabilities with a suite of automated trading functions for stocks and cryptocurrencies, allowing the AI to deliver real-time market analysis and trigger programmatic buy, sell, or limit order functions. By leveraging function calling, ChatGPT dynamically selects the appropriate trading action—such as “buyFractionalIfOpen” or “sellShareAtMarketOpen”—based on live market evaluations, while a robust set of Python functions interacts with a trading API to retrieve asset data, check market hours, and verify symbol validity. The system also generates CSV exports of historical trades for post-trade analysis and compliance, effectively creating a closed feedback loop between market intelligence and automated trading workflows."
         ],
         languages:["Python"],
         frameworks:["Django", "Flask", "Serverless"],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 2
     },
     {
-        title: "NPM React-Unused-Image-Finder",
+        title: "React-Unused-Image-Finder",
         description: "Image asset manager",
         image: "/images/npm-project-hero.png",
         socials: ["Code","Demo", "NPM"],
         buttonText: "",
         internal:"personal",
         content:[
-            "This NPM package streamlines asset management in React applications by detecting and reporting unused images. It scans JavaScript, JSX, TypeScript, and TSX files, parsing import statements via a regular expression to create a catalog of images actually in use. In parallel, it recursively searches common asset directories (e.g., src/images, src/assets, etc.) for all PNG, JPG, JPEG, GIF, and SVG files. By comparing these two lists, the tool quickly identifies which images are unreferenced and provides a concise summary or comprehensive report of both used and unused images. With commands like find-unused-images and find-unused-images-full, developers can integrate this script into their workflow to keep projects organized, reduce clutter, and optimize overall application performance.",
-            "After peaking at 273 weekly downloads, I noticed there is wasn't any packages where image files could be manage without interrupting the codebase of the project, therefore making my project one of a kind. The script’s utility extends beyond simply listing unused images; it offers room for enhancements, such as automatically relocating them to a separate folder or prompting developers to remove them via the terminal. By integrating the results into continuous integration pipelines or manual cleanup processes, teams maintain a healthier codebase. This tool highlights the importance of proactive file management, ultimately saving time and bandwidth and reinforcing best practices in front-end development."
+            "This NPM package streamlines asset management in React applications by detecting and reporting unused images: it scans JavaScript, JSX, TypeScript, and TSX files to catalog images in use via parsed import statements and concurrently searches common asset directories for PNG, JPG, JPEG, GIF, and SVG files, then compares the two lists to quickly identify unreferenced images and generate concise or comprehensive reports. Noticing a gap in the market after peaking at 273 weekly downloads, the project offers a unique, non-intrusive solution for image file management and can be enhanced to automatically relocate or prompt deletion of unused files, making it easy to integrate into continuous integration pipelines or manual cleanup processes—ultimately keeping projects organized, reducing clutter, optimizing performance, and reinforcing front-end best practices."
         ],
         languages:[],
         frameworks:[],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 3
     },
 ]
 
@@ -62,13 +62,13 @@ export const hackathon_projects = [
         buttonText: "",
         internal:"hackathon",
         content:[
-            "This hackathon project, called Serotonics, addresses the growing mental health needs of students by breaking down barriers to online counseling and emotional support. Our streamlined web app offers a welcoming user experience through soft, calming color palettes and intuitive graphics, designed to promote comfort and stability for children, parents, and educators alike. Key features include SEL (Social Emotional Learning) activities and games, mental health progress tracking, community event listings, and direct access to counseling services—all built around a simple, minimalist interface. Through these services, educators can monitor each student’s well-being, parents can track their child’s emotional progress, and students themselves can engage with therapeutic resources in a safe, supportive environment.",
-            "To sustain and grow the platform, we propose an annual school-year subscription model, supported by ad placement, parent and community donations, and partnerships with mental health providers. Over time, our goal is to expand to additional schools, serve larger communities, and potentially establish our own in-house counseling team—thereby minimizing the reliance on external services. By focusing on ease of access, positive design principles, and collaborative features, Serotonics aims to remove the stigma and logistical hurdles often associated with seeking help, ensuring that young people receive timely, personalized support for their emotional, psychological, and social needs."
+            "During the hackathon, we developed Serotonics to address student mental health by breaking down barriers to online counseling and emotional support, building a streamlined web app with a calming, minimalist design that offered SEL (Social Emotional Learning) activities, and games, mental health tracking, community event listings, and direct access to counseling services so that educators, parents, and students could safely monitor and engage with well-being resources. To sustain and grow the platform, we proposed an annual school-year subscription model supported by ads, donations, and partnerships with mental health providers, with plans to expand to additional schools and eventually develop an in-house counseling team, ultimately aiming to remove the stigma and logistical hurdles often associated with seeking help while ensuring young people received timely, personalized support for their emotional, psychological, and social needs."
         ],
         languages:[],
         frameworks:[],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 4
     },
     {
         title: "VC Connection",
@@ -78,13 +78,13 @@ export const hackathon_projects = [
         buttonText: "",
         internal:"hackathon",
         content:[
-            "VCScout is an AI-powered platform designed to bridge the gap between startups and vital resources for growth. By analyzing business ideas and pitches, the platform intelligently connects early-stage companies with investors, incubators, accelerators, and other support networks. This focus on accessibility and inclusivity is reinforced by affordable subscription models, providing startups with a comprehensive array of services—including office space, government grants, accelerator programs, and digital marketing tools. Through strategic partnerships with universities, existing entrepreneurial organizations, and referral programs, VCScout aims to foster a supportive and collaborative environment that helps startups succeed in the competitive tech and innovation ecosystem.",
-            "Central to VCScout’s value proposition is its smart matching system. Leveraging AI algorithms, the platform identifies promising ventures and pairs them with curated resources, unlocking targeted opportunities for investment, mentorship, and market exposure. In addition to subscription revenue, VCScout plans to fund further development through VC fees, success from funded startups, and ad placements. This balanced approach to growth supports a robust vision for economic impact—helping new businesses thrive while driving innovation and job creation. Through ongoing enhancements, including improved AI matching, extended partnerships, and scalable digital outreach, VCScout aspires to become an integral part of the global startup landscape."
+            "We developed VC Scout as an AI-powered platform that bridged the gap between startups and vital growth resources. We built it to analyze business ideas and pitches, intelligently connecting early-stage companies with investors, incubators, accelerators, and other support networks through affordable subscription models that provide services like office space, government grants, accelerator programs, and digital marketing tools. By forming strategic partnerships with universities, entrepreneurial organizations, and referral programs, I fostered a collaborative environment for startups in the competitive tech ecosystem. Central to VCScout was a smart matching system that leveraged AI to pair promising ventures with curated resources, unlocking opportunities for investment, mentorship, and market exposure, while additional revenue streams from VC fees, success fees, and ad placements fueled further development and economic impact."
         ],
         languages:[],
         frameworks:[],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 5
     },
     {
         title: "Learning 4 You",
@@ -94,22 +94,22 @@ export const hackathon_projects = [
         buttonText: "",
         internal:"hackathon",
         content:[
-            "Learning 4 You is an AI-powered tutoring solution that integrates seamlessly with existing on-demand course platforms to deliver personalized, on-demand feedback and targeted study tools for self-paced learners. By assessing a student’s baseline understanding and adaptively guiding them through complex concepts, this software aims to replicate the individualized attention of a classroom teacher. Learners can ask for immediate feedback, receive custom problem sets, and uncover detailed explanations on why certain mistakes occurred. These features address key gaps in current e-learning experiences by helping students grasp the “why” behind each lesson, leading to deeper, more durable comprehension.",
-            "In terms of business, Learning 4 You plans to license its AI technology to e-learning providers, forging strategic partnerships and premium offerings that cater to the rapidly growing online education market—estimated to reach USD 602 billion by 2030. By tapping into just 1% of this market, the platform stands to realize significant revenue through subscription models, curriculum customization, and premium support services. Early efforts focus on testing the intelligent tutoring system and forming partnerships with major course providers, with expansions and additional funding rounds slated to accelerate growth in subsequent years. Ultimately, Learning 4 You aims to improve learning outcomes, reduce barriers to education, and add tangible value to both learners and educational platforms alike."
+            "Learning 4 You was an AI-powered tutoring solution that integrated with on-demand course platforms to provide personalized feedback and targeted study tools for self-paced learners by assessing baseline understanding and adaptively guiding them through complex concepts, much like individualized classroom attention. The platform enabled learners to receive immediate feedback, custom problem sets, and detailed explanations for mistakes, helping them grasp the underlying 'why' behind each lesson for deeper, more durable comprehension. On the business front, Learning 4 You planned to license its technology to e-learning providers and forge strategic partnerships in the rapidly expanding online education market—projected to reach USD 602 billion by 2030—with the aim of capturing even 1% of this market through subscription models, curriculum customization, and premium support services. Early initiatives focused on testing the intelligent tutoring system and partnering with major course providers, with further expansions and funding rounds planned to accelerate growth, ultimately improving learning outcomes, reducing educational barriers, and adding significant value to both learners and educational platforms."
         ],
         languages:[],
         frameworks:[],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 6
     },
 ]  
 
 export const side_projects = [
     {
-        title: "3D Planets with moons and stars",
+        title: "Infinite Stars",
         description: "Built infinite stars patterns",
         image: "/images/hacksea-hero.JPG",
-        socials: [""],
+        socials: ["Code"],
         buttonText: "",
         internal:"side-3js",
         content:[
@@ -118,22 +118,23 @@ export const side_projects = [
         languages:["JavaScript"],
         frameworks:["React", "Three.js", "Node.js"],
         presentation:[],
-        demo: true
+        demo: true,
+        global_position: 7
     },
     {
         title: "My First App",
         description: "Calculator with a terminal interface",
         image: "/images/side-project-first-app.jpg",
-        socials: ["Watch the pitch"],
+        socials: ["Code"],
         buttonText: "",
         internal:"side",
         content:[
-            "Calculator App was my very first software project, created long before I learned best practices for structuring and debugging Python code. Despite the unrefined code and excessive reliance on global variables, I keep it to remind myself of that initial moment when I ventured beyond the classroom into hands-on development.",
-            "This script offers a primitive command-line interface where users can add numbers, continue adding to a global sum, and reset that sum. The entire logic rests in a single class and excessive recursion, which is not advisable in production. Additionally, the use of global variables introduces potential conflicts, and there is no clear separation of concerns among input handling, calculation, and output. Nonetheless, Calculator App holds a personal significance as the project that ignited my curiosity about software development and began my journey toward continuous learning and improvement."
-        ],
+            "Calculator App was my very first software project, created long before I learned best practices for structuring and debugging Python code, and despite its unrefined code and excessive reliance on global variables, I keep it as a reminder of that initial moment when I ventured beyond the classroom into hands-on development; the script offered a primitive command-line interface where users could add numbers, continue adding to a global sum, and reset that sum, with all the logic contained in a single class and excessive recursion—a practice not advisable in production—while the use of global variables introduced potential conflicts and lacked a clear separation of concerns among input handling, calculation, and output, yet Calculator App held personal significance as the project that ignited my curiosity about software development and began my journey toward continuous learning and improvement."
+    ],
         languages:["Python"],
         frameworks:[],
         presentation:[],
-        demo:false
+        demo:false,
+        global_position: 8
     } 
 ]

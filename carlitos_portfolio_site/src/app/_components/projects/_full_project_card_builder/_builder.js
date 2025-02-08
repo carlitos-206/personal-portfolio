@@ -1,10 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import './layout.css'
-export default function ProjectContentCarousel({ projects, position }) {
-  // Track current carousel position
-  const [currentIndex, setCurrentIndex] = useState(null);
+import { BsArrowBarUp } from "react-icons/bs";
+import { BsArrowBarDown } from "react-icons/bs";
+import Planet3D from "../_three_js_planet/page"; // 3D planet prebuilt
+import Stars from "../_three_js_planet/stars/page"; // Star pattern prebuilt
 
+import './layout.css';
+
+export default function ProjectContentCarousel({ projects, position, onClose }) {
+  // Track current carousel position
+  const [currentIndex, setCurrentIndex] = useState(1);
   // Create a ref to the content container
   const contentRef = useRef(null);
 
@@ -12,14 +17,23 @@ export default function ProjectContentCarousel({ projects, position }) {
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollIntoView({
-        behavior: 'auto', // or 'auto' if you prefer instant
+        behavior: 'auto',
         block: 'start',
       });
     }
   }, [currentIndex]);
-  useEffect(()=>{
-    setCurrentIndex(position)
-  })
+
+  useEffect(() => {
+    setCurrentIndex(position);
+  }, [position]);
+
+  // Cleanup in case the component unmounts unexpectedly:
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   // If there are no projects, display a simple message
   if (!projects || projects.length === 0) {
     return <section className="project-content-section">No projects to display.</section>;
@@ -35,48 +49,69 @@ export default function ProjectContentCarousel({ projects, position }) {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + projects.length) % projects.length);
   };
 
-  // Current project to display
   const currentProject = projects[currentIndex];
 
   return (
-    <section className="project-content-section" ref={contentRef}>
-<h1>{currentProject.title}</h1>
-<h3>{currentProject.description}</h3>
-<Image
-    src={currentProject.image}
-    alt='image'
-    width={100}
-    height={100}
-    />
-{
-    currentProject.socials.map((item, index)=>{
-        return(
-            <button key={index}>{item}</button>
-        )
-    })
-}
-{
-    currentProject.content.map((item, index) => (
-        <p key={index}>{item}</p>
-    ))
-}
-{
-    currentProject.languages.map((item, index)=>{
-        return(
-            <p key={index}>#{item}</p>
-        )
-    })
-}            {
-    currentProject.frameworks.map((item, index)=>{
-        return(
-            <p key={index}>#{item}</p>
-        )
-    })
-}
-      <div style={{ marginTop: '1rem' }}>
-        <button onClick={handlePrev}>Previous</button>
-        <button onClick={handleNext} style={{ marginLeft: '1rem' }}>Next</button>
-      </div>
-    </section>
+    // Overlay div: clicking on it will trigger onClose
+    <div className="carousel-overlay" onClick={onClose}>
+      <section className="project-content-section" ref={contentRef}>
+        {/* Stop propagation so clicks inside the card don't close the modal */}
+        <div className='project-content-card' onClick={(e) => e.stopPropagation()}>
+          <div className='project-content-card-header'>
+            {currentProject.internal === "side-3js" ? 
+                <>
+                    <Stars />
+                </>
+                :
+                <>
+                    <Image
+                        src={currentProject.image}
+                        alt='image'
+                        width={350}
+                        height={300}
+                    />    
+            </>
+            }
+            <div className='project-content-header-title'>
+              <div className='project-content-title-text'>
+                <h1>{currentProject.title}</h1>
+                {
+                        currentProject.socials.map((item, key)=>{
+                            return(
+                                <p key={key}>
+                                    {item}
+                                </p>
+                            )
+                        })
+                    }
+              </div>
+            </div>
+          </div>
+          
+          <div className='project-content-card-body'>
+            {currentProject.content.map((item, index) => (
+              <p key={index}>{item}</p>
+            ))}
+            <div className='project-language-container'>
+              {currentProject.languages.map((item, index) => (
+                <p key={index}>#{item}</p>
+              ))}
+            </div>
+          </div>
+          <div className='project-content-buttons-container'>
+            <BsArrowBarUp 
+              onClick={handlePrev}
+              size={32}
+              className='project-card-carousel-arrows'
+            />
+            <BsArrowBarDown
+              onClick={handleNext} 
+              size={32}
+              className='project-card-carousel-arrows'
+            />
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
