@@ -2,15 +2,19 @@
     This file contains all projects data
 */
 
+
 export const personal_projects= [
+    
+    
     {
         title: "User Data Collection: Python + JS",
         description: "Visitor insights tracker",
         image: "/images/ua-project-hero.webp",
         socials: ["Code: JS","Code: Python", "Demo"],
         links:{
-            code_js:"",
-            code_python:""
+            code_js:"https://github.com/carlitos-206/personal-portfolio/blob/main/carlitos_portfolio_site/src/app/_components/projects/_data/legacy/index.js",
+            code_py:"https://github.com/carlitos-206/useragent-Django2.2",
+            demo: true
         },
         buttonText: "",
         internal:"personal",
@@ -23,13 +27,15 @@ export const personal_projects= [
         demo: true,
         global_position: 1
     },
+
+
     {
         title: "Chat-GPT + Robinhood API",
         description: "Stock prediction assistant",    
         image: "/images/rh-project-hero.webp",
         socials: ["Code"],
         links:{
-            code:"",
+            code:"https://github.com/carlitos-206/robinhood_interface",
         },
         buttonText: "",
         internal:"personal",
@@ -42,14 +48,16 @@ export const personal_projects= [
         demo:false,
         global_position: 2
     },
+    
+    
     {
         title: "React-Unused-Image-Finder",
         description: "Image asset manager",
         image: "/images/npm-project-hero.png",
         socials: ["Code", "NPM"],
         links:{
-            code:"",
-            npm:""
+            code:"https://github.com/carlitos-206/react-unused-image-finder",
+            npm:"https://www.npmjs.com/package/react-unused-image-finder?activeTab=readme"
         },
         buttonText: "",
         internal:"personal",
@@ -71,7 +79,7 @@ export const hackathon_projects = [
         image: "/images/hacksea-hero.JPG",
         socials: ["Watch the pitch"],
         links:{
-            video:"",
+            video:"https://www.youtube.com/watch?v=q53_2pND2ss&t=6s",
         },
         buttonText: "",
         internal:"hackathon",
@@ -90,7 +98,7 @@ export const hackathon_projects = [
         image: "/images/ai_hack_2_hero.jpg",
         socials: ["Watch the demo"],
         links:{
-            video:"",
+            video:"https://www.youtube.com/watch?v=MKpN-xG6Uv0",
         },
         buttonText: "",
         internal:"hackathon",
@@ -109,7 +117,7 @@ export const hackathon_projects = [
         image: "/images/ai_hack_3_hero.JPG",
         socials: ["Watch us at the semi-finals Q&A"],
         links:{
-            video:"",
+            video:"https://www.youtube.com/watch?v=0ZM2fdbQb7w&t=197s",
         },
         buttonText: "",
         internal:"hackathon",
@@ -131,7 +139,7 @@ export const side_projects = [
         image: "/images/hacksea-hero.JPG",
         socials: ["Code"],
         links:{
-            code:"",
+            code:"https://github.com/carlitos-206/personal-portfolio/blob/main/carlitos_portfolio_site/src/app/_components/projects/_three_js_planet/stars/page.jsx",
         },
         buttonText: "",
         internal:"side-3js",
@@ -150,7 +158,7 @@ export const side_projects = [
         image: "/images/side-project-first-app.jpg",
         socials: ["Code"],
         links:{
-            code:"",
+            code:"https://github.com/carlitos-206/first-app",
         },
         buttonText: "",
         internal:"side",

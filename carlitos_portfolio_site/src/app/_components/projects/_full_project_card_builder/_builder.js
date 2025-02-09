@@ -8,6 +8,8 @@ import Stars from "../_three_js_planet/stars/page"; // Star pattern prebuilt
 import './layout.css';
 
 export default function ProjectContentCarousel({ projects, position, onClose }) {
+    const [isMobile, setIsMobile] = useState(false)
+    const [demosElement, setDemosElement] =useState(null)
     // Initialize the carousel index with the passed position
     const [currentIndex, setCurrentIndex] = useState(position);
     // Create a ref to the content container
@@ -28,13 +30,26 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
         setCurrentIndex(position);
     }, [position]);
 
-    // Cleanup in case the component unmounts unexpectedly:
-    useEffect(() => {
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []);
 
+        // initial state handler + window resize 
+        useEffect(() => {
+            // query for elements
+            setDemosElement(document.querySelector('#demos'))
+            
+            // resize handler
+            const handleResize = () => {
+                const width = window.innerWidth;
+                setIsMobile(width <= 1200);
+            };
+            handleResize();
+            window.addEventListener("resize", handleResize);
+            
+            return () => {
+                window.removeEventListener("resize", handleResize);
+                document.body.style.overflow = 'auto';
+            }
+
+        }, []);
   // If there are no projects, display a simple message
     if (!projects || projects.length === 0) {
         return (
@@ -55,6 +70,98 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
     };
 
     const currentProject = projects[currentIndex];
+    
+    
+    // handles nav scroll to element
+    const scrollToElement = (e, element) => {
+        e.preventDefault();
+        onClose()
+        console.log(element)
+        if (!element) return;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - 100;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+        setMenuOpen(false)
+    };
+    const linkSendOff = async (e, route) =>{
+        if(currentIndex === 0){
+            if(isMobile){
+                switch (route) {
+                    case 'Code: JS':
+                        window.location.href = `${currentProject.links.code_js}`
+                        break;
+                    case "Code: Python":
+                        window.location.href = `${currentProject.links.code_py}`
+                        break;
+                    case "Demo":
+                        scrollToElement(e, demosElement)
+                        break;
+                        default:
+                            break;
+                }
+            }else{
+                switch (route) {
+                    case 'Code: JS':
+                        window.open(
+                            `${currentProject.links.code_js}`, 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break;
+                    case "Code: Python":
+                        window.open(
+                            `${currentProject.links.code_py}`, 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break;
+                    case "Demo":
+                        scrollToElement(e, demosElement)
+                        break;
+                        default:
+                            break;
+                        }
+            }
+        }else{
+            if(isMobile){
+                // Using if/else since we need to test route.startsWith('Watch')
+                if (route === 'Code') {
+                    window.location.href = currentProject.links.code;
+                } else if (route === 'NPM') {
+                    window.location.href = currentProject.links.npm;
+                } else if (route.startsWith('Watch')) {
+                    window.location.href = currentProject.links.video;
+                } else if (route === 'Demo') {
+                    scrollToElement(e, demosElement);
+                }
+            }else{
+                if (route === 'Code') {
+                    window.open(
+                        `${currentProject.links.code}`, 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                } else if (route === 'NPM') {
+                    window.open(
+                        `${currentProject.links.npm}`, 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                } else if (route.startsWith('Watch')) {
+                    window.open(
+                        `${currentProject.links.video}`, 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                } else if (route === 'Demo') {
+                    scrollToElement(e, demosElement);
+                }
+            }
+        }
+    }
 
     return (
         // Overlay div: clicking on it will trigger onClose
@@ -86,6 +193,7 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
                                         <p 
                                             className='project-card-link-container-text' 
                                             key={key}
+                                            onClick={(e)=>{linkSendOff(e, item)}}
                                         >
                                             {item}
                                         </p>
