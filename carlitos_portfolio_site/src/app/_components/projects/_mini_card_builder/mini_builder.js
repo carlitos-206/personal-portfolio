@@ -43,7 +43,7 @@ const MiniCardBuilder = ({ cards, onCardSelect }) => {
                 />
               </i>
               <p className="mini-card-description">{card.description}</p>
-              <div className={`pic pic-${index + 1}-${card.internal}`}>
+              <div className={`pic pic-${index + 1}-${card.internal} pics`}>
                 <Stars />
                 <Planet3D />
               </div>
@@ -75,7 +75,7 @@ const MiniCardBuilder = ({ cards, onCardSelect }) => {
               </i>
               <p className="mini-card-description">{card.description}</p>
               <div
-                className={`pic pic-${index + 1}-${card.internal}`}
+                className={`pic pic-${index + 1}-${card.internal} pics`}
                 style={{ backgroundImage: `url(${card.image})` }}
               />
               <button className="mini-card-learn-button">
