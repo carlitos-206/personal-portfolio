@@ -1,11 +1,20 @@
+/*
+    This file contains the Interface Component, for Custom GPT
+    
+    REF Cycle: "./gpt/page.js(*ROOT*)" <-> "./gpt/interface/page.js"(*YOU ARE HERE*) <-> "./gpt/chat/page.js"
+*/ 
 import React, { useState, useEffect } from 'react';
-import './layout.css';
+
+// Custom components
 import BYO_CHAT from '../chat/page';
+
+// Material UI imports
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 
-import { custom_gpt } from '../backend';
+import './layout.css';
 
+// MUI styles
 const InputField = styled(TextField)({
     '& label': {
         color: '#ffffff',
@@ -22,112 +31,121 @@ const InputField = styled(TextField)({
 });
 
 const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
-    const [coverLetter, setCoverLetter] = useState(false);
-    const [chat, setChat] = useState(false);
-    const [userTask, setUserTask] = useState('');
+    // State handlers
+        const [coverLetter, setCoverLetter] = useState(false); // handles if user wants to use cover letter
+        const [chat, setChat] = useState(false); // handles showing chat component
+        const [userTask, setUserTask] = useState(''); // handles propegating the task the user wants: prebuilt or custom
 
+        // handlers for custom gpt prompt + error handler
+        const [mainTask, setMainTask] = useState("")
+        const [error_mainTask, setError_mainTask] = useState(false)
+        const [error_mainTask_text, setError_mainTask_text] = useState(false)
 
-    const [mainTask, setMainTask] = useState("")
-    const [error_mainTask, setError_mainTask] = useState(false)
-    const [error_mainTask_text, setError_mainTask_text] = useState(false)
-    
-    const [supportTask, setSupportTask] = useState("")
-    const [error_supportTask, setError_supportTask] = useState(false)
-    const [error_supportTask_text, setError_supportTask_text] = useState(false)
+        const [supportTask, setSupportTask] = useState("")
+        const [error_supportTask, setError_supportTask] = useState(false)
+        const [error_supportTask_text, setError_supportTask_text] = useState(false)
 
-    const [guardrailsTask, setGuardrailsTask] = useState("")
-    const [error_guardrailsTask_text, setError_guardrailsTask_text] = useState(false)
-    const [error_guardrailsTask, setError_guardrailsTask] = useState(false)
+        const [guardrailsTask, setGuardrailsTask] = useState("")
+        const [error_guardrailsTask_text, setError_guardrailsTask_text] = useState(false)
+        const [error_guardrailsTask, setError_guardrailsTask] = useState(false)
 
+    // User info retrival 
+        const userInfo = localStorage.getItem('gpt-builder');
+        const user = JSON.parse(userInfo);
 
-
-    useEffect(() => {
-        if (coverLetter) {
-            setChat(true);
-            setUserTask('prebuilt');
-        } else {
-            setChat(false);
-        }
-    }, [coverLetter]);
-
-
-    const userInfo = localStorage.getItem('gpt-builder');
-    const user = JSON.parse(userInfo);
-
-    const handleCoverLetterChange = () => {
-        setCoverLetter(!coverLetter);
-    };
-    
-    const handleCustomBuild = async (e, main, support, guardrails) => {
-        e.preventDefault();
-        let hasError = false
-        if(!guardrails){
-            setError_guardrailsTask(false)
-            setError_guardrailsTask_text('')
-        }
-        if(guardrails && guardrails.length > 0 && guardrails.length < 15){
-            setError_guardrailsTask(true)
-            setError_guardrailsTask_text('Please provide a longer guardrail for better context')
-            hasError = true
-        }
-        if(!support){
-            setError_supportTask(false)
-            setError_supportTask_text("")
-        }
-        if(support && 0 < support.length && support.length < 15){
-            setError_supportTask(true)
-            setError_supportTask_text("Please provide more information to best assist you")
-            hasError = true 
-        }
-        if (!main || main.trim().length === 0) {
-            // main is empty
-            setError_mainTask(true);
-            setError_mainTask_text("Please provide details for the main task");
-            hasError = true;
-          } 
-          if (main.trim().length < 115) {
-            // main is present but too short
-            setError_mainTask(true);
-            setError_mainTask_text("Please write more details about the task");
-            hasError = true;
-          }
-        if(!hasError){
-            let data = {
-                main_task : main,
-                support_task: support,
-                guardrails_task: guardrails
+    // handles fliping to <BYO_CHAT /> for cover letter option
+        useEffect(() => {
+            if (coverLetter) {
+                setChat(true);
+                setUserTask('prebuilt');
+            } else {
+                setChat(false);
             }
-            
-            localStorage.setItem('prompts', JSON.stringify(data))
-            setError_supportTask(false)
-            setError_supportTask_text("")
-            setError_guardrailsTask(false)
-            setError_guardrailsTask_text('')
-            setError_mainTask(false);
-            setError_mainTask_text("");
-            setMainTask("")
-            setSupportTask("")
-            setGuardrailsTask("")
-            
-            setChat(true);
-            setUserTask('custom');
+        }, [coverLetter]);
+    
+    // handles building the custom prompt, validating and sending it to backend 
+        const handleCustomBuild = async (e, main, support, guardrails) => {
+            e.preventDefault();
+            // initiates as error free for resubmission and new validation
+            let hasError = false
+            // edge case: user changes mind of guardrails and wants to keep it empty
+            if(!guardrails){
+                setError_guardrailsTask(false)
+                setError_guardrailsTask_text('')
+            }
+            // guardrail exist and it must be at least 15 char
+            if(guardrails && guardrails.length > 0 && guardrails.length >= 15){
+                setError_guardrailsTask(true)
+                setError_guardrailsTask_text('Please provide a longer guardrail for better context')
+                hasError = true
+            }
+            // edge case: user changes mind of support and wants to keep it empty
+            if(!support){
+                setError_supportTask(false)
+                setError_supportTask_text("")
+            }
+            // support exist and it must be at least 15 char
+            if(support && 0 < support.length && support.length >= 15){
+                setError_supportTask(true)
+                setError_supportTask_text("Please provide more information to best assist you")
+                hasError = true 
+            }
+            // main is empty
+            if (!main || main.trim().length === 0) {
+                setError_mainTask(true);
+                setError_mainTask_text("Please provide details for the main task");
+                hasError = true;
+            }
+            // main is too short
+            if (main.trim().length < 115) {
+                // main is present but too short
+                setError_mainTask(true);
+                setError_mainTask_text("Please write more details about the task");
+                hasError = true;
+            }
+            // all validation passed
+            if(!hasError){
+                // prompt builder
+                let data = {
+                    main_task : main,
+                    support_task: support,
+                    guardrails_task: guardrails
+                }
 
-        }
+                localStorage.setItem('prompts', JSON.stringify(data)) // saves a local back up
+                // clears all errors and resets fields
+                setError_supportTask(false)
+                setError_supportTask_text("")
+                setError_guardrailsTask(false)
+                setError_guardrailsTask_text('')
+                setError_mainTask(false);
+                setError_mainTask_text("");
+                setMainTask("")
+                setSupportTask("")
+                setGuardrailsTask("")
+
+                // shows chat
+                setChat(true);
+                // sets task
+                setUserTask('custom');
+
+            }
 
 
-    };
+        };
 
     return (
         chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
             <div className="byo-gpt-interface-container">
                 <div className="byo-gpt-interface-title">
                     <h1>Hi, {user?.firstName}!</h1>
-                    <p>Watch Tutorial Video</p>
+                    <p>Read Instructions</p>
                 </div>
                 <div className="byo-gpt-contianer-pre-demo-container">
                     <p>Prebuilt Demo: </p>
                     <div className="byo-gpt-contianer-pre-demo-options">
-                        <input type="checkbox" style={{cursor:'pointer'}} onChange={handleCoverLetterChange} checked={coverLetter} />
+                        <input type="checkbox" style={{cursor:'pointer'}} onChange={(e)=>{setCoverLetter(!coverLetter);}
+} checked={coverLetter} />
                         <p>Cover Letter Writer</p>
                     </div>
                 </div>

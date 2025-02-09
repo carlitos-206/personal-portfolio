@@ -1,3 +1,4 @@
+// NPM imports
 const parser = require('ua-parser-js');
 
 export function UserData() {
