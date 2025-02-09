@@ -16,7 +16,6 @@ export default function Experience() {
     
     // Screen Size state holders
     const [isMobile, setIsMobile] = useState(null);
-    const [isSmallScreen, setIsSmallScreen] = useState(null); 
 
     // holds the state of data
     const [data, setData] = useState(null);
@@ -30,7 +29,6 @@ export default function Experience() {
         const handleResize = () => {
             const width = window.innerWidth;
             setIsMobile(width <= 1350);
-            setIsSmallScreen(width <= 518);
         };
         handleResize();
         window.addEventListener("resize", handleResize);
@@ -58,16 +56,14 @@ export default function Experience() {
         }
     }, [selectedOption]);
 
-    
+    // Renders based on screen width
     if(isMobile){
         return(
             <section id="experience">
                 <Mobile_Expirience  exp_data={Experience_Data}/>
             </section>
         )
-    }
-    else if(isSmallScreen){}
-    else{
+    } else{
         return (
             <section id="experience" className="tab-container full-height">
                 <div className="tab-background">

@@ -1,9 +1,14 @@
+/*
+    This is the main component for Demos that gets exported to the Root component
+*/
 import React from "react";
-import "./layout.css";
 
+// Custom components
 import DataCollectionProject from "./userAgent/page"; 
 import BYO_GPT from "./gpt/page";
 // import ES_PROJECT from "./voice/page";
+
+import "./layout.css";
 export default function Demos(){
     return (
         <section id="demos" className="demo-section-container">

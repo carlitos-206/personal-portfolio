@@ -1,3 +1,4 @@
+// This function checks if the server is online to eneable or disable demos
 export const isServerOnline = async () => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/`);

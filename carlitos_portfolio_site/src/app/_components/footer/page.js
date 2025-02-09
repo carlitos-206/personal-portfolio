@@ -1,125 +1,135 @@
+/*
+    This file holds the Footer component
+*/ 
 'use client'
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import './layout.css';
+
 export default function Footer(){
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
-    const [isMobile, setIsMobile] = useState(null)
-    const [contactElement, setContactElement] = useState(null)
-    useEffect(() => {
-        // resize handler
-        setContactElement(document.querySelector("#contact"))
-
-        const handleResize = () => {
-            const width = window.innerWidth;
-            setIsSmallScreen(width <= 1300);
-            setIsMobile(width <= 1300);
-
-        };
-        handleResize();
-        console.log(`isSmallScreen: ${isSmallScreen}`)
-        window.addEventListener("resize", handleResize);
+    // State maangers
+        const [isSmallScreen, setIsSmallScreen] = useState(false);
+        const [isMobile, setIsMobile] = useState(null)
+        const [contactElement, setContactElement] = useState(null)
         
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    const scrollToElement = (e, element) => {
-        e.preventDefault();
-        console.log(element)
-        if (!element) return;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - 100;
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
-        setMenuOpen(false)
-    };
- // Utility for downloading a file
-    const downloadFile = (url, filename) => {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename; // forces download with a specific filename
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };    
+        
+    // resize handler on render
+        useEffect(() => {
+            setContactElement(document.querySelector("#contact"))
 
-    const footerButtonsLinks = async (e, smallScreen, route) => {
-        e.preventDefault(); 
-       // Handle smaller screens
-        if (smallScreen) {
-            switch (route) {
-                case 'linkedin':
-                    window.location.href = "https://www.linkedin.com/in/carlitos206/";
-                    break;
-                case 'contact-me':
-                    scrollToElement(e, contactElement);
-                    break;
-                case 'download-resume':
-                    downloadFile('/files/resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
-                    break;
-                case 'youtube-channel':
-                    window.location.href = "https://www.youtube.com/@carloscaceres2608";
-                    break;
-                case 'github-profile':
-                    window.location.href = "https://github.com/carlitos-206";
-                    break;
-                case 'portfolio-code':
-                    window.location.href = "https://github.com/carlitos-206/personal-portfolio";
-                    break;
-                default:
-                    break;
+            const handleResize = () => {
+                const width = window.innerWidth;
+                setIsSmallScreen(width <= 1300);
+                setIsMobile(width <= 1300);
+
+            };
+            handleResize();
+            console.log(`isSmallScreen: ${isSmallScreen}`)
+            window.addEventListener("resize", handleResize);
+
+            return () => window.removeEventListener("resize", handleResize);
+        }, []);
+
+    // handles scrolling to elements
+        const scrollToElement = (e, element) => {
+            e.preventDefault();
+            console.log(element)
+            if (!element) return;
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - 100;
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+            setMenuOpen(false)
+        };
+    // Utility for downloading a file
+        const downloadFile = (url, filename) => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename; // forces download with a specific filename
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };    
+    // Link send offs handler
+        const footerButtonsLinks = async (e, smallScreen, route) => {
+            e.preventDefault(); 
+           // Handle smaller screens
+            if (smallScreen) {
+                switch (route) {
+                    case 'linkedin':
+                        window.location.href = "https://www.linkedin.com/in/carlitos206/";
+                        break;
+                    case 'contact-me':
+                        scrollToElement(e, contactElement);
+                        break;
+                    case 'download-resume':
+                        downloadFile('/files/resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
+                        break;
+                    case 'youtube-channel':
+                        window.location.href = "https://www.youtube.com/@carloscaceres2608";
+                        break;
+                    case 'github-profile':
+                        window.location.href = "https://github.com/carlitos-206";
+                        break;
+                    case 'portfolio-code':
+                        window.location.href = "https://github.com/carlitos-206/personal-portfolio";
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+             // Handle larger screens
+                switch (route) {
+                    case 'linkedin':
+                        window.open(
+                            "https://www.linkedin.com/in/carlitos206/", 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break;
+                    case 'contact-me':
+                        scrollToElement(e, contactElement);
+                        break;
+                    case 'download-resume':
+                        downloadFile('/files/resume.pdf', 'resume.pdf');
+                        break;
+                    case 'youtube-channel':
+                        window.open(
+                            "https://www.youtube.com/@carloscaceres2608", 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break
+                    case 'youtube-channel':
+                        window.open(
+                            "https://www.youtube.com/@carloscaceres2608", 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break
+                    case 'github-profile':
+                        window.open(
+                            "https://github.com/carlitos-206", 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break
+                    case 'portfolio-code':
+                        window.open(
+                            "https://github.com/carlitos-206/personal-portfolio", 
+                            "myPopup", 
+                            "top=25,left=50,width=900,height=900",
+                        )
+                        break
+                    default:
+                        break;
+                }
             }
-        } else {
-         // Handle larger screens
-            switch (route) {
-                case 'linkedin':
-                    window.open(
-                        "https://www.linkedin.com/in/carlitos206/", 
-                        "myPopup", 
-                        "top=25,left=50,width=900,height=900",
-                    )
-                    break;
-                case 'contact-me':
-                    scrollToElement(e, contactElement);
-                    break;
-                case 'download-resume':
-                    downloadFile('/files/resume.pdf', 'resume.pdf');
-                    break;
-                case 'youtube-channel':
-                    window.open(
-                        "https://www.youtube.com/@carloscaceres2608", 
-                        "myPopup", 
-                        "top=25,left=50,width=900,height=900",
-                    )
-                    break
-                case 'youtube-channel':
-                    window.open(
-                        "https://www.youtube.com/@carloscaceres2608", 
-                        "myPopup", 
-                        "top=25,left=50,width=900,height=900",
-                    )
-                    break
-                case 'github-profile':
-                    window.open(
-                        "https://github.com/carlitos-206", 
-                        "myPopup", 
-                        "top=25,left=50,width=900,height=900",
-                    )
-                    break
-                case 'portfolio-code':
-                    window.open(
-                        "https://github.com/carlitos-206/personal-portfolio", 
-                        "myPopup", 
-                        "top=25,left=50,width=900,height=900",
-                    )
-                    break
-                default:
-                    break;
-            }
-        }
-    };
+        };
     return(
         <section id="footer" className='footer-section-container'>
             <div className='footer-cross-container'>
