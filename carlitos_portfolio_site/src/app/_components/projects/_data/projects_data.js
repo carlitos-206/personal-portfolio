@@ -7,7 +7,7 @@ export const personal_projects= [
         title: "Data Collection in Python and JS",
         description: "Visitor insights tracker",
         image: "/images/ua-project-hero.webp",
-        socials: ["Code","Demo"],
+        socials: ["Code: JS","Code: Python", "Demo"],
         buttonText: "",
         internal:"personal",
         content: [
@@ -27,7 +27,7 @@ export const personal_projects= [
         buttonText: "",
         internal:"personal",
         content:[
-            "This ongoing project integrates ChatGPT's advanced language and reasoning capabilities with a suite of automated trading functions for stocks and cryptocurrencies, allowing the AI to deliver real-time market analysis and trigger programmatic buy, sell, or limit order functions. By leveraging function calling, ChatGPT dynamically selects the appropriate trading action—such as “buyFractionalIfOpen” or “sellShareAtMarketOpen”—based on live market evaluations, while a robust set of Python functions interacts with a trading API to retrieve asset data, check market hours, and verify symbol validity. The system also generates CSV exports of historical trades for post-trade analysis and compliance, effectively creating a closed feedback loop between market intelligence and automated trading workflows."
+            "This is a ongoing project that integrates ChatGPT's advanced language and reasoning capabilities with a suite of automated trading functions for stocks and cryptocurrencies, allowing the AI to deliver real-time market analysis and trigger programmatic buy, sell, or limit order functions. By leveraging function calling, ChatGPT dynamically selects the appropriate trading action—such as “buyFractionalIfOpen” or “sellShareAtMarketOpen”—based on live market evaluations, while a robust set of Python functions interacts with a trading API to retrieve asset data, check market hours, and verify symbol validity. The system also generates CSV exports of historical trades for post-trade analysis and compliance, effectively creating a closed feedback loop between market intelligence and automated trading workflows."
         ],
         languages:["Python"],
         frameworks:["Django", "Flask", "Serverless"],
@@ -39,14 +39,14 @@ export const personal_projects= [
         title: "React-Unused-Image-Finder",
         description: "Image asset manager",
         image: "/images/npm-project-hero.png",
-        socials: ["Code","Demo", "NPM"],
+        socials: ["Code", "NPM"],
         buttonText: "",
         internal:"personal",
         content:[
-            "This NPM package streamlines asset management in React applications by detecting and reporting unused images: it scans JavaScript, JSX, TypeScript, and TSX files to catalog images in use via parsed import statements and concurrently searches common asset directories for PNG, JPG, JPEG, GIF, and SVG files, then compares the two lists to quickly identify unreferenced images and generate concise or comprehensive reports. Noticing a gap in the market after peaking at 273 weekly downloads, the project offers a unique, non-intrusive solution for image file management and can be enhanced to automatically relocate or prompt deletion of unused files, making it easy to integrate into continuous integration pipelines or manual cleanup processes—ultimately keeping projects organized, reducing clutter, optimizing performance, and reinforcing front-end best practices."
+            "This is a published NPM package that streamlines asset management in React applications by detecting and reporting unused images: it scans JavaScript, JSX, TypeScript, and TSX files to catalog images in use via parsed import statements and concurrently searches common asset directories for PNG, JPG, JPEG, GIF, and SVG files, then compares the two lists to quickly identify unreferenced images and generate concise or comprehensive reports. Noticing a gap in the market after peaking at 273 weekly downloads, the project offers a unique, non-intrusive solution for image file management and can be enhanced to automatically relocate or prompt deletion of unused files, making it easy to integrate into continuous integration pipelines or manual cleanup processes—ultimately keeping projects organized, reducing clutter, optimizing performance, and reinforcing front-end best practices."
         ],
-        languages:[],
-        frameworks:[],
+        languages:["JavaScript"],
+        frameworks:["Node.js"],
         presentation:[],
         demo:false,
         global_position: 3
@@ -62,7 +62,7 @@ export const hackathon_projects = [
         buttonText: "",
         internal:"hackathon",
         content:[
-            "During the hackathon, we developed Serotonics to address student mental health by breaking down barriers to online counseling and emotional support, building a streamlined web app with a calming, minimalist design that offered SEL (Social Emotional Learning) activities, and games, mental health tracking, community event listings, and direct access to counseling services so that educators, parents, and students could safely monitor and engage with well-being resources. To sustain and grow the platform, we proposed an annual school-year subscription model supported by ads, donations, and partnerships with mental health providers, with plans to expand to additional schools and eventually develop an in-house counseling team, ultimately aiming to remove the stigma and logistical hurdles often associated with seeking help while ensuring young people received timely, personalized support for their emotional, psychological, and social needs."
+            "During SeaHack 2022 @ Amazon, we developed Serotonics to address student mental health by breaking down barriers to online counseling and emotional support, building a streamlined web app with a calming, minimalist design that offered SEL (Social Emotional Learning) activities, and games, mental health tracking, community event listings, and direct access to counseling services so that educators, parents, and students could safely monitor and engage with well-being resources. To sustain and grow the platform, we proposed an annual school-year subscription model supported by ads, donations, and partnerships with mental health providers, with plans to expand to additional schools and eventually develop an in-house counseling team, ultimately aiming to remove the stigma and logistical hurdles often associated with seeking help while ensuring young people received timely, personalized support for their emotional, psychological, and social needs."
         ],
         languages:[],
         frameworks:[],
@@ -78,7 +78,7 @@ export const hackathon_projects = [
         buttonText: "",
         internal:"hackathon",
         content:[
-            "We developed VC Scout as an AI-powered platform that bridged the gap between startups and vital growth resources. We built it to analyze business ideas and pitches, intelligently connecting early-stage companies with investors, incubators, accelerators, and other support networks through affordable subscription models that provide services like office space, government grants, accelerator programs, and digital marketing tools. By forming strategic partnerships with universities, entrepreneurial organizations, and referral programs, I fostered a collaborative environment for startups in the competitive tech ecosystem. Central to VCScout was a smart matching system that leveraged AI to pair promising ventures with curated resources, unlocking opportunities for investment, mentorship, and market exposure, while additional revenue streams from VC fees, success fees, and ad placements fueled further development and economic impact."
+            "During the AI Hackathon 2.0 @ Leaner Startups, we developed VC Scout as an AI-powered platform that bridged the gap between startups and vital growth resources. We built it to analyze business ideas and pitches, intelligently connecting early-stage companies with investors, incubators, accelerators, and other support networks through affordable subscription models that provide services like office space, government grants, accelerator programs, and digital marketing tools. By forming strategic partnerships with universities, entrepreneurial organizations, and referral programs, I fostered a collaborative environment for startups in the competitive tech ecosystem. Central to VCScout was a smart matching system that leveraged AI to pair promising ventures with curated resources, unlocking opportunities for investment, mentorship, and market exposure, while additional revenue streams from VC fees, success fees, and ad placements fueled further development and economic impact."
         ],
         languages:[],
         frameworks:[],
@@ -90,11 +90,11 @@ export const hackathon_projects = [
         title: "Learning 4 You",
         description: "AI Hackathon 3.0 @ Leaner Startups",
         image: "/images/ai_hack_3_hero.JPG",
-        socials: ["Watch Semi-finals Q&A"],
+        socials: ["Watch us at the semi-finals Q&A"],
         buttonText: "",
         internal:"hackathon",
         content:[
-            "Learning 4 You was an AI-powered tutoring solution that integrated with on-demand course platforms to provide personalized feedback and targeted study tools for self-paced learners by assessing baseline understanding and adaptively guiding them through complex concepts, much like individualized classroom attention. The platform enabled learners to receive immediate feedback, custom problem sets, and detailed explanations for mistakes, helping them grasp the underlying 'why' behind each lesson for deeper, more durable comprehension. On the business front, Learning 4 You planned to license its technology to e-learning providers and forge strategic partnerships in the rapidly expanding online education market—projected to reach USD 602 billion by 2030—with the aim of capturing even 1% of this market through subscription models, curriculum customization, and premium support services. Early initiatives focused on testing the intelligent tutoring system and partnering with major course providers, with further expansions and funding rounds planned to accelerate growth, ultimately improving learning outcomes, reducing educational barriers, and adding significant value to both learners and educational platforms."
+            "Learning 4 You, was an AI-powered tutoring solution that integrated with on-demand course platforms to provide personalized feedback and targeted study tools for self-paced learners by assessing baseline understanding and adaptively guiding them through complex concepts, much like individualized classroom attention. The platform enabled learners to receive immediate feedback, custom problem sets, and detailed explanations for mistakes, helping them grasp the underlying 'why' behind each lesson for deeper, more durable comprehension. On the business front, Learning 4 You, planned to license its technology to e-learning providers and forge strategic partnerships in the rapidly expanding online education market—projected to reach USD 602 billion by 2030—with the aim of capturing even 1% of this market through subscription models, curriculum customization, and premium support services. Early initiatives focused on testing the intelligent tutoring system and partnering with major course providers, with further expansions and funding rounds planned to accelerate growth, ultimately improving learning outcomes, reducing educational barriers, and adding significant value to both learners and educational platforms."
         ],
         languages:[],
         frameworks:[],

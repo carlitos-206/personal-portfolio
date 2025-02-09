@@ -8,8 +8,8 @@ import Stars from "../_three_js_planet/stars/page"; // Star pattern prebuilt
 import './layout.css';
 
 export default function ProjectContentCarousel({ projects, position, onClose }) {
-  // Track current carousel position
-  const [currentIndex, setCurrentIndex] = useState(1);
+  // Initialize the carousel index with the passed position
+  const [currentIndex, setCurrentIndex] = useState(position);
   // Create a ref to the content container
   const contentRef = useRef(null);
 
@@ -23,6 +23,7 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
     }
   }, [currentIndex]);
 
+  // Update the carousel index when position prop changes
   useEffect(() => {
     setCurrentIndex(position);
   }, [position]);
@@ -36,7 +37,11 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
 
   // If there are no projects, display a simple message
   if (!projects || projects.length === 0) {
-    return <section className="project-content-section">No projects to display.</section>;
+    return (
+      <section className="project-content-section">
+        No projects to display.
+      </section>
+    );
   }
 
   // Jump to next project; wrap around to first after last
@@ -58,32 +63,27 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
         {/* Stop propagation so clicks inside the card don't close the modal */}
         <div className='project-content-card' onClick={(e) => e.stopPropagation()}>
           <div className='project-content-card-header'>
-            {currentProject.internal === "side-3js" ? 
-                <>
-                    <Stars />
-                </>
-                :
-                <>
-                    <Image
-                        src={currentProject.image}
-                        alt='image'
-                        width={350}
-                        height={300}
-                    />    
-            </>
-            }
+            {currentProject.internal === "side-3js" ? (
+              <Stars />
+            ) : (
+              <Image
+                src={currentProject.image}
+                alt="image"
+                width={350}
+                height={300}
+                className="project-card-title-image"
+              />
+            )}
             <div className='project-content-header-title'>
               <div className='project-content-title-text'>
                 <h1>{currentProject.title}</h1>
-                {
-                        currentProject.socials.map((item, key)=>{
-                            return(
-                                <p key={key}>
-                                    {item}
-                                </p>
-                            )
-                        })
-                    }
+                <div className='project-card-link-container-text'>
+                  {currentProject.socials.map((item, key) => (
+                    <p className='project-card-link-container-text' key={key}>
+                      {item}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -97,7 +97,13 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
                 <p key={index}>#{item}</p>
               ))}
             </div>
+            <div className='project-language-container'>
+              {currentProject.frameworks.map((item, index) => (
+                <p key={index}>#{item}</p>
+              ))}
+            </div>
           </div>
+          
           <div className='project-content-buttons-container'>
             <BsArrowBarUp 
               onClick={handlePrev}
@@ -109,6 +115,15 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
               size={32}
               className='project-card-carousel-arrows'
             />
+            <p
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              className="close-button"
+            >
+              Close
+            </p>
           </div>
         </div>
       </section>
