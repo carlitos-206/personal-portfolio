@@ -4,10 +4,14 @@
 
 export const personal_projects= [
     {
-        title: "Data Collection in Python and JS",
+        title: "User Data Collection: Python + JS",
         description: "Visitor insights tracker",
         image: "/images/ua-project-hero.webp",
         socials: ["Code: JS","Code: Python", "Demo"],
+        links:{
+            code_js:"",
+            code_python:""
+        },
         buttonText: "",
         internal:"personal",
         content: [
@@ -24,6 +28,9 @@ export const personal_projects= [
         description: "Stock prediction assistant",    
         image: "/images/rh-project-hero.webp",
         socials: ["Code"],
+        links:{
+            code:"",
+        },
         buttonText: "",
         internal:"personal",
         content:[
@@ -40,6 +47,10 @@ export const personal_projects= [
         description: "Image asset manager",
         image: "/images/npm-project-hero.png",
         socials: ["Code", "NPM"],
+        links:{
+            code:"",
+            npm:""
+        },
         buttonText: "",
         internal:"personal",
         content:[
@@ -59,6 +70,9 @@ export const hackathon_projects = [
         description: "SeaHack 2022 @ Amazon",
         image: "/images/hacksea-hero.JPG",
         socials: ["Watch the pitch"],
+        links:{
+            video:"",
+        },
         buttonText: "",
         internal:"hackathon",
         content:[
@@ -75,6 +89,9 @@ export const hackathon_projects = [
         description: "AI Hackathon 2.0 @ Leaner Startups",
         image: "/images/ai_hack_2_hero.jpg",
         socials: ["Watch the demo"],
+        links:{
+            video:"",
+        },
         buttonText: "",
         internal:"hackathon",
         content:[
@@ -91,6 +108,9 @@ export const hackathon_projects = [
         description: "AI Hackathon 3.0 @ Leaner Startups",
         image: "/images/ai_hack_3_hero.JPG",
         socials: ["Watch us at the semi-finals Q&A"],
+        links:{
+            video:"",
+        },
         buttonText: "",
         internal:"hackathon",
         content:[
@@ -110,6 +130,9 @@ export const side_projects = [
         description: "Built infinite stars patterns",
         image: "/images/hacksea-hero.JPG",
         socials: ["Code"],
+        links:{
+            code:"",
+        },
         buttonText: "",
         internal:"side-3js",
         content:[
@@ -126,6 +149,9 @@ export const side_projects = [
         description: "Calculator with a terminal interface",
         image: "/images/side-project-first-app.jpg",
         socials: ["Code"],
+        links:{
+            code:"",
+        },
         buttonText: "",
         internal:"side",
         content:[
