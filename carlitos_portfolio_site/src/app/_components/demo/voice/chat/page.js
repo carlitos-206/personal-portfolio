@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import "./layout.css"; // or use ChatModule.module.css for CSS Modules
+import styles from "./ChatModule.module.css"; // Use CSS Modules
 
 export default function ChatModule() {
-  // State to track audio recording status and audio blob
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const mediaRecorderRef = useRef(null);
-
-  // State for chat messages and new text input
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -19,32 +16,39 @@ export default function ChatModule() {
   ]);
   const [newMessage, setNewMessage] = useState("");
 
-  // Start recording audio
+  const chatScreenRef = useRef(null); // Scroll Reference for Mobile
+
+  useEffect(() => {
+    if (chatScreenRef.current) {
+      chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+
+      // Ensure compatibility with iOS
+      const options = { mimeType: "audio/webm" };
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
+
       const audioChunks = [];
-
-      mediaRecorder.start();
-
-      mediaRecorder.ondataavailable = (event) => {
-        audioChunks.push(event.data);
-      };
+      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(audioChunks, { type: "audio/wav" });
+        const blob = new Blob(audioChunks, { type: "audio/webm" });
         setAudioBlob(blob);
       };
 
+      mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
-      console.error("Error accessing microphone:", error);
+      console.error("Microphone access error:", error);
+      alert("Microphone access is required for recording.");
     }
   };
 
-  // Stop recording audio
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -52,60 +56,48 @@ export default function ChatModule() {
     }
   };
 
-  // Handle sending a text message
   const handleTextSend = (e) => {
     e.preventDefault();
-    if (newMessage.trim() === "") return;
+    if (!newMessage.trim()) return;
 
-    const message = {
-      id: Date.now(),
-      sender: "user",
-      text: newMessage,
-    };
-
-    setMessages((prevMessages) => [...prevMessages, message]);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: Date.now(), sender: "user", text: newMessage },
+    ]);
     setNewMessage("");
   };
 
-  // Handle sending an audio message
   const handleAudioSend = () => {
     if (audioBlob) {
       const audioURL = URL.createObjectURL(audioBlob);
-      const message = {
-        id: Date.now(),
-        sender: "user",
-        audio: audioURL,
-      };
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: Date.now(), sender: "user", audio: audioURL },
+      ]);
 
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
       setAudioBlob(null);
     }
   };
 
   return (
-    <div className="chat_module_main">
-      <div className="chat_module_container">
-        {/* Chat Screen */}
-        <div className="chat_screen_container">
-          <div className="chat_screen">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`chat_bubble_container ${
-                  message.sender === "nyx" ? "chat_bubble-nyx" : "chat_bubble-user"
-                }`}
-              >
-                {message.text && <p>{message.text}</p>}
-                {message.audio && (
-                  <audio src={message.audio} controls className="audio_message" />
-                )}
-              </div>
-            ))}
-          </div>
+    <div className={styles.chatModule}>
+      <div className={styles.chatContainer}>
+        <div className={styles.chatScreen} ref={chatScreenRef}>
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`${styles.chatBubble} ${
+                msg.sender === "nyx" ? styles.nyxBubble : styles.userBubble
+              }`}
+            >
+              {msg.text && <p>{msg.text}</p>}
+              {msg.audio && <audio src={msg.audio} controls className={styles.audioMessage} />}
+            </div>
+          ))}
         </div>
 
-        {/* Chat Input for text messages */}
-        <form className="chat_input_container" onSubmit={handleTextSend}>
+        <form className={styles.chatInput} onSubmit={handleTextSend}>
           <input
             type="text"
             placeholder="Type your message..."
@@ -115,16 +107,11 @@ export default function ChatModule() {
           <button type="submit">Send</button>
         </form>
 
-        {/* Audio recording controls */}
-        <div className="chat_audio_controls">
-          <button onClick={startRecording} disabled={isRecording}>
-            Start Recording
-          </button>
-          <button onClick={stopRecording} disabled={!isRecording}>
-            Stop Recording
-          </button>
+        <div className={styles.audioControls}>
+          <button onClick={startRecording} disabled={isRecording}>🎤 Start Recording</button>
+          <button onClick={stopRecording} disabled={!isRecording}>⏹ Stop</button>
           {audioBlob && (
-            <div className="audio_preview">
+            <div className={styles.audioPreview}>
               <audio src={URL.createObjectURL(audioBlob)} controls />
               <button onClick={handleAudioSend}>Send Audio</button>
             </div>
