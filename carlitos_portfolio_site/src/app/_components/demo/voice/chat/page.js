@@ -6,6 +6,7 @@ import styles from "./ChatModule.module.css"; // Use CSS Modules
 export default function ChatModule() {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false);
   const mediaRecorderRef = useRef(null);
   const [messages, setMessages] = useState([
     {
@@ -24,11 +25,76 @@ export default function ChatModule() {
     }
   }, [messages]);
 
+  // 🔹 Check microphone permission on render using localStorage
+  useEffect(() => {
+    const checkMicrophonePermission = async () => {
+      try {
+        const storedPermission = localStorage.getItem("microphonePermission");
+
+        if (storedPermission === "granted") {
+          setHasPermission(true);
+          return;
+        }
+
+        const permission = await navigator.permissions.query({ name: "microphone" });
+
+        if (permission.state === "granted") {
+          localStorage.setItem("microphonePermission", "granted");
+          setHasPermission(true);
+        } else if (permission.state === "prompt") {
+          alert("This app requires microphone access. Please allow it when prompted.");
+        } else if (permission.state === "denied") {
+          alert("Microphone access is blocked. Please enable it in your browser settings.");
+        }
+
+        permission.onchange = () => {
+          if (permission.state === "granted") {
+            localStorage.setItem("microphonePermission", "granted");
+            setHasPermission(true);
+          } else if (permission.state === "denied") {
+            localStorage.removeItem("microphonePermission");
+            setHasPermission(false);
+          }
+        };
+      } catch (error) {
+        console.error("Microphone permission request error:", error);
+      }
+    };
+
+    checkMicrophonePermission();
+  }, []);
+
+  // 🔹 Manually request permission when the user clicks a button
+  const requestPermissionManually = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((track) => track.stop()); // Stop stream immediately
+      localStorage.setItem("microphonePermission", "granted");
+      setHasPermission(true);
+      alert("Microphone access granted!");
+    } catch (error) {
+      console.error("Manual microphone request failed:", error);
+      alert("Failed to access the microphone. Please check your browser settings.");
+    }
+  };
+
   const startRecording = async () => {
+    if (!hasPermission) {
+      alert("Microphone permission is required to record.");
+      return;
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Ensure compatibility with iOS
+      // 🔹 Ensure microphone is immediately used (Fix for iOS Safari)
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioContext.createMediaStreamSource(stream);
+      const processor = audioContext.createScriptProcessor(1024, 1, 1);
+      source.connect(processor);
+      processor.connect(audioContext.destination); // Required for iOS Safari
+
+      // Media Recorder setup
       const options = { mimeType: "audio/webm" };
       const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
@@ -39,13 +105,17 @@ export default function ChatModule() {
       mediaRecorder.onstop = () => {
         const blob = new Blob(audioChunks, { type: "audio/webm" });
         setAudioBlob(blob);
+
+        // Stop all tracks to release the microphone
+        stream.getTracks().forEach((track) => track.stop());
+        audioContext.close();
       };
 
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
       console.error("Microphone access error:", error);
-      alert("Microphone access is required for recording.");
+      alert("Failed to access the microphone. Try refreshing the page and allowing microphone access again.");
     }
   };
 
@@ -108,7 +178,7 @@ export default function ChatModule() {
         </form>
 
         <div className={styles.audioControls}>
-          <button onClick={startRecording} disabled={isRecording}>🎤 Start Recording</button>
+          <button onClick={startRecording} disabled={!hasPermission || isRecording}>🎤 Start Recording</button>
           <button onClick={stopRecording} disabled={!isRecording}>⏹ Stop</button>
           {audioBlob && (
             <div className={styles.audioPreview}>
@@ -117,6 +187,14 @@ export default function ChatModule() {
             </div>
           )}
         </div>
+
+        {/* 🔹 Manually Grant Permission Button */}
+        {!hasPermission && (
+          <div className={styles.permissionContainer}>
+            <p>Microphone permission is not granted. Click below to allow it.</p>
+            <button onClick={requestPermissionManually}>Grant Microphone Access</button>
+          </div>
+        )}
       </div>
     </div>
   );
