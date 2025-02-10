@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import "./layout.css"; // or convert this to a CSS module if you prefer
-import es_logo from "../../../../../public/images/easyspeak-logo.svg"; // Note the /public directory
-import Image from "next/image";
 
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";

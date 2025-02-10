@@ -12,6 +12,8 @@ export default function ChatModule() {
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
   const [newMessage, setNewMessage] = useState("");
+  const [contactElement, setContactElement] = useState(null)
+  const [mainTranscript, setMainTranscript] = useState([])
 
   // New state to control the visibility of the permission/chat controls
   const [controlsVisible, setControlsVisible] = useState(false);
@@ -62,6 +64,8 @@ To experience this demo, I recommend trying the demo on an Android device or des
         console.error("Error detecting OS:", error);
     }
   };
+    let element = document.querySelector("#contact")
+    setContactElement(element)
     checkFor_iOS();
   }, []);
 
@@ -156,24 +160,74 @@ To experience this demo, I recommend trying the demo on an Android device or des
   const handleTextSend = (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-
-    setMessages([...messages, { id: Date.now(), sender: "user", text: newMessage }]);
+  
+    // Generate a unique id
+    const newId = Date.now();
+  
+    // Append the new text message to the messages state
+    setMessages([...messages, { id: newId, sender: "user", text: newMessage }]);
+  
+    // Append the new text message to mainTranscript with the required structure
+    setMainTranscript((prevTranscript) => [
+      ...prevTranscript,
+      {
+        id: newId,
+        sender: "user",
+        text: newMessage,
+        audio: false,
+        audio_file: null,
+      },
+    ]);
+  
     setNewMessage("");
   };
+const handleAudioSend = () => {
+  if (audioBlob) {
+    const newId = Date.now();
+    const audioURL = URL.createObjectURL(audioBlob);
 
-  const handleAudioSend = () => {
-    if (audioBlob) {
-      const audioURL = URL.createObjectURL(audioBlob);
-      setMessages([...messages, { id: Date.now(), sender: "user", audio: audioURL }]);
+    // Append the new audio message to the messages state
+    setMessages([...messages, { id: newId, sender: "user", audio: audioURL }]);
 
-      setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
-      setAudioBlob(null);
-    }
-  };
+    // Append the new audio message to mainTranscript with the required structure
+    setMainTranscript((prevTranscript) => [
+      ...prevTranscript,
+      {
+        id: newId,
+        sender: "user",
+        text: "", // No text for an audio message
+        audio: true,
+        audio_file: audioBlob,
+      },
+    ]);
+
+    setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
+    setAudioBlob(null);
+  }
+};
 
   // Separate the instructional messages (IDs 1 & 2) from the option messages (IDs 3–5)
   const instructionMessages = messagesWithMic.filter((msg) => msg.id < 3);
   const optionMessages = messagesWithMic.filter((msg) => msg.id >= 3);
+      // handles nav scroll to element
+      const scrollToElement = (e, element) => {
+        e.preventDefault();
+        console.log(element)
+        if (!element) return;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - 100;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+        setMenuOpen(false)
+    };
+
+
+useEffect(()=>{
+
+  console.log(JSON.stringify(mainTranscript))
+},[mainTranscript])
 
   return (
     <>
@@ -199,10 +253,25 @@ To experience this demo, I recommend trying the demo on an Android device or des
                       optionMessages.map((option) => (
                         <button
                           key={option.id}
-                          className={`${styles.optionButton}`}
+                          className={styles.optionButton}
                           onClick={() => {
+                            // Set the selected option for display
                             setSelectedOption(option);
-                            setControlsVisible(true); // Hide the permission/chat controls
+                          
+                            // Append a new transcript entry
+                            setMainTranscript((prevTranscript) => [
+                              ...prevTranscript,
+                              {
+                                id: Date.now(), // or you can use option.id if you prefer
+                                sender: "user", // since the user is clicking the option
+                                text: option.text,
+                                audio: false, // the option is text, so no audio file is attached
+                                audio_file: null,
+                              },
+                            ]);
+                          
+                            // Optionally show the controls if needed
+                            setControlsVisible(true);
                           }}
                         >
                           {option.text}
@@ -276,7 +345,12 @@ To experience this demo, I recommend trying the demo on an Android device or des
           {iOSMessages.map((msg) => (
             <>
               <p key={msg.id} className={styles.iosMessage}>{msg.text}</p>
-              <button className="demo-buttons">Contact for Support</button>
+              <button 
+                className="demo-buttons"
+                onClick={(e)=>{scrollToElement(e, contactElement)}}
+              >
+                Contact for Support
+              </button>
             </>
           ))}
         </>
