@@ -85,7 +85,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                 setError_supportTask_text("")
             }
             // support exist and it must be at least 15 char
-            if(support && 0 < support.length && support.length >= 15){
+            if(support && 0 < support.length && support.length < 15){
                 setError_supportTask(true)
                 setError_supportTask_text("Please provide more information to best assist you")
                 hasError = true 

@@ -91,7 +91,8 @@
 
 .byo-chat-message.typing {
     background-color: transparent;
-    color: #2ad669;
+    color: #1e293b;
+    font-size: 32px;
     font-style: italic;
     animation: blink 1s infinite;
 }
