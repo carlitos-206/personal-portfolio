@@ -8,6 +8,8 @@ export default function ChatModule() {
   const [audioBlob, setAudioBlob] = useState(null);
   const [hasPermission, setHasPermission] = useState(false);
   const mediaRecorderRef = useRef(null);
+  const chatScreenRef = useRef(null);
+
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -17,8 +19,6 @@ export default function ChatModule() {
   ]);
   const [newMessage, setNewMessage] = useState("");
 
-  const chatScreenRef = useRef(null); // Scroll Reference for Mobile
-
   useEffect(() => {
     if (chatScreenRef.current) {
       chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
@@ -27,10 +27,11 @@ export default function ChatModule() {
 
   // 🔹 Check microphone permission on render using localStorage
   useEffect(() => {
+    
+    localStorage.removeItem("microphonePermission")
     const checkMicrophonePermission = async () => {
       try {
         const storedPermission = localStorage.getItem("microphonePermission");
-
         if (storedPermission === "granted") {
           setHasPermission(true);
           return;
@@ -41,8 +42,6 @@ export default function ChatModule() {
         if (permission.state === "granted") {
           localStorage.setItem("microphonePermission", "granted");
           setHasPermission(true);
-        } else if (permission.state === "prompt") {
-          alert("This app requires microphone access. Please allow it when prompted.");
         } else if (permission.state === "denied") {
           alert("Microphone access is blocked. Please enable it in your browser settings.");
         }
@@ -166,36 +165,45 @@ export default function ChatModule() {
             </div>
           ))}
         </div>
-
-        <form className={styles.chatInput} onSubmit={handleTextSend}>
-          <input
-            type="text"
-            placeholder="Type your message..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <button type="submit">Send</button>
-        </form>
-
-        <div className={styles.audioControls}>
-          <button onClick={startRecording} disabled={!hasPermission || isRecording}>🎤 Start Recording</button>
-          <button onClick={stopRecording} disabled={!isRecording}>⏹ Stop</button>
-          {audioBlob && (
-            <div className={styles.audioPreview}>
-              <audio src={URL.createObjectURL(audioBlob)} controls />
-              <button onClick={handleAudioSend}>Send Audio</button>
+  
+        {/* 🔹 UI Elements for Chat Input, Audio Controls & Permission Handling */}
+        <div className={styles.chatBottom}>
+          {/* Display this section only if permission is granted */}
+          {hasPermission ? (
+            <>
+              {/* Chat Input */}
+              <form className={styles.chatInput} onSubmit={handleTextSend}>
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <button type="submit">Send</button>
+              </form>
+  
+              {/* Audio Controls */}
+              <div className={styles.audioControls}>
+                <button onClick={startRecording} disabled={isRecording}>🎤 Start Recording</button>
+                <button onClick={stopRecording} disabled={!isRecording}>⏹ Stop</button>
+                {audioBlob && (
+                  <div className={styles.audioPreview}>
+                    <audio src={URL.createObjectURL(audioBlob)} controls />
+                    <button onClick={handleAudioSend}>Send Audio</button>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            // If permission is NOT granted, show this UI
+            <div className={styles.permissionContainer}>
+              <p>Microphone permission is not granted. Click below to allow it.</p>
+              <button onClick={requestPermissionManually}>Grant Microphone Access</button>
             </div>
           )}
         </div>
-
-        {/* 🔹 Manually Grant Permission Button */}
-        {!hasPermission && (
-          <div className={styles.permissionContainer}>
-            <p>Microphone permission is not granted. Click below to allow it.</p>
-            <button onClick={requestPermissionManually}>Grant Microphone Access</button>
-          </div>
-        )}
       </div>
     </div>
   );
+  
 }
