@@ -6,7 +6,7 @@ import React from "react";
 // Custom components
 import DataCollectionProject from "./userAgent/page"; 
 import BYO_GPT from "./gpt/page";
-// import ES_PROJECT from "./voice/page";
+import ES_PROJECT from "./voice/page";
 
 import "./layout.css";
 export default function Demos(){
@@ -19,7 +19,7 @@ export default function Demos(){
                     <BYO_GPT />
                 </div>
                 <div className="demo-content-right">
-                    {/* <ES_PROJECT /> */}
+                    <ES_PROJECT />
                 </div>
             </div>
         </section>

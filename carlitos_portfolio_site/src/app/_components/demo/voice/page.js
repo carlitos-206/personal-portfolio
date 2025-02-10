@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import "./layout.css"; // or convert this to a CSS module if you prefer
-// import es_logo from "/public/images/easyspeak-logo.svg"; // Note the /public directory
+import es_logo from "../../../../../public/images/easyspeak-logo.svg"; // Note the /public directory
+import Image from "next/image";
 
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
@@ -64,8 +65,11 @@ export default function ES_PROJECT() {
     <div id="es-demo" className="es-project-main">
       <div className="es-project-container">
         {/* If you prefer Next’s <Image>, replace this <img> with <Image src={es_logo} ... /> */}
-        <img src={es_logo.src} id="es-logo-icon" alt="es-logo" />
-
+        <Image
+          src={es_logo}
+          alt="ES"
+          id="es-logo-icon"
+          />
         {chatModule ? (
           <ChatModule />
         ) : (
