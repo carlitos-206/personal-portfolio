@@ -85,4 +85,4 @@ docs/_build/
 *.spec
 
 
-/voice/audio_process.py
+audio_process.py
