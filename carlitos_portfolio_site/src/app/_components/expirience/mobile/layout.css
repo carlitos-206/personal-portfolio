@@ -77,6 +77,7 @@
   #mobile-tab-button-footer{
     width: 50%;
     color: #f7fafc;
+    max-width: 200px;
   }
   .mobile-tab-controler-container {
     margin-top: -90px; 
