@@ -1,8 +1,42 @@
+# Next.js Project Setup
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+### Install Dependencies
+
+First, install the required dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+### Build and Optimize
+
+Before running the development server, you need to build the application:
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
+
+This will generate an optimized production-ready build.
+
+### Run Development Server
+
+Start the development server using:
 
 ```bash
 npm run dev
@@ -14,23 +48,37 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the running application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+root/
+│── src/app/               # Next.js App Router pages and components
+│────────── /components/        # Reusable UI components
+│── public/            # Static assets like images and icons
+│── next.config.js     # Next.js configuration file
+│── package.json       # Project dependencies and scripts
+│── .eslintrc.json     # ESLint configuration
+```
+
+## Features
+
+- **Automatic Code Splitting** for optimized performance.
+- **API Routes** to create backend functionality.
+- **Image Optimization** using Next.js Image component.
+- **Font Optimization** with [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts).
+- **Static & Server-Side Rendering (SSR/SSG)** for SEO benefits.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+For more details on Next.js, explore the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - Comprehensive guide on features and API.
+- [Next.js GitHub Repository](https://github.com/vercel/next.js) - Contribute to the Next.js ecosystem.
+- [Interactive Next.js Tutorial](https://nextjs.org/learn) - Hands-on learning experience.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### 🚀 Built with ❤️ using Next.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
