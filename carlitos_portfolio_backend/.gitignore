@@ -83,3 +83,6 @@ docs/_build/
 
 # PyInstaller
 *.spec
+
+
+/voice
