@@ -60,7 +60,6 @@ export const Experience_Data = [
         job_dates:"Jan. 2020 - Oct. 2024",
         points: [
             "Curated eco-friendly seasonal menus",
-            "Deployed ChatGPT-powered menus",
             "Minimized waste with analytics",
             "Served 400 daily diners",
             "Led four-person team successfully",

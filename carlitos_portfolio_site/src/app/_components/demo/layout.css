@@ -17,11 +17,13 @@
 .demo-content-contianer{
     width: 100%;
     max-width: 1300px;
-    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+    align-items: start;
 }
 .demo-content-right, .demo-content-left{
     width: 50%;
-    max-width: 710px;
+    max-width: 675px;
 }
 .demo-buttons{
     background-color:  #2d3748;
