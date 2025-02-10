@@ -18,6 +18,9 @@
     margin: 0px 0px 20px 0px;
     font-family: "LowballNeue-SemiBold";
     font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .live-demo-card{
     display: flex;

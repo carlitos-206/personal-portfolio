@@ -3,6 +3,7 @@ import Tilt from 'react-parallax-tilt'; // Tilt functionality
 import Planet3D from "../_three_js_planet/page"; // 3D planet prebuilt
 import Stars from "../_three_js_planet/stars/page"; // Star pattern prebuilt
 
+// React Icons imports
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import "./style.scss";
 
