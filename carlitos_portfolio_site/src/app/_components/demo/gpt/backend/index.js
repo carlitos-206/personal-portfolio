@@ -82,6 +82,13 @@
                 main: ${prompts.main_task}
                 support: ${prompts.support_task}
                 guardrail:${prompts.guardrails_task }
+                transcript: ${transcript}
+                user: {
+                    firstName: ${user.firstName},
+                    lastName: ${user.lastName}
+                    emailName: ${user.email}
+                }
+
             `)
         if(transcript.length === 0 ){
             try {

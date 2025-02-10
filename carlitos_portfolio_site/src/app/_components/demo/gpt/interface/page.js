@@ -74,7 +74,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                 setError_guardrailsTask_text('')
             }
             // guardrail exist and it must be at least 15 char
-            if(guardrails && guardrails.length > 0 && guardrails.length >= 15){
+            if(guardrails && guardrails.length > 0 && guardrails.length < 15){
                 setError_guardrailsTask(true)
                 setError_guardrailsTask_text('Please provide a longer guardrail for better context')
                 hasError = true

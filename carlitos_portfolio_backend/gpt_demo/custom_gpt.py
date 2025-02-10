@@ -4,78 +4,76 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI( 
+client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
-
-def customGPT(user_prompts, user, transcript, ):
-    main_prompt = None
+def customGPT(user_prompts, user, transcript):
     print(f'''
-            \n 
-                transcript: {transcript}
-                transcript_length: {len(transcript)}
+        transcript: {transcript}
+        transcript_length: {len(transcript)}
+        prompts: {user_prompts}
+    ''')
 
-            \n
-        ''')
+    # Ensure all required keys exist, regardless of whether their values are empty.
+    if not ('main' in user_prompts and 'support' in user_prompts and 'guardrail' in user_prompts):
+        raise ValueError("Missing required user_prompts keys: 'main', 'support', and 'guardrail'.")
+
+    # Compute the main prompt regardless of the transcript length.
+    main_prompt = f'''
+        Your task is to be an assistant for {user['firstName']}.
+        They have tasked you with: {user_prompts['main']}...
+        These are provided details: {user_prompts['support']}...
+        These are some guardrails: {user_prompts['guardrail']}...
+        Maintain your tone professional and lean more towards a corporate tone,
+        unless {user['firstName']} has said otherwise.
+        When responding, you will be interacting with {user['firstName']}, unless they say otherwise.
+        Initiate the conversation with a greeting and prompt: {user['firstName']} with a question regarding the task.
+    '''
+
     if len(transcript) == 0:
-        if user_prompts.get('main') and user_prompts.get('support') and user_prompts.get('guardrail'):
-            main_prompt  = f'''
-                Your task is to be an assistant for {user['firstName']}.
-                They have tasked you with: {user_prompts['main']}...
-                These are provided details: {user_prompts['support'] }...
-                These are some guardrails: {user_prompts['guardrail']}...
-                Maintain your tone proffesional lean more towards corporate tone, 
-                unless {user['firstName']} has said other wiser. 
-                When responding, you will be interacting with {user['firstName']}, unless they say otherwise.
-                Initiate the conversation with a greeting and prompt: {user['firstName']} with a question reguarding the task,
-            '''
-    if len(transcript) == 0 :
+        # Start a new conversation using the main prompt.
         response = client.chat.completions.create(
-            model = "gpt-4o",
-            messages = [
+            model="gpt-4o",
+            messages=[
                 {
-                    "role": "developer", 
+                    "role": "developer",
                     "content": main_prompt
                 }
             ]
         )
-        print(f'\n CHAT_INIT_RESPONSE: {response.choices[0].message.content} \n')
+        print(f'\nCHAT_INIT_RESPONSE: {response.choices[0].message.content}\n')
         return [response.choices[0].message.content]
     else:
-        print("\n",'transcript-inside', transcript, "\n")
+        # Build conversation history starting with the initial main prompt.
         script = [
-                {
-                    "role": "developer", 
-                    "content": main_prompt
-                }
-            ]
+            {
+                "role": "developer",
+                "content": main_prompt
+            }
+        ]
         
-        for i in range(len(transcript)):
-            if i % 2 == 0:    
-                script.append({
-                    "role": "user",
-                    "content": transcript[i]
-                })
-            else:
-                script.append({
-                    "role": "assistant",
-                    "content": transcript[i]
-                })
+        # Append the transcript messages alternating between 'user' and 'assistant'.
+        for i, message in enumerate(transcript):
+            role = "user" if i % 2 == 0 else "assistant"
+            script.append({
+                "role": role,
+                "content": message
+            })
                 
-        print(f'''
-                \n Send of messages script: {script} \n
-            ''')
+        print(f'\nSend of messages script: {script}\n')
         response = client.chat.completions.create(
-            model = "gpt-4o",
-            messages = script
+            model="gpt-4o",
+            messages=script
         )
         
         print(response)
         
+        # Append the new assistant message to the script.
         script.append({
-                    "role": "assistant",
-                    "content": response.choices[0].message.content
-                })
+            "role": "assistant",
+            "content": response.choices[0].message.content
+        })
+        # Optionally remove the main prompt from the conversation history before returning.
         script.pop(0)
         return script

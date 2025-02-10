@@ -18,6 +18,8 @@ import { cover_letter_writer, custom_gpt } from "../backend";
 
 // Custom Components
 import BYO_GPT_INTERFACE from "../interface/page";
+import MarkdownRenderer from "./markdown/page";
+import 'katex/dist/katex.min.css';
 
 import "./layout.css";
 
@@ -165,21 +167,16 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
         
                                 {/* Container for displaying chat messages */}
                                 <div className="byo-chat-messages" ref={chatContainerRef}>
-                                    {messages.map((message, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                // Attach ref to the last message to enable scrolling
-                                                ref={index === messages.length - 1 ? lastMessageRef : null}
-                                                // Alternate message alignment based on index
-                                                className={`byo-chat-message ${index % 2 === 0 ? 'left' : 'right'}`}
-                                                // Preserve whitespace formatting
-                                                style={{ whiteSpace: 'pre-wrap' }}
-                                            >
-                                                {message}
-                                            </div>
-                                        );
-                                    })}
+                                {messages.map((message, index) => (
+                                    <div
+                                        key={index}
+                                        ref={index === messages.length - 1 ? lastMessageRef : null}
+                                        className={`byo-chat-message ${index % 2 === 0 ? 'left' : 'right'}`}
+                                        style={{ whiteSpace: 'pre-wrap' }}
+                                    >
+                                        <MarkdownRenderer content={message} />
+                                    </div>
+                                    ))}
                                     {/* Typing indicator shown when GPT is processing */}
                                     {isTyping && <div className="byo-chat-message typing">...</div>}
                                 </div>
@@ -267,12 +264,14 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
                                     {messages.map((message, index) => (
                                         <div
                                             key={index}
-                                            // Alternate message alignment based on index
+                                            ref={index === messages.length - 1 ? lastMessageRef : null}
                                             className={`byo-chat-message ${index % 2 === 0 ? 'left' : 'right'}`}
+                                            style={{ whiteSpace: 'pre-wrap' }}
                                         >
-                                            {message}
+                                            <MarkdownRenderer content={message} />
                                         </div>
                                     ))}
+
                                     {/* Typing indicator shown when GPT is processing */}
                                     {isTyping && <div className="byo-chat-message typing">...</div>}
                                 </div>

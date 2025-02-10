@@ -13,6 +13,7 @@ import Demos from "./_components/demo/page";
 import Contact from "./_components/contact/page";
 import Footer from "./_components/footer/page";
 import styles from "./page.module.css";
+import 'katex/dist/katex.min.css'; // Import KaTeX styles
 
 export default function Home() {
   return (

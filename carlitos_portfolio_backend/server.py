@@ -68,7 +68,7 @@ def custom_gpt_route():
     print(f'''
         Transcript: {transcript}
         user = {user}
-        prompts = {user_prompts['main']}
+        prompts = {user_prompts}
         
     ''')
     new_transcript = customGPT(user_prompts, user, transcript)
