@@ -49,26 +49,26 @@ const DataCollectionProject = () => {
                     // firebase send off
                     const docRef = await addDoc(collection(db, 'data_project'), {
                         browser: {
-                            name: requestData.browser.name,
-                            version: requestData.browser.version,
+                            name: requestData.browser.name ? requestData.browser.name : '',
+                            version: requestData.browser.version ? requestData.browser.version : '',
                             engine: {
-                                name: requestData.browser.engine.name,
-                                version: requestData.browser.engine.version
+                                name: requestData.browser.engine.name ? requestData.browser.engine.name : '',
+                                version: requestData.browser.engine.version ? requestData.browser.engine.version : ''
                             },
-                            browserWindowWidth: requestData.browser.screenWidth,
-                            browserWindowHeight: requestData.browser.screenHeight
+                            browserWindowWidth: requestData.browser.screenWidth ? requestData.browser.screenWidth : '',
+                            browserWindowHeight: requestData.browser.screenHeight ? requestData.browser.screenHeight : ''
                         },
                         device: {
-                            type: requestData.device.type,
-                            cpu_architecture: requestData.device.cpu_architecture,
-                            model: requestData.device.model,
-                            vendor: requestData.device.vendor,
+                            type: requestData.device.type ? requestData.device.type : '',
+                            cpu_architecture: requestData.device.cpu_architecture ? requestData.device.cpu_architecture : '',
+                            model: requestData.device.model ? requestData.device.model : '',
+                            vendor: requestData.device.vendor ? requestData.device.vendor : '',
                             os: {
-                                name: requestData.device.os.name,
-                                version: requestData.device.os.version
+                                name: requestData.device.os.name ? requestData.device.os.name : '',
+                                version: requestData.device.os.version ? requestData.device.os.version : ''
                             },
-                            deviceScreenWidth: requestData.device.screenWidth,
-                            deviceScreenHeight: requestData.device.screenHeight
+                            deviceScreenWidth: requestData.device.screenWidth ? requestData.device.screenWidth : '',
+                            deviceScreenHeight: requestData.device.screenHeight ? requestData.device.screenHeight : ''
                         },
                         date: new Date().toLocaleString("en-US", {  timeZone: "America/Los_Angeles"})
                     });
@@ -83,7 +83,7 @@ const DataCollectionProject = () => {
         const revertDemo = (e) => {
             e.preventDefault();
             let projectDataElement = document.querySelector('.data-project-main');
-            projectDataElement.style.height = '325px';
+            projectDataElement.style.height = '400px';
             let byo_gpt = document.querySelector('.byo-gpt-main');
             byo_gpt.style.display = 'block';
 
