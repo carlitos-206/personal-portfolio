@@ -249,12 +249,17 @@ To experience this demo, I recommend trying the demo on an Android device or des
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(mainTranscript));
-    if(mainTranscript.length > 2){
+    if(mainTranscript.length > 2 ){
       const init_messages = document.getElementsByClassName('init-messages')
       for(let i = 0; i < init_messages.length; i++){
         init_messages[i].style.display = 'none'
       }
+      if(mainTranscript.length >= 4){
+
+        console.log(JSON.stringify(mainTranscript));
+      }
+    }else{
+      return
     }
   }, [mainTranscript]);
 
