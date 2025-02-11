@@ -23,7 +23,7 @@ export const metadata = {
     "Software Engineer, Portfolio, Full-Stack Development, AI Integration, Next.js, React, Flask, Firebase, Hackathon Projects, ChatGPT, Robinhood API, User Data Collection, React Unused Image Finder",
   openGraph: {
     type: "website",
-    url: "https://www.devcarlitos.com",
+    url: "https://www.devcarlitos.xyz",
     title: "Carlitos | Software Engineer",
     description:
       "Discover Carlos R. Cáceres Martínez's portfolio featuring cutting-edge projects in full-stack development, AI integration, and software architecture.",
@@ -37,7 +37,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    url: "https://www.devcarlitos.com",
+    url: "https://www.devcarlitos.xyz",
     title: "Carlitos | Software Engineer",
     description:
       "Explore my portfolio showcasing innovative projects built with Next.js, React, Flask, and more.",
@@ -52,11 +52,11 @@ export default function RootLayout({ children }) {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Carlos R. Cáceres Martínez",
-    "url": "https://www.devcarlitos.com",
+    "url": "https://www.devcarlitos.xyz",
     "image":
       "https://www.devcarlitos.xyz/_next/image?url=%2Fimages%2Fhero_outline.png&w=640&q=75",
     "sameAs": [
-      "mailto:carloscaceres041@gmail.com",
+      "mailto:carloscaceres041@gmail.xyz",
       "https://www.linkedin.com/in/carlitos206/",
       "https://www.youtube.com/@carloscaceres2608",
     ],
@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
         {/* Primary Meta Tags */}
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://www.devcarlitos.com" />
+        <link rel="canonical" href="https://www.devcarlitos.xyz" />
         <link
           rel="icon"
           href="/images/orthodox_cross.svg"
@@ -80,7 +80,7 @@ export default function RootLayout({ children }) {
 
         {/* Open Graph / Facebook Meta Tags */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.devcarlitos.com" />
+        <meta property="og:url" content="https://www.devcarlitos.xyz" />
         <meta property="og:title" content="Carlitos | Software Engineer" />
         <meta
           property="og:description"
@@ -93,7 +93,7 @@ export default function RootLayout({ children }) {
 
         {/* Twitter Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.devcarlitos.com" />
+        <meta name="twitter:url" content="https://www.devcarlitos.xyz" />
         <meta
           name="twitter:title"
           content="Carlitos | Software Engineer"
