@@ -12,8 +12,16 @@ export default function ChatModule() {
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
   const [newMessage, setNewMessage] = useState("");
-  const [contactElement, setContactElement] = useState(null)
-  const [mainTranscript, setMainTranscript] = useState([])
+  const [contactElement, setContactElement] = useState(null);
+  const [mainTranscript, setMainTranscript] = useState([
+    {
+      id: 1,
+      sender: "app",
+      text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤",
+    },
+    { id: 2, sender: "app", text: "Tap an option:" },
+
+  ]);
 
   // New state to control the visibility of the permission/chat controls
   const [controlsVisible, setControlsVisible] = useState(false);
@@ -27,11 +35,27 @@ export default function ChatModule() {
   ]);
 
   const [messagesWithMic, setMessagesWithMic] = useState([
-    { id: 1, sender: "app", text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤" },
+    {
+      id: 1,
+      sender: "app",
+      text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤",
+    },
     { id: 2, sender: "app", text: "Tap an option:" },
-    { id: 3, sender: "app", text: "Let's meet at the coffee shop. We can catch up there." },
-    { id: 4, sender: "app", text: "I recently started learning to play the guitar. It's challenging but incredibly rewarding." },
-    { id: 5, sender: "app", text: "Converging technological innovations can disrupt traditional industries and redefine market paradigms." },
+    {
+      id: 3,
+      sender: "app",
+      text: "Let's meet at the coffee shop. We can catch up there.",
+    },
+    {
+      id: 4,
+      sender: "app",
+      text: "I recently started learning to play the guitar. It's challenging but incredibly rewarding.",
+    },
+    {
+      id: 5,
+      sender: "app",
+      text: "Converging technological innovations can disrupt traditional industries and redefine market paradigms.",
+    },
   ]);
 
   const [iOSMessages, setIOSMessages] = useState([
@@ -53,19 +77,18 @@ To experience this demo, I recommend trying the demo on an Android device or des
     }
   }, [messages, selectedOption]);
 
-
   useEffect(() => {
-      // 🔹 Detect if the user is on iOS
+    // 🔹 Detect if the user is on iOS
     const checkFor_iOS = async () => {
       try {
         let data = await UserData();
         setIs_iOS(data.device.os.name === "iOS");
       } catch (error) {
         console.error("Error detecting OS:", error);
-    }
-  };
-    let element = document.querySelector("#contact")
-    setContactElement(element)
+      }
+    };
+    let element = document.querySelector("#contact");
+    setContactElement(element);
     checkFor_iOS();
   }, []);
 
@@ -160,13 +183,13 @@ To experience this demo, I recommend trying the demo on an Android device or des
   const handleTextSend = (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-  
+
     // Generate a unique id
     const newId = Date.now();
-  
+
     // Append the new text message to the messages state
     setMessages([...messages, { id: newId, sender: "user", text: newMessage }]);
-  
+
     // Append the new text message to mainTranscript with the required structure
     setMainTranscript((prevTranscript) => [
       ...prevTranscript,
@@ -178,56 +201,60 @@ To experience this demo, I recommend trying the demo on an Android device or des
         audio_file: null,
       },
     ]);
-  
+
     setNewMessage("");
   };
-const handleAudioSend = () => {
-  if (audioBlob) {
-    const newId = Date.now();
-    const audioURL = URL.createObjectURL(audioBlob);
 
-    // Append the new audio message to the messages state
-    setMessages([...messages, { id: newId, sender: "user", audio: audioURL }]);
+  const handleAudioSend = () => {
+    if (audioBlob) {
+      const newId = Date.now();
+      const audioURL = URL.createObjectURL(audioBlob);
 
-    // Append the new audio message to mainTranscript with the required structure
-    setMainTranscript((prevTranscript) => [
-      ...prevTranscript,
-      {
-        id: newId,
-        sender: "user",
-        text: "", // No text for an audio message
-        audio: true,
-        audio_file: audioBlob,
-      },
-    ]);
+      // Append the new audio message to the messages state
+      setMessages([...messages, { id: newId, sender: "user", audio: audioURL }]);
 
-    setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
-    setAudioBlob(null);
-  }
-};
+      // Append the new audio message to mainTranscript with the required structure
+      setMainTranscript((prevTranscript) => [
+        ...prevTranscript,
+        {
+          id: newId,
+          sender: "user",
+          text: "", // No text for an audio message
+          audio: true,
+          audio_file: audioBlob,
+        },
+      ]);
+
+      setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
+      setAudioBlob(null);
+    }
+  };
 
   // Separate the instructional messages (IDs 1 & 2) from the option messages (IDs 3–5)
-  const instructionMessages = messagesWithMic.filter((msg) => msg.id < 3);
+  let instructionMessages = messagesWithMic.filter((msg) => msg.id < 3);
   const optionMessages = messagesWithMic.filter((msg) => msg.id >= 3);
-      // handles nav scroll to element
-      const scrollToElement = (e, element) => {
-        e.preventDefault();
-        console.log(element)
-        if (!element) return;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - 100;
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
-        setMenuOpen(false)
-    };
 
+  // handles nav scroll to element
+  const scrollToElement = (e, element) => {
+    e.preventDefault();
+    if (!element) return;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - 100;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
 
-useEffect(()=>{
-
-  console.log(JSON.stringify(mainTranscript))
-},[mainTranscript])
+  useEffect(() => {
+    console.log(JSON.stringify(mainTranscript));
+    if(mainTranscript.length > 2){
+      const init_messages = document.getElementsByClassName('init-messages')
+      for(let i = 0; i < init_messages.length; i++){
+        init_messages[i].style.display = 'none'
+      }
+    }
+  }, [mainTranscript]);
 
   return (
     <>
@@ -235,76 +262,162 @@ useEffect(()=>{
         <div className={styles.chatModule}>
           <div className={styles.chatContainer}>
             <div className={styles.chatScreen} ref={chatScreenRef}>
-              {hasPermission ? (
+              {mainTranscript ? (
+               <>
+               {hasPermission ? (
+                 <>
+                   {/* Render instructional messages */}
+                   {instructionMessages.map((msg) => (
+                     <div
+                       key={msg.id}
+                       className={`${styles.chatBubble} ${
+                         msg.sender === "user" ? styles.userBubble : styles.nyxBubble
+                       } init-messages`}
+                     >
+                       {msg.text && <p>{msg.text}ss</p>}
+                     </div>
+                   ))}
+             
+                   {/* Render options as buttons or, if one is selected, render it in its own bubble */}
+                   <div className={styles.optionsContainer}>
+                     {!selectedOption ? (
+                       optionMessages.map((option) => (
+                         <button
+                           key={option.id}
+                           className={styles.optionButton}
+                           onClick={() => {
+                             // When an option is clicked, store it as the selected option...
+                             setSelectedOption(option);
+             
+                             // ...and append it to the transcript if desired.
+                             setMainTranscript((prevTranscript) => [
+                               ...prevTranscript,
+                               {
+                                 id: prevTranscript.length + 1,
+                                 sender: option.text ? "app" : "user",
+                                 text: option.text,
+                                 audio: false,
+                                 audio_file: null,
+                               },
+                             ]);
+             
+                             // Show additional controls if needed.
+                             setControlsVisible(true);
+                           }}
+                         >
+                           {option.text}
+                         </button>
+                       ))
+                     ) : (
+                       // Render only the selected option message in a styled bubble
+                        mainTranscript.map((item)=>{
+                          return(
+                            <div
+                            key={item.id}
+                            className={`${styles.chatBubble} ${
+                              item.sender === "app" ? styles.nyxBubble : styles.userBubble
+                            }`}
+                          >
+                            <p>{item.text}</p>
+                          </div>
+                          )
+                        })
+                     )}
+                   </div>
+                 </>
+               ) : (
+                 // Fallback: render a list of messages when permission is not granted.
+                 messages.map((msg) => (
+                   <div
+                     key={msg.id}
+                     className={`${styles.chatBubble} ${
+                       msg.sender === "app" ? styles.nyxBubble : styles.userBubble
+                     }`}
+                   >
+                     {msg.text && <p>{msg.text}dd</p>}
+                   </div>
+                 ))
+               )}
+             </>
+             
+              ) : (
                 <>
-                  {/* Render instructional messages */}
-                  {instructionMessages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className={`${styles.chatBubble} ${msg.sender === "app" ? styles.nyxBubble : styles.userBubble}`}
-                    >
-                      {msg.text && <p>{msg.text}</p>}
-                    </div>
-                  ))}
-
-                  {/* Render options as buttons or the selected option */}
-                  <div className={styles.optionsContainer}>
-                    {!selectedOption ? (
-                      optionMessages.map((option) => (
-                        <button
-                          key={option.id}
-                          className={styles.optionButton}
-                          onClick={() => {
-                            // Set the selected option for display
-                            setSelectedOption(option);
-                          
-                            // Append a new transcript entry
-                            setMainTranscript((prevTranscript) => [
-                              ...prevTranscript,
-                              {
-                                id: Date.now(), // or you can use option.id if you prefer
-                                sender: "user", // since the user is clicking the option
-                                text: option.text,
-                                audio: false, // the option is text, so no audio file is attached
-                                audio_file: null,
-                              },
-                            ]);
-                          
-                            // Optionally show the controls if needed
-                            setControlsVisible(true);
-                          }}
+                  {hasPermission ? (
+                    <>
+                      {/* Render instructional messages */}
+                      {instructionMessages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`${styles.chatBubble} ${
+                            msg.sender === "app" ? styles.nyxBubble : styles.userBubble
+                          }`}
                         >
-                          {option.text}
-                        </button>
-                      ))
-                    ) : (
+                          {msg.text && <p>{msg.text}</p>}
+                        </div>
+                      ))}
+
+                      {/* Render options as buttons or the selected option */}
+                      <div className={styles.optionsContainer}>
+                        {!selectedOption ? (
+                          optionMessages.map((option) => (
+                            <button
+                              key={option.id}
+                              className={styles.optionButton}
+                              onClick={() => {
+                                // Set the selected option for display
+                                setSelectedOption(option);
+
+                                // Append a new transcript entry
+                                setMainTranscript((prevTranscript) => [
+                                  ...prevTranscript,
+                                  {
+                                    id: (mainTranscript.length + 1),
+                                    sender: "user",
+                                    text: option.text,
+                                    audio: false,
+                                    audio_file: null,
+                                  },
+                                ]);
+
+                                // Optionally show the controls if needed
+                                setControlsVisible(true);
+                              }}
+                            >
+                              {option.text}
+                            </button>
+                          ))
+                        ) : (
+                          <div
+                            key={selectedOption.id}
+                            className={`${styles.chatBubble} ${
+                              selectedOption.sender === "app" ? styles.nyxBubble : styles.userBubble
+                            }`}
+                          >
+                            {selectedOption.text && <p>{selectedOption.text}</p>}
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    // Fallback messages when permission is not granted
+                    messages.map((msg) => (
                       <div
-                        key={selectedOption.id}
+                        key={msg.id}
                         className={`${styles.chatBubble} ${
-                          selectedOption.sender === "app" ? styles.nyxBubble : styles.userBubble
+                          msg.sender === "app" ? styles.nyxBubble : styles.userBubble
                         }`}
                       >
-                        {selectedOption.text && <p>{selectedOption.text}</p>}
+                        {msg.text && <p>{msg.text}</p>}
                       </div>
-                    )}
-                  </div>
+                    ))
+                  )}
                 </>
-              ) : (
-                // Fallback messages when permission is not granted
-                messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`${styles.chatBubble} ${msg.sender === "app" ? styles.nyxBubble : styles.userBubble}`}
-                  >
-                    {msg.text && <p>{msg.text}</p>}
-                  </div>
-                ))
               )}
             </div>
 
             {/* Render the permission or chat controls only while `controlsVisible` is true */}
-            {controlsVisible && (
-              !hasPermission ? (
+            {controlsVisible &&
+              (!hasPermission ? (
                 <div className={styles.permissionContainer}>
                   <p>Microphone permission is not granted. Click below to allow it.</p>
                   <button onClick={requestPermissionManually}>Grant Microphone Access</button>
@@ -336,22 +449,18 @@ useEffect(()=>{
                     )}
                   </div>
                 </>
-              )
-            )}
+              ))}
           </div>
         </div>
       ) : (
         <>
           {iOSMessages.map((msg) => (
-            <>
-              <p key={msg.id} className={styles.iosMessage}>{msg.text}</p>
-              <button 
-                className="demo-buttons"
-                onClick={(e)=>{scrollToElement(e, contactElement)}}
-              >
+            <React.Fragment key={msg.id}>
+              <p className={styles.iosMessage}>{msg.text}</p>
+              <button className="demo-buttons" onClick={(e) => scrollToElement(e, contactElement)}>
                 Contact for Support
               </button>
-            </>
+            </React.Fragment>
           ))}
         </>
       )}
