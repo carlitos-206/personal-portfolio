@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { UserData } from "../../userAgent/data_retriver";
+import { voice_api } from "../backend";
 import styles from "./ChatModule.module.css"; // Use CSS Modules
 
 export default function ChatModule() {
@@ -187,7 +188,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
     if (!newMessage.trim()) return;
 
     // Generate a unique id
-    const newId = Date.now();
+    const newId = mainTranscript.length + 1;
 
     // Append the new text message to the messages state
     setMessages([...messages, { id: newId, sender: "user", text: newMessage }]);
@@ -209,7 +210,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
 
   const handleAudioSend = () => {
     if (audioBlob) {
-      const newId = Date.now();
+      const newId = mainTranscript.length + 1;
       const audioURL = URL.createObjectURL(audioBlob);
 
       // Append the new audio message to the messages state
@@ -249,18 +250,21 @@ To experience this demo, I recommend trying the demo on an Android device or des
   };
 
   useEffect(() => {
+   const transcripSendoff = async () => {
     if(mainTranscript.length > 2 ){
       const init_messages = document.getElementsByClassName('init-messages')
       for(let i = 0; i < init_messages.length; i++){
         init_messages[i].style.display = 'none'
       }
       if(mainTranscript.length >= 4){
-
-        console.log(JSON.stringify(mainTranscript));
+        let response = await voice_api(mainTranscript)
+        console.log('res', response);
       }
     }else{
       return
     }
+  }
+    transcripSendoff()
   }, [mainTranscript]);
 
   return (
