@@ -89,3 +89,5 @@ audio_process.py
 llm_process.py
 transcriptions.py
 tts.py
+init_chat.py
+trained_chat.py
