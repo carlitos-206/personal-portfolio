@@ -84,10 +84,15 @@ docs/_build/
 # PyInstaller
 *.spec
 
-
+# Voice Files Demo
 audio_process.py
 llm_process.py
 transcriptions.py
 tts.py
 init_chat.py
 trained_chat.py
+
+#Firebase Secrets
+fb_llm_keys.json
+fb_website_keys.json
+firebase.py
