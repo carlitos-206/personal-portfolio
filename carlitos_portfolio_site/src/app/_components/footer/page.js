@@ -136,7 +136,7 @@ export default function Footer(){
                     <Image
                         src="/images/christian_cross.svg"
                         alt="Christ is King"
-                        width={25}
+                        width={35}
                         height={50}
                         className="christian-cross-images"
                     />
@@ -150,7 +150,7 @@ export default function Footer(){
                     <Image
                         src="/images/christian_cross.svg"
                         alt="Christ is King"
-                        width={25}
+                        width={35}
                         height={50}
                         className="christian-cross-images"
                     />
