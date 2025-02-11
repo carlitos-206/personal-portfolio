@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /      #Allow all web crawlers
+
+Sitemap: https://www.devcarlitos.xyz/sitemap.xml
