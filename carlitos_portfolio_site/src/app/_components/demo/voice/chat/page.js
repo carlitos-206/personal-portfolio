@@ -17,9 +17,11 @@ export default function ChatModule() {
     {
       id: 1,
       sender: "app",
-      text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤",
+      text: `
+       When you're ready, tap { 🔴 Start Recording } and repeat the phrase. When finished, tap { ⏹ Stop }. If you're happy with your recording, tap Send Audio. To record again, simply tap { 🔴 Start Recording } to begin a new recording.
+      `,
     },
-    { id: 2, sender: "app", text: "Tap an option:" },
+    { id: 2, sender: "app", text: "The phrase you have chosen is:" },
 
   ]);
 
@@ -40,7 +42,7 @@ export default function ChatModule() {
       sender: "app",
       text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤",
     },
-    { id: 2, sender: "app", text: "Tap an option:" },
+    { id: 2, sender: "app", text: "Tap an option below to practice that phrase:" },
     {
       id: 3,
       sender: "app",
@@ -274,7 +276,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
                          msg.sender === "user" ? styles.userBubble : styles.nyxBubble
                        } init-messages`}
                      >
-                       {msg.text && <p>{msg.text}ss</p>}
+                       {msg.text && <p>{msg.text}</p>}
                      </div>
                    ))}
              
@@ -318,7 +320,12 @@ To experience this demo, I recommend trying the demo on an Android device or des
                               item.sender === "app" ? styles.nyxBubble : styles.userBubble
                             }`}
                           >
-                            <p>{item.text}</p>
+                            {item.audio ? (
+                              // Use URL.createObjectURL on the blob stored in audio_file.
+                              <audio controls src={URL.createObjectURL(item.audio_file)} />
+                            ) : (
+                              <p>{item.text}</p>
+                            )}
                           </div>
                           )
                         })
@@ -334,7 +341,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
                        msg.sender === "app" ? styles.nyxBubble : styles.userBubble
                      }`}
                    >
-                     {msg.text && <p>{msg.text}dd</p>}
+                     {msg.text && <p>{msg.text}</p>}
                    </div>
                  ))
                )}
@@ -431,20 +438,20 @@ To experience this demo, I recommend trying the demo on an Android device or des
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                     />
-                    <button type="submit">Send</button>
+                    <button className="demo-buttons" type="submit">Send</button>
                   </form>
 
                   <div className={styles.audioControls}>
-                    <button onClick={startRecording} disabled={!hasPermission || isRecording}>
-                      🎤 Start Recording
+                    <button className="demo-buttons" onClick={startRecording} disabled={!hasPermission || isRecording}>
+                    🔴 Start Recording
                     </button>
-                    <button onClick={stopRecording} disabled={!isRecording}>
+                    <button className="demo-buttons" onClick={stopRecording} disabled={!isRecording}>
                       ⏹ Stop
                     </button>
                     {audioBlob && (
                       <div className={styles.audioPreview}>
                         <audio src={URL.createObjectURL(audioBlob)} controls />
-                        <button onClick={handleAudioSend}>Send Audio</button>
+                        <button className="demo-buttons" onClick={handleAudioSend}>Send Audio</button>
                       </div>
                     )}
                   </div>
