@@ -8,7 +8,7 @@ The demo is designed to detect your accent when speaking English and provide cor
 
 ## About /voice
 
-I developed `/voice` along side [Andrea Aguilera](https://www.linkedin.com/in/andrea-aguilera9/) and [Aldrich Lapid](https://www.linkedin.com/in/aldrichgranlapid/) with the goal of helping people refine their spoken English toward a standard accent. The demo works by:
+I developed `/voice` along side [Andrea Aguilera](https://www.linkedin.com/in/andrea-aguilera9/) and [Aldrich Lapid](https://www.linkedin.com/in/aldrichgranlapid/), while our time at EasySpeak with the goal of helping people refine their spoken English toward a standard accent. The demo works by:
 - **Detecting Your Accent:** It listens to your spoken English, analyzes the nuances, and identifies deviations from the standard accent.
 - **Providing Correction:** It offers personalized suggestions on how to adjust your pronunciation.
 
@@ -17,13 +17,13 @@ To achieve this, I integrated ChatGPT as the underlying language model (LLM). I'
 ## How It Works
 
 1. **Record Your Speech:** Visit the live demo and follow the instructions to record your spoken English.
-2. **Accent Analysis:** The system processes your speech. ChatGPT, enhanced with accent-specific training, analyzes the data to determine how closely your accent aligns with a standard English accent.
+2. **Accent Analysis:** The system processes your speech. Then ChatGPT, enhanced with accent-specific training, analyzes/translates the data to determine how closely your accent aligns with a standard English accent.
 3. **Feedback & Suggestions:** Based on the analysis, you'll receive detailed suggestions and guidance on improving your pronunciation.
 
 ## Getting Started
 
 To try out the demo:
-1. Click the live demo link: [www.devCarlitos.xyz](http://www.devCarlitos.xyz)
+1. Click the live demo link: [www.devCarlitos.xyz](https://www.devCarlitos.xyz)
 2. Follow the on-screen instructions to record your speech.
 3. Review the feedback and tips provided to help you adjust your accent.
 

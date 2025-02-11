@@ -112,8 +112,15 @@
     .data-project-result-text{
         line-height: 15px;
     }
-    
+    .data-project-main {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem 0;
+        background-color: #363636;
+        height: 425px;
 }
+}
+
 
 @media screen and (max-width: 320px) {
     .data-project-form {

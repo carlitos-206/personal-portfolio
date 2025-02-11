@@ -35,14 +35,15 @@ This portfolio site is built using **Next.js** for high performance and scalabil
 - **Styling:** Sass, Emotion, Phosphor Icons, React Icons
 
 ### Backend:
-- **Frameworks:** Flask,
-- **Hosting & Database:** Google Cloud, Firebase
+- **Frameworks & Libraries:** Flask, Numpy, Openai
+- **Hosting & Database:** Ngrok, Firebase
 - **Authentication & Security:** Firebase Auth
 
 ### Dev Tools & Libraries:
 - **Linting & Formatting:** ESLint, Prettier
 - **Testing:** Jest
-- **CI/CD:** Netlify
+- **CI/CD:** Vercel, Ngrok
+- **JavaScript Dependencies:** [See package.json](https://github.com/carlitos-206/personal-portfolio/blob/main/carlitos_portfolio_site/package.json)
 - **Python Dependencies:** [See requirements.txt](https://github.com/carlitos-206/personal-portfolio/blob/main/carlitos_portfolio_backend/requirements.txt)
 
 ## Featured Projects
@@ -54,7 +55,7 @@ A full-stack visitor insights tracker that logs geolocation, browser details, an
 
 ### **Chat-GPT + Robinhood API**
 A stock trading assistant integrating ChatGPT's AI with automated trading functions for dynamic market analysis and trade execution.
-- **Tech Used:** Python, Flask, Serverless
+- **Tech Used:** Python, Flask, AWS Lamnbda + API Gateway
 - **[View Code](https://github.com/carlitos-206/robinhood_interface)**
 
 ### **React-Unused-Image-Finder**

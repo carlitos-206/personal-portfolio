@@ -257,6 +257,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
         init_messages[i].style.display = 'none'
       }
       if(mainTranscript.length >= 4){
+        console.log('main', mainTranscript)
         let response = await voice_api(mainTranscript)
         console.log('res', response);
       }

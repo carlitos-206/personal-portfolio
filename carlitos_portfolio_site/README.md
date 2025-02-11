@@ -55,11 +55,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 ```
 root/
 │── src/app/               # Next.js App Router pages and components
-│────────── /components/        # Reusable UI components
-│── public/            # Static assets like images and icons
-│── next.config.js     # Next.js configuration file
-│── package.json       # Project dependencies and scripts
-│── .eslintrc.json     # ESLint configuration
+│────────── /components/   # Reusable UI components
+│── public/                # Static assets like images and icons
+│── next.config.js         # Next.js configuration file
+│── package.json           # Project dependencies and scripts
+│── .eslintrc.json         # ESLint configuration
 ```
 
 ## Features
