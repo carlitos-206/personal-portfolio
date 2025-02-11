@@ -8,7 +8,7 @@ The demo is designed to detect your accent when speaking English and provide cor
 
 ## About /voice
 
-I developed `/voice` with the goal of helping people refine their spoken English toward a standard accent. The demo works by:
+I developed `/voice` along side [Andrea Aguilera](https://www.linkedin.com/in/andrea-aguilera9/) and [Aldrich Lapid](https://www.linkedin.com/in/aldrichgranlapid/) with the goal of helping people refine their spoken English toward a standard accent. The demo works by:
 - **Detecting Your Accent:** It listens to your spoken English, analyzes the nuances, and identifies deviations from the standard accent.
 - **Providing Correction:** It offers personalized suggestions on how to adjust your pronunciation.
 
@@ -35,4 +35,4 @@ Thank you for your interest in my work. I hope you find the demo both fun and he
 
 ---
 
-*Note: The source code for `/voice` remains private due to specific restrictions.*
+*Note: The source code for `/voice` remains private.*
