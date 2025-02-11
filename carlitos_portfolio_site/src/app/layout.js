@@ -21,6 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <link rel="icon" href="/images/orthodox_cross.svg" type="image/png" sizes="32x32" />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
       <AppRouterCacheProvider>
         {children}
