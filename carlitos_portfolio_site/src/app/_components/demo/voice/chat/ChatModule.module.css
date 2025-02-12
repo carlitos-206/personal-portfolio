@@ -44,6 +44,10 @@
     font-size: 14px;
     line-height: 1.5;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Nyx's Messages */
@@ -54,6 +58,9 @@
     box-shadow: 0px 0px 5px 0px #1e293b;
     align-self: flex-start;
     width: 70%;
+    border-radius: 25px;
+    padding: 10px;
+    display: flex;
   }
   
   /* User Messages */
@@ -67,6 +74,9 @@
     position: relative;
     width: 70%;
     left: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   /* Chat Input Container */
@@ -127,7 +137,12 @@
     gap: 10px;
     width: 345px;
   }
-  
+  .audioPreview_init{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 345px;
+  }
   /* Options Container for Phrases */
   .optionsContainer {
     display: flex;
@@ -173,14 +188,15 @@
     text-align: center;
     border-radius: 8px;
   }
-  .audio-player{
-    width: 145px;
-  }
   /* iOS Message */
   .iosMessage {
     padding: 25px;
   }
-  
+  .audioGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 1rem; /* Adjust spacing as needed */
+  }
   /* Responsive Adjustments */
   @media (max-width: 768px) {
     .chatScreen {
@@ -194,5 +210,34 @@
     .chatSendButton {
       padding: 6px 12px;
     }
+  }
+
+  @media screen and (max-width: 675px) {
+    #audio-player{
+      width: 100px
+    }
+    .audioPreview_init{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 65%;
+    }
+      /* Nyx's Messages */
+  .nyxBubble {
+    width: 100%;
+  }
+  
+  /* User Messages */
+  .userBubble {
+    width: 100%;
+    left: 0px;
+  }
+  .audioControls {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto;
+    gap: 1rem; 
+  }
   }
   

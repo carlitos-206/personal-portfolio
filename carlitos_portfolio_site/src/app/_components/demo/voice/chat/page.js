@@ -5,7 +5,7 @@ import { UserData } from "../../userAgent/data_retriver";
 import { voice_api_with_audio, backend_api_context_chat } from "../backend";
 import styles from "./ChatModule.module.css";
 import { IoIosRefresh } from "react-icons/io";
-
+import './layout.css'
 export default function ChatModule() {
   // =====================
   // 1) STATE DECLARATIONS
@@ -399,7 +399,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             }`}
           >
             {item.audio ? (
-              <audio className="audio-player" controls src={URL.createObjectURL(item.audio_file)} />
+              <audio id="audio-player" controls src={URL.createObjectURL(item.audio_file)} />
             ) : (
               <p>{item.text}</p>
             )}
@@ -449,30 +449,58 @@ To experience this demo, I recommend trying on an Android device or desktop inst
 
             {/* Controls */}
             {controlsVisible && !hasSentAudio && hasPermission && selectedOption && (
-              <div className={styles.audioControls}>
-                <button
-                  className="demo-buttons"
-                  onClick={startRecording}
-                  disabled={!hasPermission || isRecording}
-                >
-                  🔴 Start Recording
-                </button>
-                <button
-                  className="demo-buttons"
-                  onClick={stopRecording}
-                  disabled={!isRecording}
-                >
-                  ⏹ Stop
-                </button>
-                {audioBlob && (
-                  <div className={styles.audioPreview}>
-                    <audio src={URL.createObjectURL(audioBlob)} controls />
-                    <button className="demo-buttons" onClick={handleAudioSend}>
-                      Send Audio
-                    </button>
-                  </div>
-                )}
-              </div>
+<div className={`${styles.audioControls} ${styles.audioGrid}`}>
+  {/* Cell 1: Start Recording */}
+  <div>
+    <button
+      className="voice-demo-buttons"
+      onClick={startRecording}
+      disabled={!hasPermission || isRecording}
+    >
+      🔴 Record
+    </button>
+  </div>
+
+  {/* Cell 2: Stop */}
+  <div>
+    <button
+      className="voice-demo-buttons"
+      onClick={stopRecording}
+      disabled={!isRecording}
+    >
+      ⏹ Stop
+    </button>
+  </div>
+
+  {/* Cell 3: Audio preview or placeholder */}
+  <div>
+    {audioBlob ? (
+      <audio
+        className="audio-player-controler"
+        src={URL.createObjectURL(audioBlob)}
+        controls
+      />
+    ) : (
+      // Empty placeholder (adjust height as needed)
+      <div style={{ minHeight: '50px' }} />
+    )}
+  </div>
+
+  {/* Cell 4: Send Audio or placeholder */}
+  <div>
+    {audioBlob ? (
+      <button
+        className="voice-demo-buttons"
+        onClick={handleAudioSend}
+      >
+        Send Audio
+      </button>
+    ) : (
+      <div style={{ minHeight: '50px' }} />
+    )}
+  </div>
+</div>
+
             )}
 
             {/* Once user has sent audio, show text input */}

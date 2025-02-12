@@ -1,0 +1,28 @@
+.voice-demo-buttons{
+    background-color: #2d3748;
+    color: #f7fafc;
+    padding: 1rem;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'LowballNeue-SemiBold';
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .voice-demo-buttons:hover {
+    cursor: pointer;
+    background-color: #2b6cb0;
+  }
+
+@media screen and (max-width:600px) {
+    .voice-demo-buttons{
+        padding: 1rem;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: 'LowballNeue-SemiBold';
+  }
