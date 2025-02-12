@@ -112,7 +112,7 @@ def custom_gpt_route():
     return jsonify(response)
 
 # Route to handle voice demonstration functionality.
-@app.route("/voice-demo", methods=['POST'])
+@app.route("/voice-demo-init", methods=['POST'])
 def voice_demo():
     # Check if the audio processing function is available before handling the request.
     if process_audio is None:

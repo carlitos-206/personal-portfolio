@@ -2,103 +2,97 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { UserData } from "../../userAgent/data_retriver";
-import { voice_api } from "../backend";
-import styles from "./ChatModule.module.css"; // Use CSS Modules
+import { voice_api_with_audio } from "../backend";
+import styles from "./ChatModule.module.css";
+import { IoIosRefresh } from "react-icons/io";
 
 export default function ChatModule() {
+  // =====================
+  // 1) STATE DECLARATIONS
+  // =====================
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [is_iOS, setIs_iOS] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
+
+  // Text input
   const [newMessage, setNewMessage] = useState("");
+  // After first audio sent, show text input only
+  const [hasSentAudio, setHasSentAudio] = useState(false);
+  // Which option (phrase) the user selected
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  // This holds the chat transcript for *current* display
+  const [mainTranscript, setMainTranscript] = useState([]);
+
+  // So we can scroll to "contact" if on iOS
   const [contactElement, setContactElement] = useState(null);
-  const [mainTranscript, setMainTranscript] = useState([
-    {
-      id: 1,
-      sender: "app",
-      text: `
-       When you're ready, tap { 🔴 Start Recording } and repeat the phrase. When finished, tap { ⏹ Stop }. If you're happy with your recording, tap Send Audio. To record again, simply tap { 🔴 Start Recording } to begin a new recording.
-      `,
-    },
-    { id: 2, sender: "app", text: "The phrase you have chosen is:" },
 
-  ]);
+  // This toggles microphone controls
+  const [controlsVisible, setControlsVisible] = useState(true);
 
-  // New state to control the visibility of the permission/chat controls
-  const [controlsVisible, setControlsVisible] = useState(false);
+  // =======================
+  // 2) PREDEFINED MESSAGES
+  // =======================
+  const initialOptions = [
+    "Let's meet at the coffee shop. We can catch up there.",
+    "I recently started learning to play the guitar. It's challenging but incredibly rewarding.",
+    "Converging technological innovations can disrupt traditional industries and redefine market paradigms.",
+  ];
 
-  const [messages, setMessages] = useState([
-    {
-      id: 2,
-      sender: "app",
-      text: "Before we get started, make sure to grant microphone permissions so I can hear you. 😊",
-    },
-  ]);
-
-  const [messagesWithMic, setMessagesWithMic] = useState([
-    {
-      id: 1,
-      sender: "app",
-      text: "Hi! I'm your AI voice coach, and I’ve been trained to analyze your voice. 🎤",
-    },
-    { id: 2, sender: "app", text: "Tap an option below to practice that phrase:" },
-    {
-      id: 3,
-      sender: "app",
-      text: "Let's meet at the coffee shop. We can catch up there.",
-    },
-    {
-      id: 4,
-      sender: "app",
-      text: "I recently started learning to play the guitar. It's challenging but incredibly rewarding.",
-    },
-    {
-      id: 5,
-      sender: "app",
-      text: "Converging technological innovations can disrupt traditional industries and redefine market paradigms.",
-    },
-  ]);
-
-  const [iOSMessages, setIOSMessages] = useState([
+  // The code below will run if iOS is detected:
+  const iOSMessages = [
     {
       id: 1,
       sender: "app",
       text: `Hey there! 👋 Just a quick heads-up—iOS has some internal microphone restrictions that prevent this feature from working smoothly.
 While there is a way to manually update your phone settings, reverting those changes could be tricky for most users.
-To experience this demo, I recommend trying the demo on an Android device or desktop instead. Thanks for your patience, and let me know if you need any help! 😊🚀`,
+To experience this demo, I recommend trying on an Android device or desktop instead. Thanks for your patience! 😊🚀`,
     },
-  ]);
+  ];
 
-  // State for tracking the selected option (if any)
-  const [selectedOption, setSelectedOption] = useState(null);
+  // When you refresh, you see these "options" again
+  // so let's store them in a separate "initial" screen
+  const initialScreen = (
+    <div className={styles.chatBubble}>
+      <div className={styles.nyxBubble}>
+        <p>Hi! I'm your AI voice coach. Tap an option below to practice that phrase:</p>
+      </div>
+      <div className={styles.optionsContainer}>
+        {initialOptions.map((optionText, index) => (
+          <button
+            key={index}
+            className={styles.optionButton}
+            onClick={() => handleOptionClick(optionText)}
+          >
+            {optionText}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 
+  // =========================
+  // 3) DETECT iOS & MICROPHONE
+  // =========================
   useEffect(() => {
-    if (chatScreenRef.current) {
-      chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
-    }
-  }, [messages, selectedOption]);
-
-  useEffect(() => {
-    // 🔹 Detect if the user is on iOS
     const checkFor_iOS = async () => {
       try {
-        let data = await UserData();
+        const data = await UserData();
         setIs_iOS(data.device.os.name === "iOS");
       } catch (error) {
         console.error("Error detecting OS:", error);
       }
     };
-    let element = document.querySelector("#contact");
-    setContactElement(element);
+    setContactElement(document.querySelector("#contact"));
     checkFor_iOS();
   }, []);
 
-  // 🔹 Check microphone permission on render using localStorage (Only if NOT iOS)
+  // For non-iOS: check microphone permission
   useEffect(() => {
-    if (is_iOS) return; // Skip permission logic for iOS
-
+    if (is_iOS) return; // skip on iOS
     const checkMicrophonePermission = async () => {
       try {
         const storedPermission = localStorage.getItem("microphonePermission");
@@ -107,8 +101,8 @@ To experience this demo, I recommend trying the demo on an Android device or des
           return;
         }
 
+        // Check permission
         const permission = await navigator.permissions.query({ name: "microphone" });
-
         if (permission.state === "granted") {
           localStorage.setItem("microphonePermission", "granted");
           setHasPermission(true);
@@ -116,6 +110,7 @@ To experience this demo, I recommend trying the demo on an Android device or des
           alert("Microphone access is blocked. Please enable it in your browser settings.");
         }
 
+        // Watch for changes
         permission.onchange = () => {
           if (permission.state === "granted") {
             localStorage.setItem("microphonePermission", "granted");
@@ -129,11 +124,9 @@ To experience this demo, I recommend trying the demo on an Android device or des
         console.error("Microphone permission request error:", error);
       }
     };
-
     checkMicrophonePermission();
   }, [is_iOS]);
 
-  // 🔹 Manually request microphone permission
   const requestPermissionManually = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -147,24 +140,35 @@ To experience this demo, I recommend trying the demo on an Android device or des
     }
   };
 
-  // 🔹 Recording Logic
+  // Keep chat scrolled to bottom
+  useEffect(() => {
+    if (chatScreenRef.current) {
+      chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
+    }
+  }, [mainTranscript, selectedOption]);
+
+  // =======================
+  // 4) RECORDING FUNCTIONS
+  // =======================
   const startRecording = async () => {
     if (!hasPermission) {
       alert("Microphone permission is required to record.");
       return;
     }
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
       mediaRecorderRef.current = mediaRecorder;
-
       const audioChunks = [];
-      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
 
       mediaRecorder.onstop = () => {
         const blob = new Blob(audioChunks, { type: "audio/webm" });
         setAudioBlob(blob);
+        // stop all tracks
         stream.getTracks().forEach((track) => track.stop());
       };
 
@@ -183,19 +187,15 @@ To experience this demo, I recommend trying the demo on an Android device or des
     }
   };
 
-  const handleTextSend = (e) => {
+  // ================================
+  // 5) SENDING TEXT / AUDIO MESSAGES
+  // ================================
+  const handleTextSend = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-
-    // Generate a unique id
     const newId = mainTranscript.length + 1;
-
-    // Append the new text message to the messages state
-    setMessages([...messages, { id: newId, sender: "user", text: newMessage }]);
-
-    // Append the new text message to mainTranscript with the required structure
-    setMainTranscript((prevTranscript) => [
-      ...prevTranscript,
+    setMainTranscript((prev) => [
+      ...prev,
       {
         id: newId,
         sender: "user",
@@ -204,282 +204,233 @@ To experience this demo, I recommend trying the demo on an Android device or des
         audio_file: null,
       },
     ]);
-
     setNewMessage("");
   };
 
-  const handleAudioSend = () => {
-    if (audioBlob) {
-      const newId = mainTranscript.length + 1;
-      const audioURL = URL.createObjectURL(audioBlob);
+  const handleAudioSend = async () => {
+    if (!audioBlob) {
+      alert("Recording Failed: No audio found.");
+      return;
+    }
 
-      // Append the new audio message to the messages state
-      setMessages([...messages, { id: newId, sender: "user", audio: audioURL }]);
+    // 1) Append the audio to the chat so it's playable
+    setMainTranscript((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        sender: "user",
+        text: "",
+        audio: true,
+        audio_file: audioBlob,
+      },
+    ]);
 
-      // Append the new audio message to mainTranscript with the required structure
-      setMainTranscript((prevTranscript) => [
-        ...prevTranscript,
-        {
-          id: newId,
-          sender: "user",
-          text: "", // No text for an audio message
-          audio: true,
-          audio_file: audioBlob,
-        },
-      ]);
+    // 2) Optionally send to your backend (comment out if not needed)
+    try {
+      const phrase = selectedOption || "";
+      const jsonResponse = await voice_api_with_audio(audioBlob, phrase);
+      console.log("Response from backend:", jsonResponse);
 
-      setTimeout(() => URL.revokeObjectURL(audioURL), 5000);
-      setAudioBlob(null);
+      // If you want to show the server response, create a new bubble:
+      if (jsonResponse?.result?.text) {
+        setMainTranscript((prev) => [
+          ...prev,
+          {
+            id: prev.length + 1,
+            sender: "app",
+            text: jsonResponse.result.text,
+            audio: false,
+            audio_file: null,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error handling audio data:", error);
+      alert("An error occurred while processing the audio data.");
+    }
+
+    // 3) Now that we've sent at least one audio message, hide recording controls
+    //    and show text input only
+    setAudioBlob(null);
+    setHasSentAudio(true);
+  };
+
+  // ================
+  // 6) OPTION SELECT
+  // ================
+  const handleOptionClick = (optionText) => {
+    setSelectedOption(optionText);
+
+    // Replace the main transcript with the instructions + chosen phrase
+    setMainTranscript([
+      {
+        id: 1,
+        sender: "app",
+        text: `When you're ready, tap { 🔴 Start Recording } and repeat the phrase. When finished, tap { ⏹ Stop }. If you're happy with your recording, tap Send Audio. To record again, simply tap { 🔴 Start Recording } to begin a new recording.`,
+        audio: false,
+        audio_file: null,
+      },
+      {
+        id: 2,
+        sender: "app",
+        text: `The phrase you have chosen is: "${optionText}"`,
+        audio: false,
+        audio_file: null,
+      },
+    ]);
+
+    // Make sure controls are visible for recording
+    setControlsVisible(true);
+  };
+
+  // ===========================
+  // 7) REFRESH - "RESTART" LOGIC
+  // ===========================
+  const handleRefresh = () => {
+    // Reset everything to default
+    setSelectedOption(null);
+    setHasSentAudio(false);
+    setAudioBlob(null);
+    setNewMessage("");
+    setIsRecording(false);
+    setMainTranscript([]);
+    if (chatScreenRef.current) {
+      chatScreenRef.current.scrollTop = 0;
     }
   };
 
-  // Separate the instructional messages (IDs 1 & 2) from the option messages (IDs 3–5)
-  let instructionMessages = messagesWithMic.filter((msg) => msg.id < 3);
-  const optionMessages = messagesWithMic.filter((msg) => msg.id >= 3);
-
-  // handles nav scroll to element
+  // iOS fallback
   const scrollToElement = (e, element) => {
     e.preventDefault();
     if (!element) return;
     const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = elementPosition - 100;
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: elementPosition - 100, behavior: "smooth" });
   };
 
-  useEffect(() => {
-   const transcripSendoff = async () => {
-    if(mainTranscript.length > 2 ){
-      const init_messages = document.getElementsByClassName('init-messages')
-      for(let i = 0; i < init_messages.length; i++){
-        init_messages[i].style.display = 'none'
-      }
-      if(mainTranscript.length >= 4){
-        console.log('main', mainTranscript)
-        let response = await voice_api(mainTranscript)
-        console.log('res', response);
-      }
-    }else{
-      return
+  // =====================
+  // 8) RENDERING FUNCTION
+  // =====================
+  const renderChatBubbles = () => {
+    // If user is on desktop/Android but hasn't allowed permission,
+    // show "permission needed" message
+    if (!hasPermission && !is_iOS) {
+      return (
+        <div className={styles.chatBubble}>
+          <div className={styles.nyxBubble}>
+            <p>Please grant microphone access to proceed.</p>
+          </div>
+        </div>
+      );
     }
-  }
-    transcripSendoff()
-  }, [mainTranscript]);
 
+    // If no option is selected, show the initial screen with options
+    if (!selectedOption) {
+      return initialScreen;
+    }
+
+    // Else, show the main transcript (instructions + user's recordings, etc.)
+    return (
+      <>
+        {mainTranscript.map((item) => (
+          <div
+            key={item.id}
+            className={`${styles.chatBubble} ${
+              item.sender === "app" ? styles.nyxBubble : styles.userBubble
+            }`}
+          >
+            {item.audio ? (
+              <audio controls src={URL.createObjectURL(item.audio_file)} />
+            ) : (
+              <p>{item.text}</p>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  // ====================
+  // 9) MAIN RENDER RETURN
+  // ====================
   return (
     <>
       {!is_iOS ? (
         <div className={styles.chatModule}>
           <div className={styles.chatContainer}>
-            <div className={styles.chatScreen} ref={chatScreenRef}>
-              {mainTranscript ? (
-               <>
-               {hasPermission ? (
-                 <>
-                   {/* Render instructional messages */}
-                   {instructionMessages.map((msg) => (
-                     <div
-                       key={msg.id}
-                       className={`${styles.chatBubble} ${
-                         msg.sender === "user" ? styles.userBubble : styles.nyxBubble
-                       } init-messages`}
-                     >
-                       {msg.text && <p>{msg.text}</p>}
-                     </div>
-                   ))}
-             
-                   {/* Render options as buttons or, if one is selected, render it in its own bubble */}
-                   <div className={styles.optionsContainer}>
-                     {!selectedOption ? (
-                       optionMessages.map((option) => (
-                         <button
-                           key={option.id}
-                           className={styles.optionButton}
-                           onClick={() => {
-                             // When an option is clicked, store it as the selected option...
-                             setSelectedOption(option);
-             
-                             // ...and append it to the transcript if desired.
-                             setMainTranscript((prevTranscript) => [
-                               ...prevTranscript,
-                               {
-                                 id: prevTranscript.length + 1,
-                                 sender: option.text ? "app" : "user",
-                                 text: option.text,
-                                 audio: false,
-                                 audio_file: null,
-                               },
-                             ]);
-             
-                             // Show additional controls if needed.
-                             setControlsVisible(true);
-                           }}
-                         >
-                           {option.text}
-                         </button>
-                       ))
-                     ) : (
-                       // Render only the selected option message in a styled bubble
-                        mainTranscript.map((item)=>{
-                          return(
-                            <div
-                            key={item.id}
-                            className={`${styles.chatBubble} ${
-                              item.sender === "app" ? styles.nyxBubble : styles.userBubble
-                            }`}
-                          >
-                            {item.audio ? (
-                              // Use URL.createObjectURL on the blob stored in audio_file.
-                              <audio controls src={URL.createObjectURL(item.audio_file)} />
-                            ) : (
-                              <p>{item.text}</p>
-                            )}
-                          </div>
-                          )
-                        })
-                     )}
-                   </div>
-                 </>
-               ) : (
-                 // Fallback: render a list of messages when permission is not granted.
-                 messages.map((msg) => (
-                   <div
-                     key={msg.id}
-                     className={`${styles.chatBubble} ${
-                       msg.sender === "app" ? styles.nyxBubble : styles.userBubble
-                     }`}
-                   >
-                     {msg.text && <p>{msg.text}</p>}
-                   </div>
-                 ))
-               )}
-             </>
-             
-              ) : (
-                <>
-                  {hasPermission ? (
-                    <>
-                      {/* Render instructional messages */}
-                      {instructionMessages.map((msg) => (
-                        <div
-                          key={msg.id}
-                          className={`${styles.chatBubble} ${
-                            msg.sender === "app" ? styles.nyxBubble : styles.userBubble
-                          }`}
-                        >
-                          {msg.text && <p>{msg.text}</p>}
-                        </div>
-                      ))}
-
-                      {/* Render options as buttons or the selected option */}
-                      <div className={styles.optionsContainer}>
-                        {!selectedOption ? (
-                          optionMessages.map((option) => (
-                            <button
-                              key={option.id}
-                              className={styles.optionButton}
-                              onClick={() => {
-                                // Set the selected option for display
-                                setSelectedOption(option);
-
-                                // Append a new transcript entry
-                                setMainTranscript((prevTranscript) => [
-                                  ...prevTranscript,
-                                  {
-                                    id: (mainTranscript.length + 1),
-                                    sender: "user",
-                                    text: option.text,
-                                    audio: false,
-                                    audio_file: null,
-                                  },
-                                ]);
-
-                                // Optionally show the controls if needed
-                                setControlsVisible(true);
-                              }}
-                            >
-                              {option.text}
-                            </button>
-                          ))
-                        ) : (
-                          <div
-                            key={selectedOption.id}
-                            className={`${styles.chatBubble} ${
-                              selectedOption.sender === "app" ? styles.nyxBubble : styles.userBubble
-                            }`}
-                          >
-                            {selectedOption.text && <p>{selectedOption.text}</p>}
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    // Fallback messages when permission is not granted
-                    messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`${styles.chatBubble} ${
-                          msg.sender === "app" ? styles.nyxBubble : styles.userBubble
-                        }`}
-                      >
-                        {msg.text && <p>{msg.text}</p>}
-                      </div>
-                    ))
-                  )}
-                </>
-              )}
+            {/* Refresh Button */}
+            <div className={styles.refreshButtonContainer}>
+              <button className="demo-buttons" onClick={handleRefresh}>
+                <IoIosRefresh /> Restart thread
+              </button>
             </div>
 
-            {/* Render the permission or chat controls only while `controlsVisible` is true */}
-            {controlsVisible &&
-              (!hasPermission ? (
-                <div className={styles.permissionContainer}>
-                  <p>Microphone permission is not granted. Click below to allow it.</p>
-                  <button onClick={requestPermissionManually}>Grant Microphone Access</button>
-                </div>
-              ) : (
-                <>
-                  <form className={styles.chatInput} onSubmit={handleTextSend}>
-                    <input
-                      type="text"
-                      placeholder="Type your message..."
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                    />
-                    <button className="demo-buttons" type="submit">Send</button>
-                  </form>
+            {/* Chat Screen */}
+            <div className={styles.chatScreen} ref={chatScreenRef}>
+              {renderChatBubbles()}
+            </div>
 
-                  <div className={styles.audioControls}>
-                    <button className="demo-buttons" onClick={startRecording} disabled={!hasPermission || isRecording}>
-                    🔴 Start Recording
+            {/* Controls */}
+            {controlsVisible && !hasSentAudio && hasPermission && selectedOption && (
+              <div className={styles.audioControls}>
+                <button
+                  className="demo-buttons"
+                  onClick={startRecording}
+                  disabled={!hasPermission || isRecording}
+                >
+                  🔴 Start Recording
+                </button>
+                <button
+                  className="demo-buttons"
+                  onClick={stopRecording}
+                  disabled={!isRecording}
+                >
+                  ⏹ Stop
+                </button>
+                {audioBlob && (
+                  <div className={styles.audioPreview}>
+                    <audio src={URL.createObjectURL(audioBlob)} controls />
+                    <button className="demo-buttons" onClick={handleAudioSend}>
+                      Send Audio
                     </button>
-                    <button className="demo-buttons" onClick={stopRecording} disabled={!isRecording}>
-                      ⏹ Stop
-                    </button>
-                    {audioBlob && (
-                      <div className={styles.audioPreview}>
-                        <audio src={URL.createObjectURL(audioBlob)} controls />
-                        <button className="demo-buttons" onClick={handleAudioSend}>Send Audio</button>
-                      </div>
-                    )}
                   </div>
-                </>
-              ))}
+                )}
+              </div>
+            )}
+
+            {/* Once user has sent audio, show text input */}
+            {hasSentAudio && (
+              <form className={styles.chatInput} onSubmit={handleTextSend}>
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <button className="demo-buttons" type="submit">
+                  Send
+                </button>
+              </form>
+            )}
+
+            {/* If permission not granted, ask to grant it */}
+            {!hasPermission && !is_iOS && (
+              <div className={styles.permissionContainer}>
+                <p>Microphone permission is not granted.</p>
+                <button onClick={requestPermissionManually}>Grant Microphone Access</button>
+              </div>
+            )}
           </div>
         </div>
       ) : (
-        <>
-          {iOSMessages.map((msg) => (
-            <React.Fragment key={msg.id}>
-              <p className={styles.iosMessage}>{msg.text}</p>
-              <button className="demo-buttons" onClick={(e) => scrollToElement(e, contactElement)}>
-                Contact for Support
-              </button>
-            </React.Fragment>
-          ))}
-        </>
+        // If iOS is detected
+        iOSMessages.map((msg) => (
+          <React.Fragment key={msg.id}>
+            <p className={styles.iosMessage}>{msg.text}</p>
+            <button className="demo-buttons" onClick={(e) => scrollToElement(e, contactElement)}>
+              Contact for Support
+            </button>
+          </React.Fragment>
+        ))
       )}
     </>
   );

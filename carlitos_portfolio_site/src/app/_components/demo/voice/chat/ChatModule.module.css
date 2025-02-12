@@ -37,6 +37,7 @@
     font-size: 14px;
     line-height: 1.5;
     width: 100%;
+    overflow: auto;
 }
 
 /* Nyx's Messages */
@@ -128,6 +129,7 @@
     display: flex;
     flex-direction:column ;
     align-items: center;
+    overflow: auto;
 }
 .optionButton{
     display: flex;
@@ -148,7 +150,11 @@
     cursor: pointer;
     background-color: #3182ce;
 }
-
+.permissionContainer{
+    background-color: red;
+    height: 10px;
+    width: 100%;
+}
 .iosMessage{
     padding: 25px;
 }
