@@ -80,23 +80,26 @@ const DataCollectionProject = () => {
         };
     
     // closes the demo
-        const revertDemo = (e) => {
-            e.preventDefault();
-            let projectDataElement = document.querySelector('.data-project-main');
-            let screenWidth = window.innerWidth
-            if(screenWidth < 600){
-                projectDataElement.style.height = '400px';
-                let byo_gpt = document.querySelector('.byo-gpt-main');
-                byo_gpt.style.display = 'block';
-
-            }
-            projectDataElement.style.height = '325px';
-            let byo_gpt = document.querySelector('.byo-gpt-main');
-            byo_gpt.style.display = 'block';
-
-            setData(false);
-
-        };
+    const revertDemo = (e) => {
+        e.preventDefault();
+        
+        const projectDataElement = document.querySelector('.data-project-main');
+        const byo_gpt = document.querySelector('.byo-gpt-main');
+        const screenWidth = window.innerWidth;
+        
+        // Set height based on screen width
+        if (screenWidth < 600) {
+          projectDataElement.style.height = '400px';
+        } else {
+          projectDataElement.style.height = '325px';
+        }
+        
+        // Ensure the byo-gpt element is visible
+        byo_gpt.style.display = 'block';
+        
+        setData(false);
+      };
+      
     
     // holds the logic for opening links based on screen
         const openLinks = async (e, link) =>{
