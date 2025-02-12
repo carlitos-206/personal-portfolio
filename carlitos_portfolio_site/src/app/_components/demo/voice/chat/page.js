@@ -332,7 +332,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
       {
         id: 2,
         sender: "app",
-        text: `Say your phrase: "${optionText}"`,
+        text: `Say your phrase:`,
         audio: false,
         audio_file: null,
       },
