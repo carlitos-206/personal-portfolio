@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from gpt_demo.prebuilt_cv_letter import gpt_cover_letter_writer  # GPT Cover Letter functionality
 from gpt_demo.custom_gpt import customGPT                        # Custom GPT functionality
 from voice.audio_process import process_audio                     # Voice processing functionality
+from voice.trained_chat import trainedChat
 
 # Load environment variables from the .env file.
 load_dotenv()
@@ -122,6 +123,12 @@ def voice_demo():
         }), 500
     # Process the voice input using the process_audio function and return the result.
     return process_audio(request)
+
+# Trained chat function to chat with the AI
+@app.route('/trained-chat', methods=['POST'])
+def chat_with_ai():
+    print("\nChat with AI\n")
+    return trainedChat(request)
 
 if __name__ == '__main__':
     # Run the Flask application in debug mode (suitable only for development environments).

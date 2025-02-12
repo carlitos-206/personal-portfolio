@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { UserData } from "../../userAgent/data_retriver";
-import { voice_api_with_audio } from "../backend";
+import { voice_api_with_audio,  backend_api_context_chat } from "../backend";
 import styles from "./ChatModule.module.css";
 import { IoIosRefresh } from "react-icons/io";
 
@@ -16,6 +16,7 @@ export default function ChatModule() {
   const [is_iOS, setIs_iOS] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
+  const [isSending, setIsSending] = useState(false);
 
   // Text input
   const [newMessage, setNewMessage] = useState("");
@@ -58,7 +59,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   const initialScreen = (
     <div className={styles.chatBubble}>
       <div className={styles.nyxBubble}>
-        <p>Hi! I'm your AI voice coach. Tap an option below to practice that phrase:</p>
+        <p>Hi! I'm your AI voice coach. Tap an option below to practice that phrase, by recording your voice and sending it to me to analyze!</p>
       </div>
       <div className={styles.optionsContainer}>
         {initialOptions.map((optionText, index) => (
@@ -190,23 +191,62 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   // ================================
   // 5) SENDING TEXT / AUDIO MESSAGES
   // ================================
+  useEffect(() => {
+    if (!isSending) return;
+  
+    const sendToBackend = async () => {
+      try {
+        // For example, you might do something like:
+        const response = await  backend_api_context_chat(mainTranscript);
+        console.log('trained response\n', JSON.stringify(response), typeof response)
+        // Suppose the server reply is in `response.replyText`
+        setMainTranscript((prev) => [
+          ...prev,
+          {
+            id: prev.length + 1,
+            sender: "app",
+            text: response.received_texts[response.received_texts.length-1].text,
+            audio: false,
+            audio_file: null,
+          },
+        ]);
+  
+        // Finished sending
+        setIsSending(false);
+      } catch (err) {
+        console.error("Error sending to backend:", err);
+        setIsSending(false);
+      }
+    };
+  
+    sendToBackend();
+  }, [isSending, mainTranscript]);
+
+
+  
   const handleTextSend = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-    const newId = mainTranscript.length + 1;
+  
+    // 1) Immediately set isSending true
+    setIsSending(true);
+  
+    // 2) Append user’s message
     setMainTranscript((prev) => [
       ...prev,
       {
-        id: newId,
+        id: prev.length + 1,
         sender: "user",
         text: newMessage,
         audio: false,
         audio_file: null,
       },
     ]);
+  
+    // 3) Clear input
     setNewMessage("");
   };
-
+  
   const handleAudioSend = async () => {
     if (!audioBlob) {
       alert("Recording Failed: No audio found.");
@@ -273,10 +313,17 @@ To experience this demo, I recommend trying on an Android device or desktop inst
       {
         id: 2,
         sender: "app",
-        text: `The phrase you have chosen is: "${optionText}"`,
+        text: `Say your phrase: "${optionText}"`,
         audio: false,
         audio_file: null,
       },
+      {
+        id: 3,
+        sender: "app",
+        text: `"${optionText}"`,
+        audio: false,
+        audio_file: null,
+      }
     ]);
 
     // Make sure controls are visible for recording
@@ -360,7 +407,9 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             {/* Refresh Button */}
             <div className={styles.refreshButtonContainer}>
               <button className="demo-buttons" onClick={handleRefresh}>
-                <IoIosRefresh /> Restart thread
+                <IoIosRefresh size={16} style={{
+                  marginRight: "5px"
+                }} /> Restart Demo
               </button>
             </div>
 

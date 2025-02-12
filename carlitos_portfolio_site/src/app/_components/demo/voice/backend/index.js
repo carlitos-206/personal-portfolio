@@ -33,3 +33,33 @@ export const voice_api_with_audio = async (audioBlob, phrase) => {
     throw error;
   }
 };
+
+
+export const backend_api_context_chat = async (data) => {
+  console.log('backend_api_context_chat received data:', data);
+  if (data.length > 2) {
+      try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/trained-chat`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ text: data }),
+          });
+          if (response.ok) {
+              const jsonResponse = await response.json();
+              console.log('API RESPONSE', response.ok, jsonResponse);
+              return jsonResponse;
+          } else {
+              console.error('Upload failed with status:', response.status);
+              return response.status;
+          }
+      } catch (error) {
+          console.error('Error during fetch operation:', error);
+          throw error; // Ensure the error is thrown
+      }
+  } else {
+      console.error('Invalid option: Data length must be greater than 2');
+      throw new Error('Invalid option: Data length must be greater than 2');
+  }
+};
