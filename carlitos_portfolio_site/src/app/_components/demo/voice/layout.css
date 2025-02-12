@@ -13,7 +13,7 @@
     font-size: 16px;
     font-weight: 600;
     font-family: sans-serif;
-    background-color: #171717;
+    background-color: rgb(28, 28, 28);
     color: #fff;
     border-radius: 32px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
@@ -28,6 +28,7 @@
 .voice-demo-title{
     font-family: "LowballNeue-SemiBold";
     font-size: 42px;
+    margin: 25px 0px 10px 0px;
 }
 .es-project-inputs{
     width: 250px;

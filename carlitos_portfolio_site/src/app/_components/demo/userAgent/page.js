@@ -1,7 +1,7 @@
 /*
     This file holds the logic and FE for User Agent demo section
 */
-
+'use client'
 import React, { useEffect, useState } from 'react';
 
 // This is the function that parses the User Agent
@@ -83,7 +83,14 @@ const DataCollectionProject = () => {
         const revertDemo = (e) => {
             e.preventDefault();
             let projectDataElement = document.querySelector('.data-project-main');
-            projectDataElement.style.height = '400px';
+            let screenWidth = window.innerWidth
+            if(screenWidth < 600){
+                projectDataElement.style.height = '400px';
+                let byo_gpt = document.querySelector('.byo-gpt-main');
+                byo_gpt.style.display = 'block';
+
+            }
+            projectDataElement.style.height = '325px';
             let byo_gpt = document.querySelector('.byo-gpt-main');
             byo_gpt.style.display = 'block';
 

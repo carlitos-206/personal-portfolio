@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { UserData } from "../../userAgent/data_retriver";
-import { voice_api_with_audio,  backend_api_context_chat } from "../backend";
+import { voice_api_with_audio, backend_api_context_chat } from "../backend";
 import styles from "./ChatModule.module.css";
 import { IoIosRefresh } from "react-icons/io";
 
@@ -16,7 +16,11 @@ export default function ChatModule() {
   const [is_iOS, setIs_iOS] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
+
+  // Sending states
   const [isSending, setIsSending] = useState(false);
+  // ---- NEW: isTyping ----
+  const [isTyping, setIsTyping] = useState(false);
 
   // Text input
   const [newMessage, setNewMessage] = useState("");
@@ -58,8 +62,11 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   // so let's store them in a separate "initial" screen
   const initialScreen = (
     <div className={styles.chatBubble}>
-      <div className={styles.nyxBubble}>
-        <p>Hi! I'm your AI voice coach. Tap an option below to practice that phrase, by recording your voice and sending it to me to analyze!</p>
+      <div className={`${styles.chatBubble} ${styles.nyxBubble}`}>
+        <p>
+          Hi! I'm your AI voice coach. Tap an option below to practice that
+          phrase, by recording your voice and sending it to me to analyze!
+        </p>
       </div>
       <div className={styles.optionsContainer}>
         {initialOptions.map((optionText, index) => (
@@ -103,12 +110,16 @@ To experience this demo, I recommend trying on an Android device or desktop inst
         }
 
         // Check permission
-        const permission = await navigator.permissions.query({ name: "microphone" });
+        const permission = await navigator.permissions.query({
+          name: "microphone",
+        });
         if (permission.state === "granted") {
           localStorage.setItem("microphonePermission", "granted");
           setHasPermission(true);
         } else if (permission.state === "denied") {
-          alert("Microphone access is blocked. Please enable it in your browser settings.");
+          alert(
+            "Microphone access is blocked. Please enable it in your browser settings."
+          );
         }
 
         // Watch for changes
@@ -146,7 +157,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     if (chatScreenRef.current) {
       chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
     }
-  }, [mainTranscript, selectedOption]);
+  }, [mainTranscript, selectedOption, isTyping]);
 
   // =======================
   // 4) RECORDING FUNCTIONS
@@ -158,7 +169,9 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: "audio/webm",
+      });
       mediaRecorderRef.current = mediaRecorder;
       const audioChunks = [];
 
@@ -191,47 +204,48 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   // ================================
   // 5) SENDING TEXT / AUDIO MESSAGES
   // ================================
+  // Manage sending text messages
   useEffect(() => {
     if (!isSending) return;
-  
+
     const sendToBackend = async () => {
+      // ---- NEW: Turn on typing indicator ----
+      setIsTyping(true);
+
       try {
-        // For example, you might do something like:
-        const response = await  backend_api_context_chat(mainTranscript);
-        console.log('trained response\n', JSON.stringify(response), typeof response)
+        const response = await backend_api_context_chat(mainTranscript);
         // Suppose the server reply is in `response.replyText`
         setMainTranscript((prev) => [
           ...prev,
           {
             id: prev.length + 1,
             sender: "app",
-            text: response.received_texts[response.received_texts.length-1].text,
+            text: response.received_texts[response.received_texts.length - 1]
+              .text,
             audio: false,
             audio_file: null,
           },
         ]);
-  
-        // Finished sending
-        setIsSending(false);
       } catch (err) {
         console.error("Error sending to backend:", err);
+      } finally {
+        // ---- NEW: Turn off typing indicator ----
+        setIsTyping(false);
         setIsSending(false);
       }
     };
-  
+
     sendToBackend();
   }, [isSending, mainTranscript]);
 
-
-  
+  // Handle user's text submit
   const handleTextSend = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-  
-    // 1) Immediately set isSending true
+
     setIsSending(true);
-  
-    // 2) Append user’s message
+
+    // Append user’s message
     setMainTranscript((prev) => [
       ...prev,
       {
@@ -242,16 +256,19 @@ To experience this demo, I recommend trying on an Android device or desktop inst
         audio_file: null,
       },
     ]);
-  
-    // 3) Clear input
+
     setNewMessage("");
   };
-  
+
+  // Handle sending audio
   const handleAudioSend = async () => {
     if (!audioBlob) {
       alert("Recording Failed: No audio found.");
       return;
     }
+
+    // Hide the recording controls immediately upon sending
+    setHasSentAudio(true);
 
     // 1) Append the audio to the chat so it's playable
     setMainTranscript((prev) => [
@@ -265,13 +282,15 @@ To experience this demo, I recommend trying on an Android device or desktop inst
       },
     ]);
 
-    // 2) Optionally send to your backend (comment out if not needed)
+    // 2) Optionally send to your backend
+    // ---- NEW: Turn on typing indicator ----
+    setIsTyping(true);
+
     try {
       const phrase = selectedOption || "";
       const jsonResponse = await voice_api_with_audio(audioBlob, phrase);
       console.log("Response from backend:", jsonResponse);
 
-      // If you want to show the server response, create a new bubble:
       if (jsonResponse?.result?.text) {
         setMainTranscript((prev) => [
           ...prev,
@@ -287,12 +306,13 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     } catch (error) {
       console.error("Error handling audio data:", error);
       alert("An error occurred while processing the audio data.");
+    } finally {
+      // ---- NEW: Turn off typing indicator ----
+      setIsTyping(false);
     }
 
-    // 3) Now that we've sent at least one audio message, hide recording controls
-    //    and show text input only
+    // Clear the blob after sending
     setAudioBlob(null);
-    setHasSentAudio(true);
   };
 
   // ================
@@ -301,7 +321,6 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   const handleOptionClick = (optionText) => {
     setSelectedOption(optionText);
 
-    // Replace the main transcript with the instructions + chosen phrase
     setMainTranscript([
       {
         id: 1,
@@ -323,10 +342,9 @@ To experience this demo, I recommend trying on an Android device or desktop inst
         text: `"${optionText}"`,
         audio: false,
         audio_file: null,
-      }
+      },
     ]);
 
-    // Make sure controls are visible for recording
     setControlsVisible(true);
   };
 
@@ -334,7 +352,6 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   // 7) REFRESH - "RESTART" LOGIC
   // ===========================
   const handleRefresh = () => {
-    // Reset everything to default
     setSelectedOption(null);
     setHasSentAudio(false);
     setAudioBlob(null);
@@ -358,8 +375,6 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   // 8) RENDERING FUNCTION
   // =====================
   const renderChatBubbles = () => {
-    // If user is on desktop/Android but hasn't allowed permission,
-    // show "permission needed" message
     if (!hasPermission && !is_iOS) {
       return (
         <div className={styles.chatBubble}>
@@ -370,12 +385,10 @@ To experience this demo, I recommend trying on an Android device or desktop inst
       );
     }
 
-    // If no option is selected, show the initial screen with options
     if (!selectedOption) {
       return initialScreen;
     }
 
-    // Else, show the main transcript (instructions + user's recordings, etc.)
     return (
       <>
         {mainTranscript.map((item) => (
@@ -386,12 +399,24 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             }`}
           >
             {item.audio ? (
-              <audio controls src={URL.createObjectURL(item.audio_file)} />
+              <audio className="audio-player" controls src={URL.createObjectURL(item.audio_file)} />
             ) : (
               <p>{item.text}</p>
             )}
           </div>
         ))}
+
+        {/* 
+          ---- NEW: The Typing Indicator ----
+          Shows a simple "...", but you can style as needed 
+        */}
+        {isTyping && (
+          <div className={styles.chatBubble}>
+            <div className="byo-chat-message typing">
+              <p>...</p>
+            </div>
+          </div>
+        )}
       </>
     );
   };
@@ -407,9 +432,13 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             {/* Refresh Button */}
             <div className={styles.refreshButtonContainer}>
               <button className="demo-buttons" onClick={handleRefresh}>
-                <IoIosRefresh size={16} style={{
-                  marginRight: "5px"
-                }} /> Restart Demo
+                <IoIosRefresh
+                  size={16}
+                  style={{
+                    marginRight: "5px",
+                  }}
+                />{" "}
+                Restart Demo
               </button>
             </div>
 
@@ -454,9 +483,14 @@ To experience this demo, I recommend trying on an Android device or desktop inst
                   placeholder="Type your message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
+                  disabled={isSending}
                 />
-                <button className="demo-buttons" type="submit">
-                  Send
+                <button
+                  className="demo-buttons"
+                  type="submit"
+                  disabled={isSending || !newMessage.trim()}
+                >
+                  {isSending ? "Sending..." : "Send"}
                 </button>
               </form>
             )}
@@ -465,7 +499,9 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             {!hasPermission && !is_iOS && (
               <div className={styles.permissionContainer}>
                 <p>Microphone permission is not granted.</p>
-                <button onClick={requestPermissionManually}>Grant Microphone Access</button>
+                <button className="demo-buttons" onClick={requestPermissionManually}>
+                  Grant Microphone Access
+                </button>
               </div>
             )}
           </div>
@@ -475,7 +511,10 @@ To experience this demo, I recommend trying on an Android device or desktop inst
         iOSMessages.map((msg) => (
           <React.Fragment key={msg.id}>
             <p className={styles.iosMessage}>{msg.text}</p>
-            <button className="demo-buttons" onClick={(e) => scrollToElement(e, contactElement)}>
+            <button
+              className="demo-buttons"
+              onClick={(e) => scrollToElement(e, contactElement)}
+            >
               Contact for Support
             </button>
           </React.Fragment>
