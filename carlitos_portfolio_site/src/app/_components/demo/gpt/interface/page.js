@@ -3,6 +3,8 @@
     
     REF Cycle: "./gpt/page.js(*ROOT*)" <-> "./gpt/interface/page.js"(*YOU ARE HERE*) <-> "./gpt/chat/page.js"
 */ 
+
+'use clien'
 import React, { useState, useEffect } from 'react';
 
 // Custom components
@@ -133,13 +135,60 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
 
 
         };
+    const handleTutorialLink = async(e, route)=>{
+        let screen = window.innerWidth
+        if(screen < 1300){
+            switch (route) {
+                case 'letter':
+                    window.location.href = "https://www.youtube.com/watch?v=dwrlevpwWpc";
+                    break;
+                case 'custom':
+                    window.location.href = "https://www.youtube.com/watch?v=gYqma0kj-eE";
 
+                break;
+                default:
+                    break;
+            }
+        }else{
+            switch (route) {
+                case 'letter':
+                    window.open(
+                        "https://www.youtube.com/watch?v=dwrlevpwWpc", 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                    break;
+                case 'custom':
+                    window.open(
+                        "https://www.youtube.com/watch?v=gYqma0kj-eE", 
+                        "myPopup", 
+                        "top=25,left=50,width=900,height=900",
+                    )
+                break;
+                default:
+                    break;
+            }
+        }
+    }
     return (
         chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
             <div className="byo-gpt-interface-container">
                 <div className="byo-gpt-interface-title">
                     <h1>Hi, {user?.firstName}!</h1>
-                    <p>Read Instructions</p>
+                    <div className='gpt-interface-demo-buttons-container'>
+                        <p
+                           className='gpt-tutorial-links'
+                           onClick={(e)=>{handleTutorialLink(e, 'letter')}}
+                        >
+                            Cover Letter Tutorial Video
+                        </p> 
+                        <p 
+                            className='gpt-tutorial-links'
+                            onClick={(e)=>{handleTutorialLink(e, 'custom')}}
+                        >
+                            Custom GPT Tutorial Video
+                        </p>
+                    </div>
                 </div>
                 <div className="byo-gpt-contianer-pre-demo-container">
                     <p>Prebuilt Demo: </p>

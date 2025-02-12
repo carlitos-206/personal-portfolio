@@ -1,0 +1,6 @@
+#local videos + Adobe projects
+
+*.mp4
+*.prproj
+/Adobe Premiere Pro Audio Previews
+/Adobe Premiere Pro Auto-Save
