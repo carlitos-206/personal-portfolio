@@ -34,7 +34,7 @@ const DataCollectionProject = () => {
                 agreeCheckbox.checked = true;
                 shareDataCheckbox.checked = true;
             } else { // when the data exists it hides the gpt demo and streches the UA demo
-                projectDataElement.style.height = '680px';
+                projectDataElement.style.height = '734px';
                 byo_gpt.style.display = 'none';
             }
 
