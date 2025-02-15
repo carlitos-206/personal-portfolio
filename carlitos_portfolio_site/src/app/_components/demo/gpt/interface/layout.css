@@ -95,6 +95,7 @@
 
 .gpt-tutorial-links{
     text-decoration: underline #3182ce 3px;
+    font-style: italic;
 }
 .gpt-tutorial-links:hover{
     cursor: pointer;
