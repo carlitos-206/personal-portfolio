@@ -20,7 +20,6 @@ export default function HeroLanding() {
     // handles scrolling to elements 
         const scrollToElement = (e, element) => {
             e.preventDefault();
-            console.log(element)
             if (!element) return;
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - 100;

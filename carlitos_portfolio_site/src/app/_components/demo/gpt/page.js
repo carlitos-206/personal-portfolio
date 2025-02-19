@@ -102,7 +102,6 @@ const BYO_GPT = () => {
                 //     firstName: firstName,
                 //     lastName: lastName
                 // });
-                // console.log('Document written with ID: ', docRef.id);
 
                 localStorage.setItem('gpt-builder', JSON.stringify({
                     email: email,

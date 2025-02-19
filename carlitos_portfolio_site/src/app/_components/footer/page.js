@@ -26,7 +26,6 @@ export default function Footer(){
 
             };
             handleResize();
-            console.log(`isSmallScreen: ${isSmallScreen}`)
             window.addEventListener("resize", handleResize);
 
             return () => window.removeEventListener("resize", handleResize);
@@ -35,7 +34,6 @@ export default function Footer(){
     // handles scrolling to elements
         const scrollToElement = (e, element) => {
             e.preventDefault();
-            console.log(element)
             if (!element) return;
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - 100;

@@ -326,7 +326,6 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     try {
       const phrase = selectedOption || "";
       const jsonResponse = await voice_api_with_audio(audioBlob, phrase);
-      console.log("Response from backend:", jsonResponse);
 
       if (jsonResponse?.result?.text) {
         setMainTranscript((prev) => [

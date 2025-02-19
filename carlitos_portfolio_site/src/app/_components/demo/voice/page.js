@@ -99,7 +99,6 @@ export default function ES_PROJECT() {
       //   last_name: lname,
       //   email: email,
       // });
-      // console.log("Document written with ID: ", docRef.id);
 
       setChatModule(true);
     }
