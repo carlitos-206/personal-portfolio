@@ -22,7 +22,9 @@ export default function ChatModule() {
 
   const [isServerOnline, setIsServerOnline] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  
 
+  
   // Sending states
   const [isSending, setIsSending] = useState(false);
   // ---- NEW: isTyping ----
@@ -611,14 +613,8 @@ To experience this demo, I recommend trying on an Android device or desktop inst
               >
                 {isLoading ? "Checking server ..." : "Retry"}
               </button>
-              <button
-                className="demo-buttons byo-interface-mobile"
-                onClick={() => {
-                  alert("Please reach out via email or phone to schedule a demo!");
-                }}
-              >
-                Contact Me
-              </button>
+              <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{scrollToElement(e, contactElement)}}>Contact Me</button>
+
             </div>
         </div>
       )}

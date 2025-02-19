@@ -53,6 +53,8 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
         const [error_guardrailsTask_text, setError_guardrailsTask_text] = useState(false)
         const [error_guardrailsTask, setError_guardrailsTask] = useState(false)
 
+        const [contactElement, setContactElement] = useState(null)
+
         const [isServerOnline, setIsServerOnline] = useState(true)
         const [isLoading, setIsLoading] = useState(false)
     // User info retrival 
@@ -80,6 +82,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
             }
         }
         useEffect(()=>{
+            setContactElement(document.querySelector("#contact"))
             checkServer()
         },[])
     
@@ -198,6 +201,19 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
             }
         }
     }
+        // handles nav scroll to element
+        const scrollToElement = (e, element) => {
+            e.preventDefault();
+            console.log(element)
+            if (!element) return;
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - 100;
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+            setMenuOpen(false)
+        };
     return (
         isServerOnline ? (
         chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
@@ -290,7 +306,7 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                                     >
                                     {isLoading ? 'Checking server ...': 'Retry'}
                                 </button>
-                                <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{handleCustomBuild(e, mainTask, supportTask, guardrailsTask)}}>Contact Me</button>
+                                <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{scrollToElement(e, contactElement)}}>Contact Me</button>
 
                         </div>
                     </div>
