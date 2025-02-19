@@ -164,7 +164,7 @@ const BYO_GPT = () => {
                 !build ? (
                 <div className="byo-gpt-container">
                 <h1 className="gpt-title-text">Custom Chat GPT Builder</h1>
-                <p className="gpt-summary-text">Summary: This is a live demo of GPT Context Training, except here you can custom build your own Chat GPT </p>
+                <p className="gpt-summary-text">This GPT Context Training demo lets you build a custom Chat GPT to suit your needs, featuring a pre-trained cover letter writer.</p>
                 <form className="byo-gpt-form" action=""  autoComplete="off">
                     <div className="byo-gpt-input-container">
                         <InputField 
