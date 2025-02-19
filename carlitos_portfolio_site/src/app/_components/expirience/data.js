@@ -35,7 +35,7 @@ export const Experience_Data = [
             "Trained cross-functional teams",
             "Pioneered AI accent detection app"
         ],
-        image: "/images/npm-project-hero.png",
+        image: "/images/exp-swe-hero.jpg",
         type: "Tech"
     },
     {
