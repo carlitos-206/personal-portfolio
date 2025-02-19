@@ -97,11 +97,11 @@ const BYO_GPT = () => {
             }
             // all validations passed
             if(validEmail.test(email) && firstName.length >= 2 && lastName.length >= 2 && agree && shareData){    
-                // const docRef = await addDoc(collection(db, 'byo_gpt'), {
-                //     email: email,
-                //     firstName: firstName,
-                //     lastName: lastName
-                // });
+                const docRef = await addDoc(collection(db, 'byo_gpt'), {
+                    email: email,
+                    firstName: firstName,
+                    lastName: lastName
+                });
 
                 localStorage.setItem('gpt-builder', JSON.stringify({
                     email: email,

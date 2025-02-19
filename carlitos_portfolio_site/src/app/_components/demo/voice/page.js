@@ -9,8 +9,8 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import ChatModule from "./chat/page";
-// import { db } from "@/database/firebaseConnection"; // If you’re using Firebase
-// import { collection, addDoc } from "firebase/firestore";
+import { db } from  "../../GLOBAL/database/firebase"
+import { collection, addDoc } from "firebase/firestore";
 
 const InputField = styled(TextField)({
   "& label": {
@@ -94,11 +94,11 @@ export default function ES_PROJECT() {
     // If all validations pass, proceed to the chat module
     if (valid) {
       // Optional: You can add your data submission logic here
-      // const docRef = await addDoc(collection(db, "es_project"), {
-      //   first_name: fname,
-      //   last_name: lname,
-      //   email: email,
-      // });
+      const docRef = await addDoc(collection(db, "voice_project"), {
+        first_name: fname,
+        last_name: lname,
+        email: email,
+      });
 
       setChatModule(true);
     }
