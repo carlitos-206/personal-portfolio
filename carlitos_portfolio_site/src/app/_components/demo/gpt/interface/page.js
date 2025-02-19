@@ -14,6 +14,8 @@ import BYO_CHAT from '../chat/page';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 
+//
+import { isServerOnlineChecker } from '../../../GLOBAL/functions/checkServer';
 import './layout.css';
 
 // MUI styles
@@ -51,10 +53,39 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
         const [error_guardrailsTask_text, setError_guardrailsTask_text] = useState(false)
         const [error_guardrailsTask, setError_guardrailsTask] = useState(false)
 
+        const [contactElement, setContactElement] = useState(null)
+
+        const [isServerOnline, setIsServerOnline] = useState(true)
+        const [isLoading, setIsLoading] = useState(false)
     // User info retrival 
         const userInfo = localStorage.getItem('gpt-builder');
         const user = JSON.parse(userInfo);
 
+    // handles checking if server is online 
+        
+        const checkServer = async (e) =>{
+            const server = localStorage.getItem('server-status')
+            if(server !== null ){    
+                setIsServerOnline(JSON.parse(server))
+            }
+            setIsLoading(true)
+            const retry = await isServerOnlineChecker()
+            localStorage.setItem('server-status', retry)
+            setIsServerOnline(JSON.parse(retry))
+            if(retry !== 'true'){
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000);
+            }else{
+
+                setIsLoading(false)
+            }
+        }
+        useEffect(()=>{
+            setContactElement(document.querySelector("#contact"))
+            checkServer()
+        },[])
+    
     // handles fliping to <BYO_CHAT /> for cover letter option
         useEffect(() => {
             if (coverLetter) {
@@ -170,7 +201,20 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
             }
         }
     }
+        // handles nav scroll to element
+        const scrollToElement = (e, element) => {
+            e.preventDefault();
+            if (!element) return;
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - 100;
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+            setMenuOpen(false)
+        };
     return (
+        isServerOnline ? (
         chat ? <BYO_CHAT task={userTask}  onReturnToMain={onReturnToMain} /> :
             <div className="byo-gpt-interface-container">
                 <div className="byo-gpt-interface-title">
@@ -244,7 +288,29 @@ const BYO_GPT_INTERFACE = ({ onReturnToMain }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> ):(
+                <div className="byo-gpt-interface-container">
+                    <div className="byo-gpt-interface-404-container">
+                        <h1 className="gpt-title-text">Custom Chat GPT Builder</h1>
+                        <h1>Hi,</h1>
+                        <br/>
+                        <h3>My server is currently offline. Please click “Retry” to see if it becomes available again. If it remains unresponsive, feel free to explore my user agent demo, which relies on client-side functionality. Should you need additional help or prefer a more personalized walkthrough, don’t hesitate to contact me to schedule a demo. Thank you for your patience and understanding.</h3>
+                        <br/>                        
+                        <div className='gpt-interface-demo-buttons-container'>
+                                <button className="demo-buttons byo-interface-mobile" onClick={onReturnToMain}>Exit</button>
+                                <button 
+                                    className="demo-buttons byo-interface-mobile" 
+                                    onClick={(e)=>{checkServer(e)}}
+                                    disabled = {isLoading}
+                                    >
+                                    {isLoading ? 'Checking server ...': 'Retry'}
+                                </button>
+                                <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{scrollToElement(e, contactElement)}}>Contact Me</button>
+
+                        </div>
+                    </div>
+                </div>
+            ) 
     );
 };
 

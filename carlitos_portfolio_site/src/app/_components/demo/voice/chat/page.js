@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+// If the path differs in your project, adjust accordingly:
+import { isServerOnlineChecker } from "../../../GLOBAL/functions/checkServer";
 import { UserData } from "../../userAgent/data_retriver";
 import { voice_api_with_audio, backend_api_context_chat } from "../backend";
 import styles from "./ChatModule.module.css";
 import { IoIosRefresh } from "react-icons/io";
-import './layout.css'
+import "./layout.css";
+
 export default function ChatModule() {
   // =====================
   // 1) STATE DECLARATIONS
@@ -17,6 +20,11 @@ export default function ChatModule() {
   const mediaRecorderRef = useRef(null);
   const chatScreenRef = useRef(null);
 
+  const [isServerOnline, setIsServerOnline] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  
+
+  
   // Sending states
   const [isSending, setIsSending] = useState(false);
   // ---- NEW: isTyping ----
@@ -159,8 +167,37 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     }
   }, [mainTranscript, selectedOption, isTyping]);
 
+  // =========================================
+  // 4) CHECK SERVER LOGIC - UPDATED TO MATCH
+  // =========================================
+  const checkServer = async (e) => {
+    const server = localStorage.getItem("server-status");
+    if (server !== null) {
+      setIsServerOnline(JSON.parse(server));
+    }
+    setIsLoading(true);
+
+    // Actually call the checker
+    const retry = await isServerOnlineChecker();
+    localStorage.setItem("server-status", retry);
+    setIsServerOnline(JSON.parse(retry));
+
+    // If offline, wait 4 seconds before clearing "Checking server..."
+    if (retry !== "true") {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkServer();
+  }, []);
+
   // =======================
-  // 4) RECORDING FUNCTIONS
+  // 5) RECORDING FUNCTIONS
   // =======================
   const startRecording = async () => {
     if (!hasPermission) {
@@ -202,7 +239,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   };
 
   // ================================
-  // 5) SENDING TEXT / AUDIO MESSAGES
+  // 6) SENDING TEXT / AUDIO MESSAGES
   // ================================
   // Manage sending text messages
   useEffect(() => {
@@ -289,7 +326,6 @@ To experience this demo, I recommend trying on an Android device or desktop inst
     try {
       const phrase = selectedOption || "";
       const jsonResponse = await voice_api_with_audio(audioBlob, phrase);
-      console.log("Response from backend:", jsonResponse);
 
       if (jsonResponse?.result?.text) {
         setMainTranscript((prev) => [
@@ -316,7 +352,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   };
 
   // ================
-  // 6) OPTION SELECT
+  // 7) OPTION SELECT
   // ================
   const handleOptionClick = (optionText) => {
     setSelectedOption(optionText);
@@ -349,7 +385,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   };
 
   // ===========================
-  // 7) REFRESH - "RESTART" LOGIC
+  // 8) REFRESH - "RESTART" LOGIC
   // ===========================
   const handleRefresh = () => {
     setSelectedOption(null);
@@ -372,7 +408,7 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   };
 
   // =====================
-  // 8) RENDERING FUNCTION
+  // 9) RENDERING FUNCTION
   // =====================
   const renderChatBubbles = () => {
     if (!hasPermission && !is_iOS) {
@@ -399,7 +435,11 @@ To experience this demo, I recommend trying on an Android device or desktop inst
             }`}
           >
             {item.audio ? (
-              <audio id="audio-player" controls src={URL.createObjectURL(item.audio_file)} />
+              <audio
+                id="audio-player"
+                controls
+                src={URL.createObjectURL(item.audio_file)}
+              />
             ) : (
               <p>{item.text}</p>
             )}
@@ -422,131 +462,160 @@ To experience this demo, I recommend trying on an Android device or desktop inst
   };
 
   // ====================
-  // 9) MAIN RENDER RETURN
+  // 10) MAIN RENDER RETURN
   // ====================
   return (
     <>
-      {!is_iOS ? (
-        <div className={styles.chatModule}>
-          <div className={styles.chatContainer}>
-            {/* Refresh Button */}
-            <div className={styles.refreshButtonContainer}>
-              <button className="demo-buttons" onClick={handleRefresh}>
-                <IoIosRefresh
-                  size={16}
-                  style={{
-                    marginRight: "5px",
-                  }}
-                />{" "}
-                Restart Demo
-              </button>
+      {isServerOnline ? (
+        <div>
+          {!is_iOS ? (
+            <div className={styles.chatModule}>
+              <div className={styles.chatContainer}>
+                {/* Refresh Button */}
+                <div className={styles.refreshButtonContainer}>
+                  <button className="demo-buttons" onClick={handleRefresh}>
+                    <IoIosRefresh
+                      size={16}
+                      style={{
+                        marginRight: "5px",
+                      }}
+                    />{" "}
+                    Restart Demo
+                  </button>
+                </div>
+
+                {/* Chat Screen */}
+                <div className={styles.chatScreen} ref={chatScreenRef}>
+                  {renderChatBubbles()}
+                </div>
+
+                {/* Controls */}
+                {controlsVisible &&
+                  !hasSentAudio &&
+                  hasPermission &&
+                  selectedOption && (
+                    <div className={`${styles.audioControls} ${styles.audioGrid}`}>
+                      {/* Start Recording */}
+                      <div>
+                        <button
+                          className="voice-demo-buttons"
+                          onClick={startRecording}
+                          disabled={!hasPermission || isRecording}
+                        >
+                          🔴 Record
+                        </button>
+                      </div>
+                      {/* Stop */}
+                      <div>
+                        <button
+                          className="voice-demo-buttons"
+                          onClick={stopRecording}
+                          disabled={!isRecording}
+                        >
+                          ⏹ Stop
+                        </button>
+                      </div>
+                      {/* Preview */}
+                      <div>
+                        {audioBlob ? (
+                          <audio
+                            className="audio-player-controler"
+                            src={URL.createObjectURL(audioBlob)}
+                            controls
+                          />
+                        ) : (
+                          <div style={{ minHeight: "50px" }} />
+                        )}
+                      </div>
+                      {/* Send Audio */}
+                      <div>
+                        {audioBlob ? (
+                          <button className="voice-demo-buttons" onClick={handleAudioSend}>
+                            Send Audio
+                          </button>
+                        ) : (
+                          <div style={{ minHeight: "50px" }} />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {/* Once user has sent audio, show text input */}
+                {hasSentAudio && (
+                  <form className={styles.chatInput} onSubmit={handleTextSend}>
+                    <input
+                      type="text"
+                      placeholder="Type your message..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      disabled={isSending}
+                    />
+                    <button
+                      className="demo-buttons"
+                      type="submit"
+                      disabled={isSending || !newMessage.trim()}
+                    >
+                      {isSending ? "Sending..." : "Send"}
+                    </button>
+                  </form>
+                )}
+
+                {/* If permission not granted, ask to grant it */}
+                {!hasPermission && !is_iOS && (
+                  <div className={styles.permissionContainer}>
+                    <p>Microphone permission is not granted.</p>
+                    <button className="demo-buttons" onClick={requestPermissionManually}>
+                      Grant Microphone Access
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-
-            {/* Chat Screen */}
-            <div className={styles.chatScreen} ref={chatScreenRef}>
-              {renderChatBubbles()}
-            </div>
-
-            {/* Controls */}
-            {controlsVisible && !hasSentAudio && hasPermission && selectedOption && (
-<div className={`${styles.audioControls} ${styles.audioGrid}`}>
-  {/* Cell 1: Start Recording */}
-  <div>
-    <button
-      className="voice-demo-buttons"
-      onClick={startRecording}
-      disabled={!hasPermission || isRecording}
-    >
-      🔴 Record
-    </button>
-  </div>
-
-  {/* Cell 2: Stop */}
-  <div>
-    <button
-      className="voice-demo-buttons"
-      onClick={stopRecording}
-      disabled={!isRecording}
-    >
-      ⏹ Stop
-    </button>
-  </div>
-
-  {/* Cell 3: Audio preview or placeholder */}
-  <div>
-    {audioBlob ? (
-      <audio
-        className="audio-player-controler"
-        src={URL.createObjectURL(audioBlob)}
-        controls
-      />
-    ) : (
-      // Empty placeholder (adjust height as needed)
-      <div style={{ minHeight: '50px' }} />
-    )}
-  </div>
-
-  {/* Cell 4: Send Audio or placeholder */}
-  <div>
-    {audioBlob ? (
-      <button
-        className="voice-demo-buttons"
-        onClick={handleAudioSend}
-      >
-        Send Audio
-      </button>
-    ) : (
-      <div style={{ minHeight: '50px' }} />
-    )}
-  </div>
-</div>
-
-            )}
-
-            {/* Once user has sent audio, show text input */}
-            {hasSentAudio && (
-              <form className={styles.chatInput} onSubmit={handleTextSend}>
-                <input
-                  type="text"
-                  placeholder="Type your message..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  disabled={isSending}
-                />
+          ) : (
+            // If iOS is detected
+            iOSMessages.map((msg) => (
+              <React.Fragment key={msg.id}>
+                <p className={styles.iosMessage}>{msg.text}</p>
                 <button
                   className="demo-buttons"
-                  type="submit"
-                  disabled={isSending || !newMessage.trim()}
+                  onClick={(e) => scrollToElement(e, contactElement)}
                 >
-                  {isSending ? "Sending..." : "Send"}
+                  Contact for Support
                 </button>
-              </form>
-            )}
-
-            {/* If permission not granted, ask to grant it */}
-            {!hasPermission && !is_iOS && (
-              <div className={styles.permissionContainer}>
-                <p>Microphone permission is not granted.</p>
-                <button className="demo-buttons" onClick={requestPermissionManually}>
-                  Grant Microphone Access
-                </button>
-              </div>
-            )}
-          </div>
+              </React.Fragment>
+            ))
+          )}
         </div>
       ) : (
-        // If iOS is detected
-        iOSMessages.map((msg) => (
-          <React.Fragment key={msg.id}>
-            <p className={styles.iosMessage}>{msg.text}</p>
-            <button
-              className="demo-buttons"
-              onClick={(e) => scrollToElement(e, contactElement)}
-            >
-              Contact for Support
-            </button>
-          </React.Fragment>
-        ))
+        // ======================================
+        // OFFLINE FALLBACK (SERVER UNAVAILABLE)
+        // ======================================
+        <div className="voice-404-error">
+            <h1>Hi,</h1>
+            <br />
+            <h3>
+              My server is currently offline. Please click “Retry” to see if it
+              becomes available again. If it remains unresponsive, feel free to explore
+              my user agent demo, which relies on client-side functionality. Should you
+              need additional help or prefer a more personalized walkthrough, don’t 
+              hesitate to contact me to schedule a demo. Thank you for your patience 
+              and understanding.
+            </h3>
+            <br />
+            <div className="gpt-interface-demo-buttons-container">
+              <button
+                className="demo-buttons byo-interface-mobile"
+                onClick={(e) => {
+                  checkServer(e);
+                }}
+                disabled={isLoading}
+              >
+                {isLoading ? "Checking server ..." : "Retry"}
+              </button>
+              <button className="demo-buttons byo-interface-mobile" onClick={(e)=>{scrollToElement(e, contactElement)}}>Contact Me</button>
+
+            </div>
+        </div>
       )}
     </>
   );

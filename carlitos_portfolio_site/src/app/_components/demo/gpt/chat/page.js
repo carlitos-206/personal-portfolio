@@ -45,18 +45,13 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     const fetchData_cover_letter = async () => {
         const response = await cover_letter_writer(messages, user, data);
         setData(response)
-        console.log(`
-                            multi response: ${JSON.stringify(response)}
-            `)
         setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
 // initial custom gpt fetch
     const fetchData_custom_gpt = async () => {
         const response = await custom_gpt(messages, user, data, prompts);
         setData(response)
-        console.log(`
-                            multi response: ${JSON.stringify(response)}
-            `)
+
         setMessages([response.returned_transcript[response.returned_transcript.length -1]]);
     };
     // Retrieve the user prompts on render
@@ -75,14 +70,11 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
                     case 'prebuilt':
                         response = await cover_letter_writer(messages, user, data);
                         setData(response);
-                        console.log(`multi response: ${JSON.stringify(response)}`);
                         setMessages(response.returned_transcript.map((item) => item.content));
                         break;
                     case 'custom':
-                        console.log('prompts at js', prompts);
                         response = await custom_gpt(messages, user, data, prompts);
                         setData(response);
-                        console.log(`multi response: ${JSON.stringify(response)}`);
                         setMessages(response.returned_transcript.map((item) => item.content));
                         break;
                     default:
@@ -103,7 +95,6 @@ const BYO_CHAT = ({ task, onReturnToMain }) => {
     useEffect(() => {
         if (lastMessageRef.current && chatContainerRef.current) {
             const lastMessageOffset = lastMessageRef.current.offsetTop - 100;
-            console.log(lastMessageOffset);
             chatContainerRef.current.scrollTop = lastMessageOffset;
         }
     }, [messages]);

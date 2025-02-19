@@ -41,7 +41,6 @@
                 );
 
                 const data = await init_response.json();
-                console.log("Received from backend:", data);
                 return data
             } catch (e) {
                 console.error("Error while calling /cover-letter:", e);
@@ -64,12 +63,10 @@
                     }
                 );
                 const data = await multi_response.json();
-                console.log("Received from backend:", data);
                 return data
             }catch(e){
                 console.error(e)
             }
-            console.log('data: ', data, 'transcript', transcript)
         }
     }
 
@@ -77,19 +74,7 @@
 
     // Custom GPT 
     export const custom_gpt= async ( transcript, user, data, prompts) =>{
-        console.log(`
-            \nCUSTOM GPT:
-                main: ${prompts.main_task}
-                support: ${prompts.support_task}
-                guardrail:${prompts.guardrails_task }
-                transcript: ${transcript}
-                user: {
-                    firstName: ${user.firstName},
-                    lastName: ${user.lastName}
-                    emailName: ${user.email}
-                }
 
-            `)
         if(transcript.length === 0 ){
             try {
                 const init_response = await fetch(
@@ -116,7 +101,6 @@
                 );
 
                 const data = await init_response.json();
-                console.log("Received from backend:", data);
                 return data
             } catch (e) {
                 console.error("Error while calling /cover-letter:", e);
@@ -144,7 +128,6 @@
                     }
                 );
                 const data = await multi_response.json();
-                console.log("Received from backend:", data);
                 return data
             }catch(e){
                 console.error(e)

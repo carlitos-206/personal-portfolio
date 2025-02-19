@@ -16,12 +16,6 @@ client = OpenAI(
 )
 
 def customGPT(user_prompts, user, transcript):
-    # Debug: Print current transcript, its length, and the user prompts
-    print(f'''
-        transcript: {transcript}
-        transcript_length: {len(transcript)}
-        prompts: {user_prompts}
-    ''')
 
     # Validate that the required keys exist in the user_prompts dictionary.
     # The keys 'main', 'support', and 'guardrail' are necessary to build the prompt.
@@ -56,8 +50,7 @@ def customGPT(user_prompts, user, transcript):
                 }
             ]
         )
-        # Debug: Print the initial GPT response.
-        print(f'\nCHAT_INIT_RESPONSE: {response.choices[0].message.content}\n')
+
         # Return the initial response as a list.
         return [response.choices[0].message.content]
     else:
@@ -77,9 +70,7 @@ def customGPT(user_prompts, user, transcript):
                 "role": role,
                 "content": message
             })
-                
-        # Debug: Print the assembled message history that will be sent to GPT.
-        print(f'\nSend of messages script: {script}\n')
+            
         
         # Send the complete conversation history to GPT to get the next response.
         response = client.chat.completions.create(
@@ -87,8 +78,6 @@ def customGPT(user_prompts, user, transcript):
             messages=script
         )
         
-        # Debug: Print the raw GPT response.
-        print(response)
         
         # Append the new GPT-generated assistant message to the conversation history.
         script.append({

@@ -75,7 +75,6 @@ export default function ProjectContentCarousel({ projects, position, onClose }) 
         const scrollToElement = (e, element) => {
             e.preventDefault();
             onClose()
-            console.log(element)
             if (!element) return;
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - 100;

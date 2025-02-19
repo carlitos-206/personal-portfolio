@@ -36,7 +36,6 @@ export const voice_api_with_audio = async (audioBlob, phrase) => {
 
 
 export const backend_api_context_chat = async (data) => {
-  console.log('backend_api_context_chat received data:', data);
   if (data.length > 2) {
       try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/trained-chat`, {
@@ -48,7 +47,6 @@ export const backend_api_context_chat = async (data) => {
           });
           if (response.ok) {
               const jsonResponse = await response.json();
-              console.log('API RESPONSE', response.ok, jsonResponse);
               return jsonResponse;
           } else {
               console.error('Upload failed with status:', response.status);

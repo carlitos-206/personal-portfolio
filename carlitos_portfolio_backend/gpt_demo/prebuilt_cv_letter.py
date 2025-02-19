@@ -42,11 +42,9 @@ def gpt_cover_letter_writer(transcript, user):
             ]
         )
         # Log the initial response from GPT and return it as a list.
-        print(f'\n CHAT_INIT_RESPONSE: {response.choices[0].message.content} \n')
         return [response.choices[0].message.content]
     # Continue an existing conversation if a transcript already exists.
     else:
-        print("\n", 'transcript-inside', transcript, "\n")
         # Initialize the conversation history with the internal system prompt.
         script = [
             {
@@ -69,19 +67,14 @@ def gpt_cover_letter_writer(transcript, user):
                     "content": transcript[i]
                 })
                 
-        # Log the complete message history prepared for the GPT request.
-        print(f'''
-                \n Send of messages script: {script} \n
-            ''')
+
         
         # Send the complete conversation history to GPT for generating the next response.
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=script
         )
-        
-        print(response)
-        
+                
         # Append the latest assistant response to the conversation history.
         script.append({
             "role": "assistant",

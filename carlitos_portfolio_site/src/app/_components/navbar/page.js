@@ -51,7 +51,6 @@ function NavBar() {
     // handles nav scroll to element
     const scrollToElement = (e, element) => {
         e.preventDefault();
-        console.log(element)
         if (!element) return;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - 100;

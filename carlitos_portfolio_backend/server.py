@@ -53,11 +53,6 @@ def cover_letter_route():
     transcript = data.get('transcript')
     user = data.get('user', {})
     prompts = data.get('prompts', {})
-    # Debug: Print the received transcript and user data.
-    print(f'''
-        Transcript: {transcript}
-        user = {user}
-    ''')
     
     # Generate the updated conversation transcript using the GPT Cover Letter Writer function.
     new_transcript = gpt_cover_letter_writer(transcript, user)
@@ -91,13 +86,6 @@ def custom_gpt_route():
     user = data.get('user', {})
     user_prompts = data.get('user_prompts', {})
     
-    # Debug: Print the received transcript, user details, and custom prompts.
-    print(f'''
-        Transcript: {transcript}
-        user = {user}
-        prompts = {user_prompts}
-    ''')
-    
     # Process the custom GPT conversation using the provided data.
     new_transcript = customGPT(user_prompts, user, transcript)
     
@@ -127,7 +115,6 @@ def voice_demo():
 # Trained chat function to chat with the AI
 @app.route('/trained-chat', methods=['POST'])
 def chat_with_ai():
-    print("\nChat with AI\n")
     return trainedChat(request)
 
 if __name__ == '__main__':
