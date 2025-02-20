@@ -153,7 +153,7 @@ export default function Experience() {
                         </div>
                     </div>
                     <div className="tab-content-footer">
-                        <button className="tab-button-footer"><a href="/files/Resume.pdf" download="Carlos_Caceres_Resume" >Download Full Resume</a></button>
+                        <button className="tab-button-footer"><a href="/Resume.pdf" download="Carlos_Caceres_Resume_Engineer" >Download Full Resume</a></button>
                     </div>
                 </div>
             </section>

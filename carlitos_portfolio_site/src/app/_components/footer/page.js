@@ -65,7 +65,7 @@ export default function Footer(){
                         scrollToElement(e, contactElement);
                         break;
                     case 'download-resume':
-                        downloadFile('/files/resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
+                        downloadFile('/Resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
                         break;
                     case 'youtube-channel':
                         window.location.href = "https://www.youtube.com/@carloscaceres2608";
@@ -93,7 +93,7 @@ export default function Footer(){
                         scrollToElement(e, contactElement);
                         break;
                     case 'download-resume':
-                        downloadFile('/files/resume.pdf', 'resume.pdf');
+                        downloadFile('/Resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
                         break;
                     case 'youtube-channel':
                         window.open(
