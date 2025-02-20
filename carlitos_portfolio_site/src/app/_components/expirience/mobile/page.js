@@ -90,7 +90,7 @@ export default function Mobile_Expirience({ exp_data }) {
             <div className="tab-content-footer">
                     <button id="mobile-tab-button-footer" className="tab-button-footer">
                         <a 
-                            href="/files/Resume.pdf" 
+                            href="/Resume.pdf" 
                             download="Carlos_Caceres_Resume" 
                         >
                             Download Resume
