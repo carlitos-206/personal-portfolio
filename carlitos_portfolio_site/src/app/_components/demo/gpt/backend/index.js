@@ -20,7 +20,7 @@
         //     "status": 200 
         // }
 
-        if(transcript.length === 0 && data === null){
+        if(transcript.length === 0 && data === null){ // This ensures the initial call is done
             try {
                 const init_response = await fetch(
                     `${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/cover-letter`, 
@@ -41,11 +41,15 @@
                 );
 
                 const data = await init_response.json();
+                console.log(`
+                        Cover Letter Response
+                        ${data}
+                    `)
                 return data
             } catch (e) {
                 console.error("Error while calling /cover-letter:", e);
             }
-        }else{
+        }else{  // conversation exist
             try{
                 const multi_response = await fetch(`${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/cover-letter`, {
                         method: "POST",
@@ -63,9 +67,13 @@
                     }
                 );
                 const data = await multi_response.json();
+                console.log(`
+                    Custom GPT Response
+                    ${data}
+                `)
                 return data
             }catch(e){
-                console.error(e)
+                console.error("Error while calling /cover-letter:", e)
             }
         }
     }
@@ -74,8 +82,7 @@
 
     // Custom GPT 
     export const custom_gpt= async ( transcript, user, data, prompts) =>{
-
-        if(transcript.length === 0 ){
+        if(transcript.length === 0 ){ // Initial call to context train gpt
             try {
                 const init_response = await fetch(
                     `${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/custom-gpt`, 
@@ -103,9 +110,9 @@
                 const data = await init_response.json();
                 return data
             } catch (e) {
-                console.error("Error while calling /cover-letter:", e);
+                console.error("Error while calling /custom-gpt:", e);
             }
-        }else{
+        }else{ // gpt is trained
             try{
                 const multi_response = await fetch(`${process.env.NEXT_PUBLIC_PUBLIC_SERVER}/custom-gpt`, {
                         method: "POST",
@@ -130,7 +137,7 @@
                 const data = await multi_response.json();
                 return data
             }catch(e){
-                console.error(e)
+                console.error("Error while calling /custom-gpt:", e);
             }
             console.log('data: ', data, 'transcript', transcript)
         }
