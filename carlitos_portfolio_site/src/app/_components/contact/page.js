@@ -177,6 +177,7 @@ export default function Contact() {
                     setEmail("")
                     setMessageSubject("")
                     setMessageBody("")
+                    console.log('Message was sent to Carlos')
                 }catch (e) {
                     alert(`
                         Unfortunately the form did not go through, try again or email me directly.
