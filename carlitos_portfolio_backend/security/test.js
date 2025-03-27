@@ -1,6 +1,6 @@
 const API_TESTER_HOME_TRUE = async () => {
     try {
-        const call = await fetch("http://localhost:5000/", {
+        const call = await fetch("http://localhost:5000/cover-letter", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -46,7 +46,7 @@ ${JSON.stringify(res, null, 2)}
 
 
 
-// API_TESTER_HOME_TRUE()
+API_TESTER_HOME_TRUE()
 // API_TESTER_HOME_FALSE()
 
 
