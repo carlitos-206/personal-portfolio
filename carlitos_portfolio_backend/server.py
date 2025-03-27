@@ -3,7 +3,7 @@
 # Standard library imports
 import json
 # Flask framework imports for building the web server and handling HTTP requests/responses
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 # Third-party module to load environment variables from a .env file (e.g., API keys and other settings)
@@ -23,7 +23,7 @@ from security.main import request_auth
 load_dotenv()
 
 # Initialize the Flask application.
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 # Enable Cross-Origin Resource Sharing (CORS) to allow requests from different origins.
 CORS(app)
 
@@ -147,6 +147,13 @@ def chat_with_ai():
     # Process the chat input using the trainedChat function and return the result.
     print('\nALERT - PROCESS TRAINED CHAT: TRUE\n', get_today_pst() )
     return trainedChat(request)
+
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
+
 
 # Error handling route for non existant routes
 @app.errorhandler(404)
