@@ -1,0 +1,5 @@
+# robots.txt
+# All bots are disallowed. This site does not allow scraping or crawling.
+
+User-agent: *
+Disallow: /
