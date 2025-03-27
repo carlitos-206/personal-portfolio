@@ -30,7 +30,8 @@ CORS(app)
 # Basic route to verify that the backend server is running.
 @app.route('/')
 def index():
-    check = request_auth(request, '/')
+    check = request_auth(request, request.path)
+
     if check['status'] != 200:
         response = {
             'status': check['status'], 
@@ -47,7 +48,7 @@ def index():
 @app.route('/cover-letter')
 def cover_letter_route():
     if request.method == 'GET':
-        check = request_auth(request, "/cover-letter")
+        check = request_auth(request, request.path)
         return jsonify({'status': 200})
     # Parse the JSON payload from the POST request.
     data = request.get_json()
@@ -157,12 +158,14 @@ def chat_with_ai():
 @app.route('/sitemap.xml')
 @app.route('/favicon.ico')
 def static_from_root():
+    request_auth(request, request.path)
     return send_from_directory(app.static_folder, request.path[1:])
 
 
 # Error handling route for non existant routes
 @app.errorhandler(404)
 def page_not_found(e):
+    request_auth(request, request.path)
     print(f'''
             ALERT - USER TRY TO ACCESS: FALSE ROUTE 
             
