@@ -44,8 +44,11 @@ def index():
     return jsonify(response)
 
 # Route to handle GPT Cover Letter generation requests.
-@app.route('/cover-letter', methods=['POST'])
+@app.route('/cover-letter')
 def cover_letter_route():
+    if request.method == 'GET':
+        check = request_auth(request, "/cover-letter")
+        return jsonify({'status': 200})
     # Parse the JSON payload from the POST request.
     data = request.get_json()
 
@@ -148,11 +151,13 @@ def chat_with_ai():
     print('\nALERT - PROCESS TRAINED CHAT: TRUE\n', get_today_pst() )
     return trainedChat(request)
 
+
+#Static Routes for Scraping Bots
 @app.route('/robots.txt')
 @app.route('/sitemap.xml')
+@app.route('/favicon.ico')
 def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
-
 
 
 # Error handling route for non existant routes
