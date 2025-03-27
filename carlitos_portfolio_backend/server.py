@@ -18,6 +18,7 @@ from gpt_demo.custom_gpt import customGPT                        # Custom GPT fu
 from voice.audio_process import process_audio                     # Voice processing functionality
 from voice.trained_chat import trainedChat
 from global_functions.get_time import get_today_pst
+from security.main import request_auth
 # Load environment variables from the .env file.
 load_dotenv()
 
@@ -29,6 +30,12 @@ CORS(app)
 # Basic route to verify that the backend server is running.
 @app.route('/')
 def index():
+    check = request_auth(request, '/')
+    if check['status'] != 200:
+        response = {
+            'status': check['status'], 
+            'message': check['message']}
+        return jsonify(response)
     print('\nNEW_VISIT\n') # Needs firebase counter
     response = {
         "status": 200,
