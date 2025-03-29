@@ -21,13 +21,30 @@
 from flask import Flask, request, jsonify
 
 def request_auth(request, origin):
-    allowed_routes = [ '/', '/cover-letter', '/custom-gpt', '/voice-demo-init', '/trained-chat', '/robots.txt', '/favicon.ico' ]
+    allowed_routes = [ # ONLY these routes are allowed to be called
+        '/', 
+        '/cover-letter', 
+        '/custom-gpt', 
+        '/voice-demo-init', 
+        '/trained-chat', 
+        '/robots.txt', 
+        '/sitemap.xml',
+        '/favicon.ico' 
+    ]
     data = None
     if origin in allowed_routes:
         try:
             if request.method == "GET":
-                return {'status': 200} 
+                if origin == "/robots.txt" or origin == "/sitemap.xml":
+                    print("BOT SCRAPE")
+                return {'status': 200}
+            if origin == "/voice-demo-init":
+                print('HERE')
+                return {'status': 200}
             data = request.get_json()
             return {'status': 200}
         except Exception as e:
+            print('Origin:', origin, type(origin))
             return {'status': 415, 'message': str(e)}
+    else:
+        print('non allowed route')

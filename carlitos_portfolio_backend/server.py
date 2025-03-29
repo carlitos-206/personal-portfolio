@@ -25,12 +25,27 @@ load_dotenv()
 # Initialize the Flask application.
 app = Flask(__name__, static_folder='static')
 # Enable Cross-Origin Resource Sharing (CORS) to allow requests from different origins.
-CORS(app)
+CORS(app, 
+     origins=[ # Allowed Origins
+         "https://devcarlitos.xyz", 
+         "https://www.devcarlitos.xyz",
+         "https://www.devcarlitos.xyz/",
+         "https://devcarlitos.xyz/"
+         ], 
+     methods=["GET","POST"], # Allowed Methods
+     headers=None, # Allow all header types
+     supports_credentials=False, # Allows sending cookies between front end and server
+     max_age=None, # Allows access fox 'x' amont of seconds
+     send_wildcard=False, # When set to 'True' it overrides Origin
+     automatic_options=True # Handles preflight options calls automatically
+    )
 
 # Basic route to verify that the backend server is running.
 @app.route('/')
+
 def index():
-    check = request_auth(request, '/')
+    check = request_auth(request, request.path)
+
     if check['status'] != 200:
         response = {
             'status': check['status'], 
@@ -47,7 +62,7 @@ def index():
 @app.route('/cover-letter')
 def cover_letter_route():
     if request.method == 'GET':
-        check = request_auth(request, "/cover-letter")
+        check = request_auth(request, request.path)
         return jsonify({'status': 200})
     # Parse the JSON payload from the POST request.
     data = request.get_json()
@@ -119,6 +134,14 @@ def custom_gpt_route():
 @app.route("/voice-demo-init", methods=['POST'])
 def voice_demo():
     # Check if the audio processing function is available before handling the request.
+    check = request_auth(request, request.path)
+    print(check)
+    if check['status'] != 200:
+        return jsonify({
+            "status": 400,
+            "message": "Bad Request"
+
+        })
     if process_audio is None:
         print (jsonify({
             "status": 500,
@@ -157,12 +180,14 @@ def chat_with_ai():
 @app.route('/sitemap.xml')
 @app.route('/favicon.ico')
 def static_from_root():
+    request_auth(request, request.path)
     return send_from_directory(app.static_folder, request.path[1:])
 
 
 # Error handling route for non existant routes
 @app.errorhandler(404)
 def page_not_found(e):
+    request_auth(request, request.path)
     print(f'''
             ALERT - USER TRY TO ACCESS: FALSE ROUTE 
             
