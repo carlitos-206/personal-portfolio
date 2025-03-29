@@ -25,10 +25,24 @@ load_dotenv()
 # Initialize the Flask application.
 app = Flask(__name__, static_folder='static')
 # Enable Cross-Origin Resource Sharing (CORS) to allow requests from different origins.
-CORS(app)
+CORS(app, 
+     origins=[ # Allowed Origins
+         "https://devcarlitos.xyz", 
+         "https://www.devcarlitos.xyz",
+         "https://www.devcarlitos.xyz/",
+         "https://devcarlitos.xyz/"
+         ], 
+     methods=["GET","POST"], # Allowed Methods
+     headers=None, # Allow all header types
+     supports_credentials=False, # Allows sending cookies between front end and server
+     max_age=None, # Allows access fox 'x' amont of seconds
+     send_wildcard=False, # When set to 'True' it overrides Origin
+     automatic_options=True # Handles preflight options calls automatically
+    )
 
 # Basic route to verify that the backend server is running.
 @app.route('/')
+
 def index():
     check = request_auth(request, request.path)
 
@@ -120,6 +134,14 @@ def custom_gpt_route():
 @app.route("/voice-demo-init", methods=['POST'])
 def voice_demo():
     # Check if the audio processing function is available before handling the request.
+    check = request_auth(request, request.path)
+    print(check)
+    if check['status'] != 200:
+        return jsonify({
+            "status": 400,
+            "message": "Bad Request"
+
+        })
     if process_audio is None:
         print (jsonify({
             "status": 500,

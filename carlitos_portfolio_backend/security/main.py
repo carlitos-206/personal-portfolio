@@ -38,9 +38,13 @@ def request_auth(request, origin):
                 if origin == "/robots.txt" or origin == "/sitemap.xml":
                     print("BOT SCRAPE")
                 return {'status': 200}
+            if origin == "/voice-demo-init":
+                print('HERE')
+                return {'status': 200}
             data = request.get_json()
             return {'status': 200}
         except Exception as e:
+            print('Origin:', origin, type(origin))
             return {'status': 415, 'message': str(e)}
     else:
         print('non allowed route')
