@@ -44,13 +44,6 @@ CORS(app,
 @app.route('/')
 
 def index():
-    check = request_auth(request, request.path)
-
-    if check['status'] != 200:
-        response = {
-            'status': check['status'], 
-            'message': check['message']}
-        return jsonify(response)
     print('\nNEW_VISIT\n') # Needs firebase counter
     response = {
         "status": 200,
@@ -61,9 +54,6 @@ def index():
 # Route to handle GPT Cover Letter generation requests.
 @app.route('/cover-letter')
 def cover_letter_route():
-    if request.method == 'GET':
-        check = request_auth(request, request.path)
-        return jsonify({'status': 200})
     # Parse the JSON payload from the POST request.
     data = request.get_json()
 
@@ -134,14 +124,6 @@ def custom_gpt_route():
 @app.route("/voice-demo-init", methods=['POST'])
 def voice_demo():
     # Check if the audio processing function is available before handling the request.
-    check = request_auth(request, request.path)
-    print(check)
-    if check['status'] != 200:
-        return jsonify({
-            "status": 400,
-            "message": "Bad Request"
-
-        })
     if process_audio is None:
         print (jsonify({
             "status": 500,
