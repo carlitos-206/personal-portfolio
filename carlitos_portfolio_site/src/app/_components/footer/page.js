@@ -68,7 +68,7 @@ export default function Footer(){
                         downloadFile('/Resume.pdf', 'Carlos_Caceres_Resume_Engineer.pdf');
                         break;
                     case 'youtube-channel':
-                        window.location.href = "https://www.youtube.com/@carloscaceres2608";
+                        window.location.href = "https://www.youtube.com/@devCarlitos";
                         break;
                     case 'github-profile':
                         window.location.href = "https://github.com/carlitos-206";
@@ -97,7 +97,7 @@ export default function Footer(){
                         break;
                     case 'youtube-channel':
                         window.open(
-                            "https://www.youtube.com/@carloscaceres2608", 
+                            "https://www.youtube.com/@devCarlitos", 
                             "myPopup", 
                             "top=25,left=50,width=900,height=900",
                         )

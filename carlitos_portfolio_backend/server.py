@@ -30,7 +30,9 @@ CORS(app,
          "https://devcarlitos.xyz", 
          "https://www.devcarlitos.xyz",
          "https://www.devcarlitos.xyz/",
-         "https://devcarlitos.xyz/"
+         "https://devcarlitos.xyz/",
+         "https://carlitos.ngrok.dev",
+         "http://carlitos.ngrok.dev"
          ], 
      methods=["GET","POST"], # Allowed Methods
      headers=None, # Allow all header types

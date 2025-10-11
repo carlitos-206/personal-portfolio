@@ -81,7 +81,7 @@ export default function Contact() {
                         window.location.href = "https://github.com/carlitos-206";
                         break;
                     case "youtube":
-                        window.location.href = "https://www.youtube.com/@carloscaceres2608";
+                        window.location.href = "https://www.youtube.com/@devCarlitos";
                         break;
                     default:
                         break;
@@ -107,7 +107,7 @@ export default function Contact() {
                         break;
                     case 'youtube':
                         window.open(
-                            "https://www.youtube.com/@carloscaceres2608", 
+                            "https://www.youtube.com/@devCarlitos", 
                             "myPopup", 
                             "top=25,left=50,width=900,height=900",
                         )
